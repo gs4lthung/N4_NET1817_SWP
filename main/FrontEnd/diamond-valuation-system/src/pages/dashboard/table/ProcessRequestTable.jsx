@@ -80,7 +80,6 @@ export default function ProcessRequestTable() {
             title: "Success",
             description: response.data,
             status: "success",
-            position: "top-right",
             duration: 3000,
             isClosable: true,
           });
@@ -108,7 +107,6 @@ export default function ProcessRequestTable() {
               description:
                 "Valuation request finished. Please contact customer to receive diamond.",
               status: "success",
-              position: "top-right",
               duration: 3000,
               isClosable: true,
             });
@@ -136,7 +134,6 @@ export default function ProcessRequestTable() {
               description:
                 "Valuation request sealed. Please contact customer to receive diamond.",
               status: "success",
-              position: "top-right",
               duration: 3000,
               isClosable: true,
             });
@@ -146,8 +143,7 @@ export default function ProcessRequestTable() {
   };
   useEffect(() => {
     fetchProcessRequest(currentPage, user.userAuth.id);
-  }, [currentPage]);
-  
+  }, []);
   useEffect(() => {
     if (isChecked) {
       fetchProcessRequest(currentPage, user.userAuth.id);

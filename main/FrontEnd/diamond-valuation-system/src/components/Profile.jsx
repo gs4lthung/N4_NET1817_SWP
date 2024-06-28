@@ -3,6 +3,7 @@ import { Flex,WrapItem,Avatar,Text } from "@chakra-ui/react";
 import { UserContext } from "./GlobalContext/AuthContext";
 export default function Profile() {
     const auth = useContext(UserContext);
+    console.log(auth);
   return (
     <>
       <Flex align={"center"} p={3} pr={0} bg={"rgb(229 231 235)"}>
