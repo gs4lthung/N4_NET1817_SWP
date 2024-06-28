@@ -79,7 +79,7 @@ export default function AdminPage() {
       </Button>
     );
   }
-  
+
   useEffect(() => {
     if (isAdded) {
       fetchAccounts("", currentPage, "", setAccounts, setTotalPage, toast);
@@ -124,7 +124,7 @@ export default function AdminPage() {
           direction={"column"}
           alignItems={"center"}
           justifyContent={"center"}
-          h={"100vh"}
+          // h={"100vh"}
           gap={10}
           bg={bgColor}
         >

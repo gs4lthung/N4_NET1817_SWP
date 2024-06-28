@@ -1,63 +1,64 @@
-
 import {
-    Avatar,
-    Box,
-    Flex,
-    StackDivider,
-    Text,
-    VStack,
-    WrapItem,
-  } from "@chakra-ui/react";
-  import React, { useContext } from "react";
-  import { IoHomeOutline } from "react-icons/io5";
-  import { IoIosNotificationsOutline, IoMdSearch } from "react-icons/io";
-  import { CiCalendar, CiBellOn, CiSettings } from "react-icons/ci";
-  import { PiCalculatorThin } from "react-icons/pi";
-  import { MdOutlineRemoveRedEye } from "react-icons/md";
-  import { RxDashboard } from "react-icons/rx";
-  import { Link } from "react-router-dom";
-  import routes from "../../config/Config";
-  import { UserContext } from "../../components/GlobalContext/AuthContext";
-  export default function SideBar() {
-    const auth = useContext(UserContext);
-    console.log(auth);
-    return (
-      <div>
-        <Box>
-          <Flex align={"center"} p={3} pr={0} bg={"rgb(229 231 235)"}>
-            <WrapItem mr={3}>
-              <Avatar
-                name={auth.userAuth.fullname}
-                src="https://bit.ly/tioluwani-kolawole"
-              />
-            </WrapItem>
-            <Text color={"#000"}>{auth.userAuth.fullname}</Text>
-          </Flex>
-          <VStack
-            py={5}
-            pl={3}
-            divider={<StackDivider borderColor={"rgb(243 244 246)"} />}
-            spacing={0}
-            align="stretch"
-            bg={"rgb(243 244 246)"}
-          >
-            <Link to={routes.dashboard}>
-              <Flex
-                pl={2}
-                _hover={{
-                  background: "rgb(55 65 81)",
-                  color: "#fff",
-                }}
-                cursor="pointer"
-                borderRadius={3}
-                alignItems={"center"}
-                h="40px"
-                color={"#000"}
-              >
-                <RxDashboard />
-                <Text ml={3}>Dashboard</Text>
-              </Flex>
-            </Link>
+  Avatar,
+  Box,
+  Flex,
+  StackDivider,
+  Text,
+  VStack,
+  WrapItem,
+} from "@chakra-ui/react";
+import React, { useContext } from "react";
+import {
+  IoHomeOutline,
+  IoNewspaperOutline,
+  IoDiamondSharp,
+} from "react-icons/io5";
+import { IoIosNotificationsOutline, IoMdSearch, IoMdAdd } from "react-icons/io";
+import { CiCalendar, CiBellOn, CiSettings } from "react-icons/ci";
+import { PiCalculatorThin } from "react-icons/pi";
+import { VscServerProcess } from "react-icons/vsc";
+import { BsNewspaper } from "react-icons/bs";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { RxDashboard } from "react-icons/rx";
+import { Link } from "react-router-dom";
+import routes from "../../config/Config";
+import { UserContext } from "../../components/GlobalContext/AuthContext";
+import Profile from "../../components/Profile";
+export default function SideBar() {
+  const auth = useContext(UserContext);
+  console.log(auth);
+  return (
+    <div>
+      <Box>
+        <Profile />
+        <VStack
+          py={5}
+          pl={3}
+          divider={<StackDivider borderColor={"rgb(243 244 246)"} />}
+          spacing={0}
+          align="stretch"
+          bg={"rgb(243 244 246)"}
+        >
+          <Link to={routes.dashboard}>
+            <Flex
+              pl={2}
+              _hover={{
+                background: "rgb(55 65 81)",
+                color: "#fff",
+              }}
+              cursor="pointer"
+              borderRadius={3}
+              alignItems={"center"}
+              h="40px"
+              color={"#000"}
+            >
+              <RxDashboard />
+              <Text ml={3}>Dashboard</Text>
+            </Flex>
+          </Link>
+          {(auth.userAuth.roleid === 3 ||
+            auth.userAuth.roleid === 4 ||
+            auth.userAuth.roleid === 5) && (
             <Link to={routes.dasboardNotification}>
               <Flex
                 pl={2}
@@ -75,23 +76,8 @@ import {
                 <Text ml={3}>Notifications</Text>
               </Flex>
             </Link>
-            <Link to={routes.dashboardPrices}>
-              <Flex
-                pl={2}
-                _hover={{
-                  background: "rgb(55 65 81)",
-                  color: "#fff",
-                }}
-                cursor="pointer"
-                borderRadius={3}
-                alignItems={"center"}
-                h="40px"
-                color={"#000"}
-              >
-                <CiBellOn />
-                <Text ml={3}>Price Alerts</Text>
-              </Flex>
-            </Link>
+          )}
+          {auth.userAuth.roleid === 5 && (
             <Link to={routes.dashboardAppoint}>
               <Flex
                 pl={2}
@@ -109,32 +95,10 @@ import {
                 <Text ml={3}>Appointments</Text>
               </Flex>
             </Link>
-          </VStack>
-          <Box borderTop={"2px solid #000"}>
-            <VStack
-              pt={5}
-              pl={3}
-              divider={<StackDivider borderColor={"rgb(243 244 246)"} />}
-              spacing={0}
-              align="stretch"
-              bg={"rgb(243 244 246)"}
-              borderTopColor={"#000"}
-            >
-              <Link to={routes.home}>
-                <Flex
-                  pl={2}
-                  _hover={{ background: "rgb(55 65 81)", color: "#fff" }}
-                  cursor="pointer"
-                  borderRadius={3}
-                  alignItems={"center"}
-                  h="40px"
-                  color={"#000"}
-                >
-                  <IoHomeOutline />
-                  <Text ml={3}>Home</Text>
-                </Flex>
-              </Link>
-              <Link to={routes.diamondCalculate}>
+          )}
+          {auth.userAuth.roleid === 2 && (
+            <>
+              <Link to={"#"}>
                 <Flex
                   pl={2}
                   _hover={{
@@ -147,11 +111,11 @@ import {
                   h="40px"
                   color={"#000"}
                 >
-                  <PiCalculatorThin />
-                  <Text ml={3}>Calculate</Text>
+                  <IoNewspaperOutline />
+                  <Text ml={3}>Sealling Letter</Text>
                 </Flex>
               </Link>
-              <Link to={routes.search}>
+              <Link to={"#"}>
                 <Flex
                   pl={2}
                   _hover={{
@@ -164,11 +128,15 @@ import {
                   h="40px"
                   color={"#000"}
                 >
-                  <IoMdSearch />
-                  <Text ml={3}>Search</Text>
+                  <IoDiamondSharp />
+                  <Text ml={3}>Valuated Diamond</Text>
                 </Flex>
               </Link>
-              <Link to={routes.diamondCheck}>
+            </>
+          )}
+          {auth.userAuth.roleid === 3 && (
+            <>
+              <Link to={"#"}>
                 <Flex
                   pl={2}
                   _hover={{
@@ -181,11 +149,129 @@ import {
                   h="40px"
                   color={"#000"}
                 >
-                  <MdOutlineRemoveRedEye />
-                  <Text ml={3}>Diamond Check</Text>
+                  <IoNewspaperOutline />
+                  <Text ml={3}>Pending Request</Text>
                 </Flex>
               </Link>
-              <Link>
+              <Link to={"#"}>
+                <Flex
+                  pl={2}
+                  _hover={{
+                    background: "rgb(55 65 81)",
+                    color: "#fff",
+                  }}
+                  cursor="pointer"
+                  borderRadius={3}
+                  alignItems={"center"}
+                  h="40px"
+                  color={"#000"}
+                >
+                  <VscServerProcess />
+                  <Text ml={3}>Process Request</Text>
+                </Flex>
+              </Link>
+            </>
+          )}
+          {auth.userAuth.roleid === 4 && (
+            <Link to={"#"}>
+              <Flex
+                pl={2}
+                _hover={{
+                  background: "rgb(55 65 81)",
+                  color: "#fff",
+                }}
+                cursor="pointer"
+                borderRadius={3}
+                alignItems={"center"}
+                h="40px"
+                color={"#000"}
+              >
+                <BsNewspaper />
+                <Text ml={3}>Valuation Diamond</Text>
+              </Flex>
+            </Link>
+          )}
+        </VStack>
+        <Box borderTop={"2px solid #000"}>
+          <VStack
+            pt={5}
+            pl={3}
+            divider={<StackDivider borderColor={"rgb(243 244 246)"} />}
+            spacing={0}
+            align="stretch"
+            bg={"rgb(243 244 246)"}
+            borderTopColor={"#000"}
+          >
+            <Link to={"/"}>
+              <Flex
+                pl={2}
+                _hover={{
+                  background: "rgb(55 65 81)",
+                  color: "#fff",
+                }}
+                cursor="pointer"
+                borderRadius={3}
+                alignItems={"center"}
+                h="40px"
+                color={"#000"}
+              >
+                <IoHomeOutline />
+                <Text ml={3}>Home</Text>
+              </Flex>
+            </Link>
+            <Link to={routes.diamondCalculate}>
+              <Flex
+                pl={2}
+                _hover={{
+                  background: "rgb(55 65 81)",
+                  color: "#fff",
+                }}
+                cursor="pointer"
+                borderRadius={3}
+                alignItems={"center"}
+                h="40px"
+                color={"#000"}
+              >
+                <PiCalculatorThin />
+                <Text ml={3}>Valuation</Text>
+              </Flex>
+            </Link>
+            <Link to={routes.search}>
+              <Flex
+                pl={2}
+                _hover={{
+                  background: "rgb(55 65 81)",
+                  color: "#fff",
+                }}
+                cursor="pointer"
+                borderRadius={3}
+                alignItems={"center"}
+                h="40px"
+                color={"#000"}
+              >
+                <IoMdSearch />
+                <Text ml={3}>Search</Text>
+              </Flex>
+            </Link>
+            <Link to={routes.diamondCheck}>
+              <Flex
+                pl={2}
+                _hover={{
+                  background: "rgb(55 65 81)",
+                  color: "#fff",
+                }}
+                cursor="pointer"
+                borderRadius={3}
+                alignItems={"center"}
+                h="40px"
+                color={"#000"}
+              >
+                <MdOutlineRemoveRedEye />
+                <Text ml={3}>Diamond Check</Text>
+              </Flex>
+            </Link>
+            {auth.userAuth.roleid === 5 && (
+              <Link to={routes.dashboardSetting}>
                 <Flex
                   pl={2}
                   _hover={{
@@ -202,10 +288,10 @@ import {
                   <Text ml={3}>Setting</Text>
                 </Flex>
               </Link>
-            </VStack>
-          </Box>
+            )}
+          </VStack>
         </Box>
-      </div>
-    );
-  }
-  
+      </Box>
+    </div>
+  );
+}

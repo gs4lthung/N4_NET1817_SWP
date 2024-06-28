@@ -52,22 +52,9 @@ export default function DiamondCheck() {
             initialValues={{ id: "", diamond: {} }}
             onSubmit={(values, { setSubmitting }) => {
               console.log(values.id);
-              axios
-                .get(
-                  `http://diamondval-latest.onrender.com
-
-/api/valuated-diamond/check?id=${values.id}`
-                )
-                .then(function (response) {
-                  console.log(response.data);
-                  if (response.data === false) {
-                    navigate("/diamond-not-found");
-                  } else {
-                    navigate(routes.diamondCheck + `/${values.id}`, {
-                      state: { diamondId: values.id },
-                    });
-                  }
-                });
+              navigate(routes.diamondCheck + `/${values.id}`, {
+                state: { valuationResultId: values.id },
+              });
               setSubmitting(false);
             }}
           >

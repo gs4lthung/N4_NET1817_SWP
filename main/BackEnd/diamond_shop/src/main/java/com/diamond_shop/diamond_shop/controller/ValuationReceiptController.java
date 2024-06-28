@@ -13,16 +13,16 @@ import java.util.Optional;
 public class ValuationReceiptController {
 
     @Autowired
-    private ValuationReceiptService valuationReceiptService;
+    ValuationReceiptService valuationReceiptService;
 
-    @GetMapping(path = "/get/all")
-    public String getAllValuationReceipt() {
-
-        return null;
+    @GetMapping(path = "/valuation-request/get")
+    public Optional<ValuationReceiptEntity> getValuationReceiptByValuationRequestId(@RequestParam("id") int id) {
+        return valuationReceiptService.findByValuationRequestId(id);
     }
 
-    @GetMapping(path = "/get")
-    public Optional<ValuationReceiptEntity> getByValuationRequestId(@RequestParam("valuation-request-id") int valuationRequestId) {
-        return valuationReceiptService.findByValuationRequestId(valuationRequestId);
+    @PostMapping(path = "/create")
+    public String createValuationReceiptByValuationRequestId(@RequestParam("valuationRequestId") int valuationRequestId) {
+        return valuationReceiptService.createReceipt(valuationRequestId);
+
     }
 }

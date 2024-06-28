@@ -83,7 +83,6 @@ const tabs = [
 ];
 export default function LabGrown() {
     const bgColor = useColorModeValue("white", "gray.800");
-
     const [price, setPrice] = useState([]);
     const [selectedTab, setSelectedTab] = useState(0);
     const [isLoading, setIsLoading] = useState(true);

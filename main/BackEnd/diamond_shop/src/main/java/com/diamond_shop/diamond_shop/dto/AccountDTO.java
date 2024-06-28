@@ -1,5 +1,6 @@
 package com.diamond_shop.diamond_shop.dto;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,14 @@ public class AccountDTO {
     private String phonenumber;
     private String password;
     private String address;
-    public AccountDTO(String username, String fullname, String phonenumber, String password) {
+
+    public AccountDTO(int roleid, String username, String fullname, String email, String phonenumber, String password, String address) {
         this.roleid = roleid;
         this.username = username;
         this.fullname = fullname;
+        this.email = email;
         this.phonenumber = phonenumber;
         this.password = password;
+        this.address = address;
     }
-
 }

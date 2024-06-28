@@ -7,8 +7,6 @@ import com.diamond_shop.diamond_shop.dto.LoginMessageDTO;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface AccountService {
 
     Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter);

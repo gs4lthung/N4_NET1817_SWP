@@ -10,13 +10,11 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 public class ValuationReceiptPojo {
-    private int id;
-    private Date createdDate;
-    private int customerId;
-    private String customerName;
-    private String customerPhoneNumber;
-    private String serviceName;
-    private String price;
-    private Date valuationFinishDate;
-    private Date valuationSealingDate;
+    int id;
+    Date createdDate;
+    String customerName;
+    String customerPhone;
+    String consultingStaffName;
+    String consultingStaffPhone;
+    String description;
 }

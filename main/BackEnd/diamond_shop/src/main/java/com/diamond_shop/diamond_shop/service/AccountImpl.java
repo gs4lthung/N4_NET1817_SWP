@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,7 +56,14 @@ public class AccountImpl implements AccountService {
 
         RoleEntity role = roleRepository.findById(5).orElseThrow(() -> new RuntimeException("Role not found"));
         String encodedPassword = passwordEncoder.encode(accountDTO.getPassword());
-        AccountEntity account = new AccountEntity(role, accountDTO.getUsername(), encodedPassword, accountDTO.getFullname(), updatePhoneNumber);
+        AccountEntity account = new AccountEntity(
+            role, 
+            accountDTO.getUsername(), 
+            encodedPassword, 
+            accountDTO.getFullname(), 
+            updatePhoneNumber,
+            accountDTO.getEmail()
+        );
         accountRepository.save(account);
         return account.getUsername();
     }
@@ -151,7 +157,7 @@ public class AccountImpl implements AccountService {
         if (acc1 != null) {
             String password = loginDTO.getPassword();
             String encodedPassword = acc1.getPassword();
-            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
             if (isPwdRight) {
                 Optional<AccountEntity> account = accountRepository.findOneByUserNameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (account.isPresent()) {
