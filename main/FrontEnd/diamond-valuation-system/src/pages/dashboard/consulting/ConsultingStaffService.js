@@ -9,7 +9,7 @@ export const fetchProcessRequest = async (
   try {
     await axios
       .get(
-        `https://diamondval-latest.onrender.com/api/process-request/get?page=${currentPage}&staffId=${id}`
+        `http://localhost:8081/api/process-request/get?page=${currentPage}&staffId=${id}`
       )
       .then(function (response) {
         setProcessRequest(response.data.content);
@@ -37,7 +37,7 @@ export const handleProcessRequest = async (
 ) => {
   try {
     await axios
-      .post("https://diamondval-latest.onrender.com/api/process-request/update", {
+      .post("http://localhost:8081/api/process-request/update", {
         type: type,
         processRequestType: processRequestType,
         consultingStaffId: consultingStaffId,
@@ -84,7 +84,7 @@ export const checkSealingDate = async (
     for (let i = 0; i < processRequest.length; i++) {
       await axios
         .get(
-          `https://diamondval-latest.onrender.com/api/sealing-letter/check?id=${processRequest[i]?.valuationRequestId}`
+          `http://localhost:8081/api/sealing-letter/check?id=${processRequest[i]?.valuationRequestId}`
         )
         .then(function (response) {
           console.log(response.data);
@@ -115,7 +115,7 @@ export const checkFinishDate = async (
     for (let i = 0; i < processRequest.length; i++) {
       await axios
         .get(
-          `https://diamondval-latest.onrender.com/api/valuation-request/check-finished?id=${processRequest[i]?.valuationRequestId}`
+          `http://localhost:8081/api/valuation-request/check-finished?id=${processRequest[i]?.valuationRequestId}`
         )
         .then(function (response) {
           console.log(response.data);

@@ -86,7 +86,7 @@ export default function Calculate() {
       }
       setIsLoading(true);
       await axios
-        .post("https://diamondval-latest.onrender.com/api/diamond/calculate", {
+        .post("http://localhost:8081/api/diamond/calculate", {
           gradingLab: gradingLab,
           carat: carat,
           shape: shape,

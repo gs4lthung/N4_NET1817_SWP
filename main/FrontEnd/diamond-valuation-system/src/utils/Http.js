@@ -1,6 +1,6 @@
 import axios from "axios";
 const httpRequest = axios.create({
-  baseURL: "https://diamondval-latest.onrender.com",
+  baseURL: "http://localhost:8081",
   headers: {
     "Content-Type": "application/json",
   },

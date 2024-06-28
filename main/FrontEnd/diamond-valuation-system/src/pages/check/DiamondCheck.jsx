@@ -54,8 +54,7 @@ export default function DiamondCheck() {
               console.log(values.id);
               axios
                 .get(
-                  `https://diamondval-latest.onrender.com
-
+                  `http://diamondval-latest.onrender.com
 
 /api/valuated-diamond/check?id=${values.id}`
                 )

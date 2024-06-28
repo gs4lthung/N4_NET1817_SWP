@@ -32,7 +32,7 @@ export default function ServiceCard({
     try {
       localStorage.setItem("serviceId", serviceId);
       const response = await axios.get(
-        "https://diamondval-latest.onrender.com/api/vnpay/create",
+        "http://localhost:8081/api/vnpay/create",
         {
           params: {
             amount: `${price}000`,
@@ -55,7 +55,7 @@ export default function ServiceCard({
   const fetchPaymentResult = async (params) => {
     try {
       const response = await axios.get(
-        "https://diamondval-latest.onrender.com/api/vnpay/payment_return",
+        "http://localhost:8081/api/vnpay/payment_return",
         {
           params: params,
         }

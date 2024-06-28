@@ -28,8 +28,7 @@ export default function ManagerValuatedDiamondPage() {
   const viewValuatedDiamondDetail = useDisclosure();
   const viewValuatedDiamond = () => {
     axios
-      .get(`https://diamondval-latest.onrender.com
-
+      .get(`http://diamondval-latest.onrender.com
 
 /api/valuated-diamond/get/all`)
       .then(function (response) {

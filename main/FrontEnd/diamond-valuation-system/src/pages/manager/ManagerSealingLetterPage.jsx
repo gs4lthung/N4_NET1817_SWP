@@ -39,8 +39,7 @@ export default function ManagerSealingLetterPage() {
   const [isUpdated, setIsUpdated] = useState(false);
   const viewSealingLetter = () => {
     axios
-      .get(`https://diamondval-latest.onrender.com
-
+      .get(`http://diamondval-latest.onrender.com
 
 /api/process-sealing/get/all?page=1`)
       .then(function (response) {
@@ -51,8 +50,7 @@ export default function ManagerSealingLetterPage() {
   const handleAcceptSealing = (id, type) => {
     axios
       .get(
-        `https://diamondval-latest.onrender.com
-
+        `http://diamondval-latest.onrender.com
 
 /api/process-sealing/update?id=${id}&type=${type}`
       )

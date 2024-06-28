@@ -36,8 +36,7 @@ export default function DiamondCheckDetails() {
 
   const fetchValuatedDiamond = () => {
     axios
-      .get(`https://diamondval-latest.onrender.com
-
+      .get(`http://diamondval-latest.onrender.com
 
 /api/valuated-diamond/get?id=${checkId}`)
       .then(function (response) {
@@ -55,8 +54,7 @@ export default function DiamondCheckDetails() {
   const fetchValuatedDiamondImages = () => {
     axios
       .get(
-        `https://diamondval-latest.onrender.com
-
+        `http://diamondval-latest.onrender.com
 
 /api/valuated-diamond-image/get?diamondId=${checkId}`
       )

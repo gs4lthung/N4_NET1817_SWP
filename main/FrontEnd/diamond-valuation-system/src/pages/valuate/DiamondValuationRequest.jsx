@@ -65,7 +65,7 @@ export default function DiamondValuationRequest() {
                 } else {
                   const res = axios
                     .post(
-                      "https://diamondval-latest.onrender.com/api/valuation-request/create",
+                      "http://localhost:8081/api/valuation-request/create",
                       {
                         username: JSON.parse(localStorage.getItem("user"))
                           .username,

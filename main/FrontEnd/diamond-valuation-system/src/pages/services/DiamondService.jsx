@@ -16,7 +16,7 @@ export default function DiamondService() {
   function fetchServices() {
     try {
       axios
-        .get("https://diamondval-latest.onrender.com/api/diamond/service")
+        .get("http://localhost:8081/api/diamond/service")
         .then(function (response) {
           setServiceResponse(response.data);
           console.log(response.data);

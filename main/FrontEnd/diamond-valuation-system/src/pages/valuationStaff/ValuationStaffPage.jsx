@@ -47,7 +47,7 @@ export default function ValuationStaffPage() {
   const fetchProcessResult = async () => {
     try {
       await axios
-        .get("https://diamondval-latest.onrender.com/api/process-result/get?staffId=5")
+        .get("http://localhost:8081/api/process-result/get?staffId=5")
         .then(function (response) {
           setProcessResult(response.data.content);
           console.log(response.data.content);
@@ -59,7 +59,7 @@ export default function ValuationStaffPage() {
   const valuateDiamond = async (values) => {
     try {
       await axios
-        .post("https://diamondval-latest.onrender.com/api/valuation-result/valuate", {
+        .post("http://localhost:8081/api/valuation-result/valuate", {
           id: selectProcessResult.valuationResultId,
           origin: values.origin,
           shape: values.shape,
