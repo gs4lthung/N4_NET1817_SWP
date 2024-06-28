@@ -1,0 +1,22 @@
+1.Lập kế hoạch test thành phần: 
+Đây là nơi bạn xác định những gì cần được test, cách thức thực hiện test và ai sẽ chịu trách nhiệm cho việc test
+Điều này bao gồm hiểu các yêu cầu, xác định các trường hợp test, xác định phạm vi test và tạo kế hoạch test.
+
+2.Đặc tả test thành phần:Ở bước này, bạn chi tiết hóa các test case riêng biệt dựa trên các yêu cầu và thông số 
+kỹ thuật được đề ra trong giai đoạn lập kế hoạch. Các test case bao gồm đầu vào, đầu ra dự kiến,
+điều kiện test và bất kỳ thông tin nào khác cần thiết để thực hiện test.
+
+3.Thực hiện test thành phần:
+Đây là nơi bạn thực hiện các test theo các đặc tả đã đề ra. Người test thực hiện các trường hợp test, 
+ghi lại kết quả và xác định bất kỳ lỗi hoặc vấn đề nào gặp phải trong quá trình test.
+
+4.Ghi lại kết quả test thành phần:
+Kết quả test cần được ghi chính xác. Điều này bao gồm ghi lại cả các trường hợp test thành công và bất kỳ lỗi 
+nào gặp phải trong quá trình test. Bản ghi chi tiết giúp hiểu rõ tình trạng của thành phần đang được test và 
+theo dõi các lỗi để giải quyết.
+
+5.Kiểm tra hoàn thành test thành phần:
+
+Sau khi tất cả các trường hợp test đã được thực hiện và ghi lại, quan trọng là kiểm tra kết quả
+để đảm bảo rằng tất cả các test đã được thực hiện thành công.
+Điều này bao gồm so sánh với kế hoạch test và xác minh rằng tất cả các test cần thiết đã được thực hiện đầy đủ.
