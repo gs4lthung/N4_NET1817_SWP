@@ -1,0 +1,37 @@
+Lâm Tiên Hưng		UC1: 	loggin
+			UC2:	register
+			UC11:	Approve the commitment letter
+			UC12:	Declare Pricing list
+			UC21:	Print Valuation Paper
+			UC26:	Grant Access
+
+Ngô Thanh Trí		UC3:	change password
+			UC4:	confine password
+			UC13:	Declare service performance time
+			UC14:	Declare Valuation Parameters
+			UC22:	Evaluate Samples
+			UC27:	Update Account
+
+Nguyễn Đăng Khoa	UC5:	search diamond 
+			UC6:	view result valuation
+			UC15:	Send Results and Valuation Samples
+			UC16:	Receive Samples
+			UC23:	Analyze Samples
+			UC28	Create Account
+
+Nguyễn Bá Linh		UC7:	contact
+			UC8: 	evaluation through criteria
+			UC17:	Prepare Valuation Receipts
+			UC18:	View Reports
+			UC24:	Create a Sealing Record
+			UC29:	View Account
+
+Huỳnh Bảo Long		UC9:	valuation through request
+			UC10:	Approve the sealed minutes
+			UC19:	Synchronize Price Data
+			UC20:	Update Price
+			UC25:	Make a Commitment Document
+			UC30:	Delete Account
+
+
+
