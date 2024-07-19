@@ -16,7 +16,7 @@ export default function DashBoardLayout({ children }) {
     <>
       <Flex width={"100vw"} minHeight={"100vh"} bg={bgColor}>
         <Box w="256px">
-          <SideBar/>
+          <SideBar />
         </Box>
         <Box flex="1" bg={bgColor} px={5} pt={"120px"}>
           {children}

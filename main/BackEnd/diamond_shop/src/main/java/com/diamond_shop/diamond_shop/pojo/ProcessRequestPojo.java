@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -11,6 +13,8 @@ public class ProcessRequestPojo {
     private int id;
     private String status;
     private String description;
+    private Date createdDate;
+    private Date receiveDate;
     private int pendingRequestId;
     private int consultingStaffId;
     private String consultingStaffName;

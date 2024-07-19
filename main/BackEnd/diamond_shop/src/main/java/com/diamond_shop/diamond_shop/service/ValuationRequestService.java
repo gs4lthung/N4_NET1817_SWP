@@ -9,6 +9,8 @@ public interface ValuationRequestService {
 
     String makeRequest(int pendingId, int serviceId, int paymentId);
 
+    Optional<ValuationRequestEntity> getValuationRequest(int id);
+
     Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(int pendingId);
 
     String checkFinishDateByProcessRequestId(int processRequestId);

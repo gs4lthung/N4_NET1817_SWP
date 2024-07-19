@@ -33,7 +33,7 @@ public class SealingLetterImpl implements SealingLetterService {
 
     @Override
     public String createSealingLetter(int valuationRequestId) {
-        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.getById(valuationRequestId);
         if (valuationRequest.isEmpty())
             return "Cannot find valuation request";
         if (sealingLetterRepository.findByValuationRequestId(valuationRequestId).isPresent())

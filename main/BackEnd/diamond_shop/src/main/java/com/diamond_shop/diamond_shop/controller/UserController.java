@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("api/account")
 @RequiredArgsConstructor
-public class Api {
+public class UserController {
 
     private final AccountService accountService;
 
@@ -53,7 +53,7 @@ public class Api {
         return accountService.forgotPassword(forgetPasswordDTO);
     }
 
-    @PostMapping("/reset-password")
+    @PostMapping(path =  "/reset-password")
     public ResponseEntity<?> CreateResetPassword(@RequestBody ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
         return accountService.resetPassword(resetPasswordRequestDTO, response);
     }

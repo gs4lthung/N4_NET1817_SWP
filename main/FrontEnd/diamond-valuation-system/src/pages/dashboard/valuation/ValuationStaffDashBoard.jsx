@@ -7,8 +7,6 @@ import {
   FormLabel,
   IconButton,
   Input,
-  InputGroup,
-  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -39,7 +37,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import UploadImage from "../../../components/UploadImage";
@@ -49,8 +47,8 @@ import { lazyload, placeholder } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
+import { format } from "date-fns";
 export default function ValuationStaffDashboard() {
-  const bgColor = useColorModeValue("white", "gray.800");
   const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
@@ -75,9 +73,6 @@ export default function ValuationStaffDashboard() {
         }
       });
   };
-  useEffect(() => {
-    fetchProcessResult(currentPage, user.userAuth.id);
-  }, []);
   useEffect(() => {
     fetchProcessResult(currentPage, user.userAuth.id);
   }, [currentPage]);
@@ -115,12 +110,12 @@ export default function ValuationStaffDashboard() {
             title: "Success",
             description: response.data,
             position: "top-right",
-
             status: "success",
             duration: 3000,
             isClosable: true,
           });
           fetchProcessResult(currentPage, user.userAuth.id);
+          viewValuationResult.onClose();
         }
       })
       .catch((error) => {
@@ -128,7 +123,6 @@ export default function ValuationStaffDashboard() {
           title: "Error",
           description: error.response.data,
           position: "top-right",
-
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -160,59 +154,132 @@ export default function ValuationStaffDashboard() {
   const [isDeleted, setIsDeleted] = useState(false);
   const deleteImages = async (imageId) => {
     setIsDeleted(true);
-    const timestamp = Date.now() / 1000;
-    const formData = new FormData();
-    formData.append("public_id", imageId);
-    formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
-    formData.append("timestamp", timestamp);
-    formData.append(
-      "signature",
-      sha1(
-        `public_id=${imageId}&timestamp=${timestamp}${
-          import.meta.env.VITE_CLOUDINARY_API_SECRET
-        }`
+    // const timestamp = Date.now() / 1000;
+    // const formData = new FormData();
+    // formData.append("public_id", imageId);
+    // formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY);
+    // formData.append("timestamp", timestamp);
+    // formData.append(
+    //   "signature",
+    //   sha1(
+    //     `public_id=${imageId}&timestamp=${timestamp}${
+    //       import.meta.env.VITE_CLOUDINARY_API_SECRET
+    //     }`
+    //   )
+    // );
+    // const res = await fetch(
+    //   `https://api.cloudinary.com/v1_1/${
+    //     import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+    //   }/image/destroy`,
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //   }
+    // );
+    // if (res) {
+    // const data = await res.json();
+    // console.log(data);
+    await axios
+      .delete(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/api/valuation-result/image/delete?id=${imageId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
       )
-    );
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${
-        import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
-      }/image/destroy`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    if (res) {
-      const data = await res.json();
-      console.log(data);
-      axios
-        .delete(
-          `${
-            import.meta.env.VITE_REACT_APP_BASE_URL
-          }/api/valuation-result/image/delete?id=${imageId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.userAuth.token}`,
-            },
-          }
-        )
-        .then(function (response) {
-          setIsDeleted(false);
+      .then(function (response) {
+        setIsDeleted(false);
+        toast({
+          title: "Success",
+          description: response.data,
+          position: "top-right",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        setTimeout(() => {
+          navigate(0);
+        }, 1000);
+        console.log(response.data);
+      });
+    // }
+  };
+  const generatePrice = async (values) => {
+    setIsGeneratePrice(true);
+    if (
+      values.carat === 0 ||
+      values.shape === "" ||
+      values.color === "" ||
+      values.cut === "" ||
+      values.clarity === ""
+    ) {
+      setIsGeneratePrice(false);
+      return;
+    }
+    await axios
+      .post(
+        `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/diamond/calculate`,
+        {
+          gradingLab: "",
+          carat: values.carat,
+          shape: values.shape,
+          color: values.color,
+          cut: values.cut,
+          clarity: values.clarity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.userAuth.token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data.body);
+        setIsGeneratePrice(false);
+        const test = new DOMParser().parseFromString(
+          response.data.body,
+          "text/xml"
+        );
+        const jsonResult = {};
+        for (const child of test.querySelector("pr").children) {
+          jsonResult[child.tagName.toLowerCase()] = child.textContent;
+        }
+        if (jsonResult.price === "There is no available data for this query.") {
           toast({
-            title: "Success",
-            description: response.data,
+            title: "Diamond Valuation",
+            description: "There is no available data for this query.",
             position: "top-right",
-
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
+          values.price = 0;
+        } else {
+          toast({
+            title: "Diamond Valuation",
+            description: "Diamond has been valuated successfully",
+            position: "top-right",
             status: "success",
             duration: 3000,
             isClosable: true,
           });
-          setTimeout(() => {
-            navigate(0);
-          }, 1000);
-          console.log(response.data);
+          values.price = jsonResult.price;
+        }
+      })
+      .catch((error) => {
+        setIsGeneratePrice(false);
+        toast({
+          title: "Diamond Valuation",
+          description: error.response.data,
+          position: "top-right",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
         });
-    }
+      });
   };
   return (
     <>
@@ -237,6 +304,7 @@ export default function ValuationStaffDashboard() {
                 <Tr>
                   <Th color="white">No</Th>
                   <Th color="white">ID</Th>
+                  <Th color="white">Created Date</Th>
                   <Th color="white">Service</Th>
                   <Th color="white">Status</Th>
                   <Th color="white">View</Th>
@@ -247,6 +315,11 @@ export default function ValuationStaffDashboard() {
                   <Tr key={index}>
                     <Td>{index + 1}</Td>
                     <Td>{item?.valuationResultId}</Td>
+                    <Td>
+                      {item?.createdDate
+                        ? format(item?.createdDate, "dd/MM/yyyy - HH:mm:ss")
+                        : "N/A"}
+                    </Td>
                     <Td>{item?.serviceName}</Td>
                     <Td>{item?.status}</Td>
                     <Td>
@@ -269,6 +342,7 @@ export default function ValuationStaffDashboard() {
           <Center m={"50px 0 0 0"}>
             <PageIndicator
               totalPages={totalPages}
+              currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
           </Center>
@@ -339,6 +413,11 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a shape"
                             value={values.shape}
                             onChange={handleChange}
+                            onBlur={() => {
+                              if (!isGeneratePrice) {
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value="Round">Round</option>
                             <option value="Triangle">Triangle</option>
@@ -372,6 +451,11 @@ export default function ValuationStaffDashboard() {
                               onChange={(val) => {
                                 form.setFieldValue(field.name, val);
                               }}
+                              onBlur={() => {
+                                if (!isGeneratePrice) {
+                                  generatePrice(values);
+                                }
+                              }}
                             >
                               <NumberInputField />
                               <NumberInputStepper>
@@ -394,6 +478,11 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a color"
                             value={values.color}
                             onChange={handleChange}
+                            onBlur={() => {
+                              if (!isGeneratePrice) {
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value="D">D</option>
                             <option value="E">E</option>
@@ -419,6 +508,11 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a cut"
                             value={values.cut}
                             onChange={handleChange}
+                            onBlur={() => {
+                              if (!isGeneratePrice) {
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value="Excellent">Excellent</option>
                             <option value="Very Good">Very Good</option>
@@ -438,6 +532,11 @@ export default function ValuationStaffDashboard() {
                             placeholder="Select a clarity"
                             value={values.clarity}
                             onChange={handleChange}
+                            onBlur={() => {
+                              if (!isGeneratePrice) {
+                                generatePrice(values);
+                              }
+                            }}
                           >
                             <option value={"IF"}>IF</option>
                             <option value={"VVS1"}>VVS1</option>
@@ -612,80 +711,57 @@ export default function ValuationStaffDashboard() {
                         isLoading={isGeneratePrice}
                         isDisabled={isGeneratePrice}
                         onClick={() => {
-                          setIsGeneratePrice(true);
-                          axios
-                            .post(
-                              `${
-                                import.meta.env.VITE_REACT_APP_BASE_URL
-                              }/api/diamond/calculate`,
-                              {
-                                gradingLab: "",
-                                carat: values.carat,
-                                shape: values.shape,
-                                color: values.color,
-                                cut: values.cut,
-                                clarity: values.clarity,
-                              },
-                              {
-                                headers: {
-                                  Authorization: `Bearer ${user.userAuth.token}`,
-                                },
-                              }
-                            )
-                            .then((response) => {
-                              console.log(response.data.body);
-                              setIsGeneratePrice(false);
-                              const test = new DOMParser().parseFromString(
-                                response.data.body,
-                                "text/xml"
-                              );
-                              const jsonResult = {};
-                              for (const child of test.querySelector("pr")
-                                .children) {
-                                jsonResult[child.tagName.toLowerCase()] =
-                                  child.textContent;
-                              }
-                              if (
-                                jsonResult.price ===
-                                "There is no available data for this query."
-                              ) {
-                                toast({
-                                  title: "Diamond Valuation",
-                                  description:
-                                    "There is no available data for this query.",
-                                  status: "warning",
-                                  duration: 3000,
-                                  isClosable: true,
-                                });
-                                values.price = 0;
-                              } else {
-                                toast({
-                                  title: "Diamond Valuation",
-                                  description:
-                                    "Diamond has been valuated successfully",
-                                  status: "success",
-                                  duration: 3000,
-                                  isClosable: true,
-                                });
-                                values.price = jsonResult.price;
-                              }
+                          if (
+                            values.carat === 0 ||
+                            values.shape === "" ||
+                            values.color === "" ||
+                            values.cut === "" ||
+                            values.clarity === ""
+                          ) {
+                            toast({
+                              title: "Diamond Valuation",
+                              description:
+                                "Please fill in all the Shape and 4C fields",
+                              position: "top-right",
+                              status: "warning",
+                              duration: 3000,
+                              isClosable: true,
                             });
+                          }
+                          generatePrice(values);
                         }}
                       >
                         Generate price
                       </Button>
                     </Tooltip>
                     <FormControl>
-                      <FormLabel>Price</FormLabel>
-                      <InputGroup>
-                        <Input
-                          name="price"
-                          type="text"
-                          onChange={handleChange}
-                          value={values.price}
-                        />
-                        <InputRightElement children="$" />
-                      </InputGroup>
+                      <Field name="price">
+                        {({ field, form }) => (
+                          <Tooltip
+                            label="Price must be greater than 0 and less than 100000"
+                            hasArrow
+                          >
+                            <FormControl>
+                              <FormLabel>Price</FormLabel>
+                              <NumberInput
+                                min={1}
+                                max={100000}
+                                step={1}
+                                {...field}
+                                onChange={(val) => {
+                                  form.setFieldValue(field.name, val);
+                                }}
+                              >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                  <NumberIncrementStepper />
+                                  <NumberDecrementStepper />
+                                </NumberInputStepper>
+                              </NumberInput>
+                            </FormControl>
+                          </Tooltip>
+                        )}
+                      </Field>
                     </FormControl>
                     <Center>
                       <Button
@@ -702,17 +778,22 @@ export default function ValuationStaffDashboard() {
               )}
             </Formik>
             <Flex justify={"center"}>
-              <SimpleGrid columns={4}>
+              <SimpleGrid columns={4} spacing={10}>
                 {diamondImages?.map((image, index) => {
                   return (
                     <>
-                      <Flex direction={"column"} key={image}>
+                      <Flex direction={"column"} key={index}>
                         <AdvancedImage
                           key={index}
                           cldImg={cld
                             .image(image)
                             .resize(thumbnail().width(200).height(200))}
-                          plugins={[lazyload(), placeholder({ mode: "blur" })]}
+                          plugins={[
+                            lazyload(),
+                            placeholder({
+                              mode: "blur",
+                            }),
+                          ]}
                         />
                         <Button
                           isDisabled={isDeleted}
@@ -735,6 +816,7 @@ export default function ValuationStaffDashboard() {
             <Flex direction={"column"}>
               <UploadImage
                 diamondId={selectedProcessResult?.valuationResultId}
+                type={"valuation_result"}
               />
             </Flex>
           </ModalFooter>

@@ -12,7 +12,7 @@ import java.util.Date;
 public class CommitmentPojo {
     int id;
     Date createdDate;
-    int valuationRequestId;
+    int processRequestId;
     String customerName;
     int paymentId;
     Date paymentDate;

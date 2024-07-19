@@ -12,6 +12,7 @@ import java.util.Date;
 public class ValuationReceiptPojo {
     int id;
     Date createdDate;
+    int processRequestId;
     String customerName;
     String customerPhone;
     String consultingStaffName;

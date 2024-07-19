@@ -23,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -109,7 +108,7 @@ public class AccountImpl implements AccountService {
             accountEntity.setActivate_code(null);
             accountRepository.save(accountEntity);
             try {
-                response.sendRedirect(frontendUrl);
+                response.sendRedirect(frontendUrl+"/?code=00");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -317,11 +316,6 @@ public class AccountImpl implements AccountService {
 
     @Override
     public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {
-        try {
-            response.sendRedirect(frontendUrl + "/reset-password");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         String token = resetPasswordRequestDTO.getToken();
         String oldPassword = resetPasswordRequestDTO.getOldPassword();
         String newPassword = resetPasswordRequestDTO.getNewPassword();
@@ -335,9 +329,11 @@ public class AccountImpl implements AccountService {
         if (accountEntity == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
         }
-        if (!accountEntity.getPassword().equals(oldPassword)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Password is incorrect!");
+
+        if (!passwordEncoder.matches(oldPassword, accountEntity.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password is incorrect!");
         }
+
         accountEntity.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(accountEntity);
         return ResponseEntity.ok("Password updated successfully");

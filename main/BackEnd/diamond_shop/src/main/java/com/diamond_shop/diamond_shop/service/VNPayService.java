@@ -59,8 +59,7 @@ public class VNPayService {
     }
 
     public static boolean verifySecureHash(String secretKey, Map<String, String> params) {
-        try {
-            // Loại bỏ vnp_SecureHash khỏi params trước khi tính toán hash
+        try {           
             String receivedHash = params.remove("vnp_SecureHash");
     
             String hashData = params.entrySet()

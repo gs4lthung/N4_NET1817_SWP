@@ -27,12 +27,18 @@ CREATE TABLE pending_requests(
 	created_date DATETIME,
 	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
-
+CREATE TABLE pending_request_images(
+	id NVARCHAR(255) PRIMARY KEY,
+	pending_request_id BIGINT,
+	FOREIGN KEY (pending_request_id) REFERENCES pending_requests(id)
+)
 CREATE TABLE process_requests(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	consulting_staff_id BIGINT,
 	pending_request_id BIGINT,
-	status NVARCHAR(255)
+	status NVARCHAR(255),
+	created_date DATETIME,
+	receive_date DATETIME,
 	FOREIGN KEY (consulting_staff_id) REFERENCES users(id),
 	FOREIGN KEY (pending_request_id) REFERENCES pending_requests(id)
 )
@@ -113,7 +119,8 @@ CREATE TABLE process_results(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	valuation_staff_id BIGINT,
 	valuation_result_id NVARCHAR(50),
-	status NVARCHAR(25)
+	status NVARCHAR(25),
+	created_date DATETIME,
 	FOREIGN KEY (valuation_staff_id) REFERENCES users(id) ON DELETE SET NULL,
 	FOREIGN KEY (valuation_result_id) REFERENCES valuation_results(id)
 )
@@ -134,6 +141,47 @@ CREATE TABLE commiment_letters(
 	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id) ON DELETE SET NULL,
 )
 
+CREATE TABLE diamond_prices(
+	id BIGINT PRIMARY KEY IDENTITY(1,1),
+	change_down NVARCHAR(255),
+	change_up NVARCHAR(255),
+	chart NVARCHAR(255),
+	image_url NVARCHAR(255),
+	inv NVARCHAR(255),
+	inventory NVARCHAR(255),
+	inventory_change_down NVARCHAR(255),
+	inventory_change_up NVARCHAR(255),
+	name NVARCHAR(255),
+	price NVARCHAR(255),
+	price_change NVARCHAR(255),
+	price_index NVARCHAR(255),
+	price_usd NVARCHAR(255),
+	range NVARCHAR(255),
+	title NVARCHAR(255),
+	weight NVARCHAR(255),
+	shape NVARCHAR(255)
+)
+
+CREATE TABLE diamond_prices_natural(
+	id BIGINT PRIMARY KEY IDENTITY(1,1),
+	change_down NVARCHAR(255),
+	change_up NVARCHAR(255),
+	chart NVARCHAR(255),
+	image_url NVARCHAR(255),
+	inv NVARCHAR(255),
+	inventory NVARCHAR(255),
+	inventory_change_down NVARCHAR(255),
+	inventory_change_up NVARCHAR(255),
+	name NVARCHAR(255),
+	price NVARCHAR(255),
+	price_change NVARCHAR(255),
+	price_index NVARCHAR(255),
+	price_usd NVARCHAR(255),
+	range NVARCHAR(255),
+	title NVARCHAR(255),
+	weight NVARCHAR(255),
+	shape NVARCHAR(255)
+)
 INSERT INTO roles(name)
 VALUES
 ('Admin'),('Manager'),('Consulting staff'),('Valuation staff'),('Customer')

@@ -6,5 +6,5 @@ import org.springframework.data.domain.Page;
 
 public interface ProcessResultService {
     Page<ProcessResultEntity> getAllByValuationStaffId(int page, int valuationStaffId);
-    String processResult(ProcessRequestEntity requestId);
+    int processResult(ProcessRequestEntity requestId);
 }

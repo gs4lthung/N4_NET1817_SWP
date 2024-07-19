@@ -2,10 +2,7 @@ package com.diamond_shop.diamond_shop.controller;
 
 import com.diamond_shop.diamond_shop.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -18,5 +15,10 @@ public class PaymentController {
     @GetMapping(value = "/income")
     public int getIncome() {
         return paymentService.getIncome();
+    }
+
+    @GetMapping(value = "/income/month")
+    public int getIncomeMonth(@RequestParam("id") int id) {
+        return paymentService.getIncomeByMonth(id);
     }
 }

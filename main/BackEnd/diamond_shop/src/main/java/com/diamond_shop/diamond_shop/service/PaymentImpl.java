@@ -3,15 +3,16 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PaymentEntity;
-import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,21 +65,10 @@ public class PaymentImpl implements PaymentService {
     }
 
     @Override
-    public List<VNpayBillPojo> getTransaction(int id) {
-        List<VNpayBillPojo> result = new ArrayList<>();
-        List<PaymentEntity> paymentEntities = paymentRepository.findByCustomerId(id);
-
-        for (PaymentEntity entity : paymentEntities) {
-            VNpayBillPojo pojo = new VNpayBillPojo();
-            pojo.setCustomername(entity.getCustomerId().getFullname());
-            pojo.setDate(entity.getCreatedDate());
-            pojo.setBank(entity.getBank());
-            pojo.setAmount(entity.getAmount());
-            pojo.setTransaction(entity.getTransaction());
-            pojo.setOrder_info(entity.getOrderInfo());
-            result.add(pojo);
-        }
-        return result;
+    public Page<PaymentEntity> getTransaction(int id, int page) {
+        int pageNumber = --page;
+        int pageSize = 5;
+        return paymentRepository.findByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), id);
     }
 
     @Override
@@ -87,6 +77,19 @@ public class PaymentImpl implements PaymentService {
         List<Integer> allPaymentAmount = paymentRepository.getIncome();
         for (Integer amount : allPaymentAmount) {
             total += amount;
+        }
+        return total;
+    }
+
+    @Override
+    public int getIncomeByMonth(int month) {
+        List<PaymentEntity> payments = paymentRepository.findAll();
+        int total = 0;
+        for (PaymentEntity payment : payments) {
+            String[] dateParts = payment.getCreatedDate().toString().split("-");
+            if (Integer.parseInt(dateParts[1]) == month) {
+                total += payment.getAmount();
+            }
         }
         return total;
     }

@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import PageIndicator from "../../../components/PageIndicator";
 import {
-  Box,
   Button,
   Center,
   Flex,
@@ -10,7 +9,6 @@ import {
   IconButton,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -23,6 +21,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
   UnorderedList,
   useDisclosure,
@@ -30,6 +29,10 @@ import {
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import { ViewIcon } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
+import { format, parseISO } from "date-fns";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import routes from "../../../config/Config";
 
 export default function CommitmentTable() {
   const user = useContext(UserContext);
@@ -49,11 +52,11 @@ export default function CommitmentTable() {
       if (user.userAuth.authorities[0].authority === "Manager") {
         url = `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/commitment/get/all?page=${page}`;
+        }/api/commitment/get/all?page=${page}`;
       } else if (user.userAuth.authorities[0].authority === "Customer") {
         url = `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/commitment/get?page=${page}&customerId=${user.userAuth.id}`;
+        }/api/commitment/get?page=${page}&customerId=${user.userAuth.id}`;
       }
       axios.get(url).then(function (response) {
         console.log(response.data);
@@ -79,17 +82,22 @@ export default function CommitmentTable() {
         ) : (
           <Skeleton isLoaded={commitment?.length > 0} height={"200px"}>
             <TableContainer shadow="md" borderRadius="md">
-              <Table >
-                <Thead bg="gray.600" color="white" mb={5} boxShadow="sm" borderRadius="md" maxW="100%" minW="100%">
+              <Table>
+                <Thead
+                  bg="gray.600"
+                  color="white"
+                  mb={5}
+                  boxShadow="sm"
+                  borderRadius="md"
+                  maxW="100%"
+                  minW="100%"
+                >
                   <Tr>
                     <Th color="white">ID</Th>
                     <Th color="white">Request ID</Th>
-
-                    {isUsers &&
-                      user.userAuth.authorities[0].authority === "Manager" && (
-                        <Th color="white">Customer Name</Th>
-                      )}
+                    <Th color="white">Customer Name</Th>
                     <Th color="white">Created Date</Th>
+                    <Th color="white">Description</Th>
                     <Th color="white">View</Th>
                   </Tr>
                 </Thead>
@@ -97,11 +105,36 @@ export default function CommitmentTable() {
                   {commitment?.map((item, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{item?.id}</Td>
-                      <Td>{item?.valuationRequestId || "N/A"}</Td>
-                      {user.userAuth.authorities[0].authority === "Manager" && (
-                        <Td>{item?.customerName || "N/A"}</Td>
-                      )}
-                      <Td>{item?.createdDate?.slice(0, 10) || "N/A"}</Td>
+                      <Td>
+                        <Link
+                          to={routes.processRequest}
+                          state={{ processRequestId: item?.processRequestId }}
+                        >
+                          <Tooltip label="Click to view process request">
+                            <Flex
+                              p={2}
+                              gap={2}
+                              align={"center"}
+                              justify={"space-around"}
+                              borderRadius={"20px"}
+                              _hover={{ bg: "blue.100" }}
+                            >
+                              {item?.processRequestId || "N/A"}
+                              <FaExternalLinkAlt />
+                            </Flex>
+                          </Tooltip>
+                        </Link>
+                      </Td>
+                      <Td>{item?.customerName || "N/A"}</Td>
+                      <Td>
+                        {item?.createdDate
+                          ? format(
+                              parseISO(item?.createdDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
+                      <Td>Customer lost receipt</Td>
                       <Td>
                         <IconButton
                           icon={<ViewIcon />}
@@ -121,6 +154,7 @@ export default function CommitmentTable() {
             <Center m={"50px 0 0 0"}>
               <PageIndicator
                 totalPages={totalPages}
+                currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             </Center>

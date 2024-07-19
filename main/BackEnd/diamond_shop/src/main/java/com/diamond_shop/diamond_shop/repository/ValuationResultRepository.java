@@ -63,6 +63,30 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.lengthToWidthRatio," +
             "v.price)" +
             "FROM ValuationResultEntity as v " +
+            "WHERE v.processResults.status='Valuated'")
+    Page<ValuationResultEntity> findAllValuatedValuationResults(Pageable pageable);
+
+    @Query("SELECT " +
+            "NEW com.diamond_shop.diamond_shop.pojo.ValuationResultPojo(" +
+            "v.id," +
+            "v.createdDate, " +
+            "v.valuationRequestId.serviceId.name," +
+            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.origin," +
+            "v.shape," +
+            "v.carat," +
+            "v.color," +
+            "v.cut," +
+            "v.clarity," +
+            "v.symmetry," +
+            "v.polish," +
+            "v.fluorescence," +
+            "v.measurements," +
+            "v.diamondTable," +
+            "v.depth," +
+            "v.lengthToWidthRatio," +
+            "v.price)" +
+            "FROM ValuationResultEntity as v " +
             "WHERE v.id=:id")
     Optional<ValuationResultEntity> findValuationResultById(@Param("id") String id);
 
@@ -114,6 +138,13 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "WHERE v.valuationRequestId.id=:valuationRequestId")
     Optional<ValuationResultEntity> getValuationResultByValuationRequestId(@Param("valuationRequestId") int valuationRequestId);
 
-    @Query(value = "SELECT COUNT(v.id) FROM ValuationResultEntity v WHERE v.processResults.status='Valuated'")
+    @Query(value = "SELECT COUNT(v.id) " +
+            "FROM ValuationResultEntity v " +
+            "WHERE v.processResults.status='Valuated'")
     int totalValuationResults();
+
+    @Query(value = "SELECT COUNT(v.id) " +
+            "FROM ValuationResultEntity v " +
+            "WHERE v.processResults.status!='Valuated'")
+    int totalNotDoneValuationResults();
 }

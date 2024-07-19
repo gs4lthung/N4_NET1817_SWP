@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #bee3f8;
+  background: #ffffff;
   display: flex;
   align-items: center;
 }
@@ -45,13 +45,13 @@
   left: 0;
   width: 15px;
   height: 15px;
-  background-color: blue;
+  background-color: rgb(255, 255, 255);
   animation-name: dotHover;
   animation-duration: 900ms;
   animation-timing-function: cubic-bezier(0.82, 0, 0.26, 1);
   animation-iteration-count: infinite;
   animation-delay: 100ms;
-  background: #4299e1;
+  background: #05bfcc;
   border-radius: 100%;
 }
 

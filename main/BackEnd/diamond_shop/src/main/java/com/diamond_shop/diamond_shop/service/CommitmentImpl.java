@@ -36,7 +36,7 @@ public class CommitmentImpl implements CommitmentService {
 
     @Override
     public String createCommitmentByValuationRequestId(int valuationRequestId) {
-        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.findById(valuationRequestId);
+        Optional<ValuationRequestEntity> valuationRequest = valuationRequestRepository.getById(valuationRequestId);
         if (valuationRequest.isEmpty())
             return "Cannot find valuation request";
         if (commitmentRepository.findByValuationRequestId(valuationRequestId).isPresent())

@@ -80,7 +80,7 @@ export default function ServiceCard({
   return (
     <Card border={"1px solid"} w={{ base: "70vw", md: "40vw", lg: "20vw" }}>
       <CardHeader align="center">
-        <Heading size={"md"} color={`${color}.400`}>
+        <Heading size={"md"} color={`blue.400`}>
           {type}
         </Heading>
       </CardHeader>
@@ -100,7 +100,7 @@ export default function ServiceCard({
       </CardBody>
       <Center>
         <CardFooter>
-          <Button onClick={handleSubmit} colorScheme={color} size={"lg"}>
+          <Button onClick={handleSubmit} colorScheme={"blue"} size={"lg"}>
             Choose
           </Button>
         </CardFooter>

@@ -1,5 +1,5 @@
 import { Box, Flex, Icon, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { activateAccount } from "../../service/ActivateAccount";
@@ -10,12 +10,13 @@ export default function Activate() {
     let searchParams = new URLSearchParams(window.location.search);
     useEffect(() => {
         let code = searchParams.get("code");
+        console.log(code);
         if (!code) {
             code = "";
         } else {
             let check = setInterval(async () => {
                 let result = await activateAccount(code);
-                if (result != null) {
+                if (result) {
                     toast({
                         title: result,
                         description: "We've created your account for you.",
@@ -63,11 +64,25 @@ export default function Activate() {
                     We just sent you an email at
                 </Text>
                 <Text fontSize={"2xl"} mb={"14px"} fontWeight={"bold"}>
-                    {param.email}{" "}
+                    {param.email}
                 </Text>
                 <Text fontSize={"2xl"}>
-                    Please check your inbox to validate your account.
+                    Please click here to check your inbox to validate your
+                    account.
                 </Text>
+                <Link
+                    to={"https://mail.google.com/mail/u/1/#inbox"}
+                    target="_blank"
+                >
+                    <Text
+                        fontSize={"lg"}
+                        mb={"14px"}
+                        fontWeight={"bold"}
+                        _hover={{ color: "blue.400" }}
+                    >
+                        Go to you email
+                    </Text>
+                </Link>
                 <Text
                     fontSize={"xl"}
                     fontFamily={"Playwrite France Traditionnelle"}

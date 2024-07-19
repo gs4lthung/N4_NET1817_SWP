@@ -1,6 +1,9 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.dto.UpdateServiceDTO;
+import com.diamond_shop.diamond_shop.entity.ServiceEntity;
+import com.diamond_shop.diamond_shop.entity.ServiceStatisticEntity;
+import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.repository.ServiceRepository;
 import com.diamond_shop.diamond_shop.repository.ServiceStatisticRepository;
@@ -43,14 +46,36 @@ public class DiamondImpl implements DiamondService {
     }
 
     @Override
-    public String updateService(UpdateServiceDTO updateServiceDTO) {
-        try {
-            serviceRepository.updateServiceById(updateServiceDTO.getId(), updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime());
-            serviceStatisticRepository.updateStatistic(updateServiceDTO.getStatisticId(), updateServiceDTO.getStatisticName());
-        } catch (Exception e) {
-            return "Update service error";
-        }
-        return "Update successful";    }
+    public ResponsePojo createService(UpdateServiceDTO updateServiceDTO) {
+        ServiceStatisticEntity serviceStatistic = new ServiceStatisticEntity(updateServiceDTO.getStatisticName());
+        serviceStatisticRepository.save(serviceStatistic);
+        ServiceEntity service = new ServiceEntity(updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime(), serviceStatistic);
+        serviceRepository.save(service);
+        ResponsePojo responsePojo = new ResponsePojo();
+        responsePojo.setId(service.getId());
+        responsePojo.setMessage("Create successful");
+        return responsePojo;
+    }
+
+    @Override
+    public ResponsePojo updateService(UpdateServiceDTO updateServiceDTO) {
+        ResponsePojo responsePojo = new ResponsePojo();
+        serviceRepository.updateServiceById(updateServiceDTO.getId(), updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime());
+        serviceStatisticRepository.updateStatistic(updateServiceDTO.getStatisticId(), updateServiceDTO.getStatisticName());
+        responsePojo.setId(updateServiceDTO.getId());
+        responsePojo.setMessage("Update service " + updateServiceDTO.getId() + " successful");
+        return responsePojo;
+    }
+
+    @Override
+    public ResponsePojo deleteService(int serviceId, int statisticId) {
+        ResponsePojo responsePojo = new ResponsePojo();
+        serviceRepository.deleteById(serviceId);
+        serviceStatisticRepository.deleteById(statisticId);
+        responsePojo.setId(serviceId);
+        responsePojo.setMessage("Delete successful");
+        return responsePojo;
+    }
 
     //
     private String builderQueryString(Map<String, String> params) {

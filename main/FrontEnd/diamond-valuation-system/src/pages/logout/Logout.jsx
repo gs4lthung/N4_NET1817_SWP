@@ -7,10 +7,6 @@ export default function Logout() {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setTimeout(() => {
-      window.location.reload();
-      navigate(0);
-    }, [500]);
     toast.success("Logout Successful", {
       position: "top-right",
       autoClose: 2000,
@@ -22,6 +18,10 @@ export default function Logout() {
       theme: "light",
       transition: Bounce,
     });
+    setTimeout(() => {
+      navigate('/', { replace: true });
+      window.location.reload();
+  }, 500);
   };
   return (
     <>

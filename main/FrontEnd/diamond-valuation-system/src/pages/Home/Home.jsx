@@ -13,26 +13,32 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { IoDiamond } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import routes from "../../config/Config";
-import { useToast } from '@chakra-ui/react';
+import { useToast } from "@chakra-ui/react";
 import InfiniteMovingFeaturedCards from "../../components/CartDiamond/InfiniteMovingFeaturedCards";
 import { StarIcon } from "@chakra-ui/icons";
 
-const images = [
-    "/images/banner/Banner1.jpg",
-    "/images/banner/Banner2.png",
-];
+const images = ["/images/banner/Banner1.jpg", "/images/banner/Banner2.png"];
 const stats = [
     { value: "2M+", label: "Diamond Inventory" },
     { value: "1M+", label: "Happy Shoppers" },
     { value: "4.9 ★", label: "Trust Pilot Rating" },
     { value: "10+", label: "Top-Rated Jewelers" },
     { value: "750M+", label: "Historical Diamond Prices" },
-    { value: "5M+", label: "Diamond Checks" }
+    { value: "5M+", label: "Diamond Checks" },
 ];
 const testimonials = [
-    { text: "Highly Recommend DiamondVal. I am VERY grateful to DiamondVal for saving me from a would-be terrible purchase. Highly recommend!", name: "Truong D" },
-    { text: "DiamondVal is a Tremendous Resource. The cut score was a terrific way to hone in on the best candidates when faced with the overwhelming number of options available online.", name: "Tuan N" },
-    { text: "The Most Beautiful Diamond I’ve Ever Seen! By using the DiamondVal calculator, I was able to find the best cut diamond at the best price. My diamond is breathtaking.", name: "Hung L" },
+    {
+        text: "Highly Recommend DiamondVal. I am VERY grateful to DiamondVal for saving me from a would-be terrible purchase. Highly recommend!",
+        name: "Truong D",
+    },
+    {
+        text: "DiamondVal is a Tremendous Resource. The cut score was a terrific way to hone in on the best candidates when faced with the overwhelming number of options available online.",
+        name: "Tuan N",
+    },
+    {
+        text: "The Most Beautiful Diamond I’ve Ever Seen! By using the DiamondVal calculator, I was able to find the best cut diamond at the best price. My diamond is breathtaking.",
+        name: "Hung L",
+    },
 ];
 
 export default function Home() {
@@ -40,9 +46,25 @@ export default function Home() {
     const bgColor = useColorModeValue("white", "gray.900");
     const fontColor = useColorModeValue("gray.600", "yellow.200");
     const toast = useToast();
-
+    let searchParams = new URLSearchParams(window.location.search);
     useEffect(() => {
-        const searchParams = new URLSearchParams(window.location.search);
+        let code = searchParams.get("code");
+        if (code === '00') {
+            toast({
+                title: "Resigter successfully!",
+                description: "Please logIn.",
+                status: "success",
+                duration: 3000,
+                position: "top-right",
+                isClosable: true,
+            });
+            searchParams.delete("code");
+            const newUrl = `${
+                window.location.pathname
+            }?${searchParams.toString()}`;
+            window.history.replaceState({}, "", newUrl);
+            localStorage.setItem("driver", JSON.stringify(false));
+        }
         const status = searchParams.get("vnp_ResponseCode");
         if (status === "00" && status !== null) {
             toast({
@@ -76,11 +98,17 @@ export default function Home() {
 
     return (
         <>
-            <Container maxW="100vw" p={0} bg={useColorModeValue("gray.200", "black")}>
+            <Container
+                maxW="100vw"
+                p={0}
+                bg={useColorModeValue("gray.200", "black")}
+            >
                 <Flex
                     direction={{ base: "column", md: "row", lg: "row" }}
                     alignItems="center"
-                    justifyContent={currentImage === 0 ? "flex-end" : "flex-start"}
+                    justifyContent={
+                        currentImage === 0 ? "flex-end" : "flex-start"
+                    }
                     width="100%"
                     height={{ base: "50vh", md: "70vh" }}
                     position="relative"
@@ -103,10 +131,18 @@ export default function Home() {
                         marginRight={currentImage === 0 ? "5%" : "0"}
                         marginLeft={currentImage !== 0 ? "5%" : "0"}
                     >
-                        <Flex direction="column" fontWeight="bold" alignItems="center">
+                        <Flex
+                            direction="column"
+                            fontWeight="bold"
+                            alignItems="center"
+                        >
                             <Text
                                 fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
-                                align={{ base: "center", md: "left", lg: "left" }}
+                                align={{
+                                    base: "center",
+                                    md: "left",
+                                    lg: "left",
+                                }}
                                 color="#CA901C"
                             >
                                 Compare Top-Rated Jewelers & Save
@@ -114,7 +150,11 @@ export default function Home() {
                             <Text
                                 fontSize={{ base: "sm", md: "md", lg: "lg" }}
                                 mt={4}
-                                align={{ base: "center", md: "left", lg: "left" }}
+                                align={{
+                                    base: "center",
+                                    md: "left",
+                                    lg: "left",
+                                }}
                                 color="yellow.100"
                             >
                                 Navigate the diamond market effortlessly.
@@ -181,12 +221,18 @@ export default function Home() {
                     justify="space-around"
                     align="center"
                     wrap="wrap"
-                    borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"}
+                    borderTopWidth={1}
+                    borderStyle={"solid"}
+                    borderColor={"gray.700"}
                     mt={3}
                 >
                     {stats.map((stat, index) => (
                         <Box key={index} p={4} textAlign="center">
-                            <Text fontSize="2xl" fontWeight="bold" color="teal.500">
+                            <Text
+                                fontSize="2xl"
+                                fontWeight="bold"
+                                color="teal.500"
+                            >
                                 {stat.value}
                             </Text>
                             <Text fontSize="md" color="gray.600">
@@ -195,8 +241,17 @@ export default function Home() {
                         </Box>
                     ))}
                 </Flex>
-                <Box borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"} >
-                    <Flex mt={40} mb={10} fontWeight="bold" justifyContent="center">
+                <Box
+                    borderTopWidth={1}
+                    borderStyle={"solid"}
+                    borderColor={"gray.700"}
+                >
+                    <Flex
+                        mt={40}
+                        mb={10}
+                        fontWeight="bold"
+                        justifyContent="center"
+                    >
                         <Text
                             fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
                             color={fontColor}
@@ -204,12 +259,23 @@ export default function Home() {
                             Diamonds have been valuated
                         </Text>
                     </Flex>
-                    <Box >
+                    <Box>
                         <InfiniteMovingFeaturedCards />
                     </Box>
                 </Box>
-                <Box mt={10} borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"} p={5}>
-                    <Flex mt={10} mb={10} fontWeight="bold" justifyContent="center">
+                <Box
+                    mt={10}
+                    borderTopWidth={1}
+                    borderStyle={"solid"}
+                    borderColor={"gray.700"}
+                    p={5}
+                >
+                    <Flex
+                        mt={10}
+                        mb={10}
+                        fontWeight="bold"
+                        justifyContent="center"
+                    >
                         <Text
                             fontSize={{ base: "xl", md: "4xl", lg: "5xl" }}
                             color={fontColor}
@@ -235,7 +301,7 @@ export default function Home() {
                                 borderRadius="md"
                                 bg={bgColor}
                                 width={{ base: "100%", md: "45%", lg: "20%" }}
-                                minHeight="430px"
+                                minHeight="500px"
                                 position={"relative"}
                             >
                                 <Flex justifyContent="center" mb={5}>
@@ -243,17 +309,36 @@ export default function Home() {
                                         <StarIcon key={i} color="teal.500" />
                                     ))}
                                 </Flex>
-                                <Text fontSize={{ base: "md", md: "2xl" }} color={fontColor}>
+                                <Text
+                                    fontSize={{ base: "md", md: "2xl" }}
+                                    color={fontColor}
+                                >
                                     {testimonial.text}
                                 </Text>
-                                <Text fontSize="xl" fontWeight="bold" color="teal.500" mt={3} position={"absolute"} left={"0"} right={"0"} bottom={"12px"} textAlign={"center"} w={"100%"}>
+                                <Text
+                                    fontSize="xl"
+                                    fontWeight="bold"
+                                    color="teal.500"
+                                    mt={3}
+                                    position={"absolute"}
+                                    left={"0"}
+                                    right={"0"}
+                                    bottom={"12px"}
+                                    textAlign={"center"}
+                                    w={"100%"}
+                                >
                                     - {testimonial.name}
                                 </Text>
                             </Box>
                         ))}
                     </Flex>
                 </Box>
-                <Box position="relative" width="100%" height={{ base: "200px", md: "300px", lg: "400px" }} mt={5}>
+                <Box
+                    position="relative"
+                    width="100%"
+                    height={{ base: "200px", md: "300px", lg: "400px" }}
+                    mt={5}
+                >
                     <Image
                         src="/images/banner/Banner3.webp"
                         alt="Banner Image"
@@ -272,10 +357,16 @@ export default function Home() {
                         textAlign="center"
                         flexDirection="column"
                     >
-                        <Text fontSize={{ base: "md", md: "2xl", lg: "4xl" }} letterSpacing="widest">
+                        <Text
+                            fontSize={{ base: "md", md: "2xl", lg: "4xl" }}
+                            letterSpacing="widest"
+                        >
                             WE ARE DIAMONDVAL
                         </Text>
-                        <Text fontSize={{ base: "md", md: "2xl", lg: "4xl" }} letterSpacing="widest">
+                        <Text
+                            fontSize={{ base: "md", md: "2xl", lg: "4xl" }}
+                            letterSpacing="widest"
+                        >
                             WE KNOW HOW TO MAKE YOU SATISFIED WITH OUR SERVICE
                         </Text>
                     </Center>

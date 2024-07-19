@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class ProcessResultPojo {
     private String valuationResultId;
+    private Date createdDate;
     private String valuationStaffName;
     private String serviceName;
     private String serviceStatistic;

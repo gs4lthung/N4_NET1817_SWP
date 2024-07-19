@@ -19,7 +19,8 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
 
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessResultPojo(" +
-            "p.valuationResultId.id," +
+            "p.valuationResultId.id, " +
+            "p.createdDate," +
             "p.valuationStaffId.fullname," +
             "p.valuationResultId.valuationRequestId.serviceId.name, " +
             "p.valuationResultId.valuationRequestId.serviceId.statistic_id.name," +

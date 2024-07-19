@@ -23,13 +23,22 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
+    private static final String[] SWAGGER_WHITE_LIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/**").permitAll() 
+                                .requestMatchers(SWAGGER_WHITE_LIST).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/save").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/account/google").permitAll()
@@ -42,24 +51,24 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH, "/api/**").authenticated()
                                 .requestMatchers(HttpMethod.DELETE, "/api/**").authenticated()
                                 .requestMatchers("https://diamondval.vercel.app").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/admin/**").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/admin/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/admin/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/admin/**").permitAll()
                                 .requestMatchers("/manager/**").hasRole("Manager")
                                 .requestMatchers("/valuation/**").hasRole("Valuation staff")
                                 .requestMatchers("/consulting/**").hasRole("Consulting staff")
                                 .requestMatchers("/customer/**").hasRole("Customer")
                                 .anyRequest().authenticated()
-                                
+
                 )
 
                 // .logout(LogoutConfigurer::permitAll)
                 .logout(logout -> logout
-                    .logoutUrl("/logout") 
-                    .logoutSuccessUrl("/") 
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                 )
-                .csrf(AbstractHttpConfigurer::disable); 
+                .csrf(AbstractHttpConfigurer::disable);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

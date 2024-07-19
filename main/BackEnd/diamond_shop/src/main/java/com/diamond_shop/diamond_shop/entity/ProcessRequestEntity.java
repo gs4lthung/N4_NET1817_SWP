@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,10 +34,17 @@ public class ProcessRequestEntity {
     @Column(name = "status")
     private String status;
 
-    public ProcessRequestEntity(AccountEntity staffId, PendingRequestsEntity pendingRequestId, String status) {
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    @Column(name = "receive_date")
+    private Date receiveDate;
+
+    public ProcessRequestEntity(AccountEntity staffId, PendingRequestsEntity pendingRequestId, String status, Date createdDate) {
         this.staffId = staffId;
         this.pendingRequestId = pendingRequestId;
         this.status = status;
-    }    
-    
+        this.createdDate = createdDate;
+    }
+
 }

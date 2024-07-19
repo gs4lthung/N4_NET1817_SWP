@@ -17,7 +17,7 @@ public interface CommitmentRepository extends JpaRepository<CommitmentLetterEnti
             "NEW com.diamond_shop.diamond_shop.pojo.CommitmentPojo(" +
             "c.id," +
             "c.createdDate," +
-            "c.valuationRequest.id," +
+            "c.valuationRequest.pendingRequestId.processRequestEntity.id," +
             "c.valuationRequest.pendingRequestId.customerId.fullname," +
             "c.valuationRequest.paymentId.id," +
             "c.valuationRequest.paymentId.createdDate," +
@@ -32,7 +32,7 @@ public interface CommitmentRepository extends JpaRepository<CommitmentLetterEnti
             "NEW com.diamond_shop.diamond_shop.pojo.CommitmentPojo(" +
             "c.id," +
             "c.createdDate," +
-            "c.valuationRequest.id," +
+            "c.valuationRequest.pendingRequestId.processRequestEntity.id," +
             "c.valuationRequest.pendingRequestId.customerId.fullname," +
             "c.valuationRequest.paymentId.id," +
             "c.valuationRequest.paymentId.createdDate," +

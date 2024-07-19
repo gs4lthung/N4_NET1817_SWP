@@ -16,6 +16,11 @@ import java.util.Optional;
 public class ValuationRequestController {
     private final ValuationRequestService valuationRequestService;
 
+    @GetMapping(path = "/get")
+    public Optional<ValuationRequestEntity> getValuationRequest(@RequestParam("id") int id) {
+        return valuationRequestService.getValuationRequest(id);
+    }
+
     @GetMapping(path = "/pending-request/get")
     public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(@RequestParam("id") int pendingRequestId) {
         return valuationRequestService.getValuationRequestByPendingRequestId(pendingRequestId);

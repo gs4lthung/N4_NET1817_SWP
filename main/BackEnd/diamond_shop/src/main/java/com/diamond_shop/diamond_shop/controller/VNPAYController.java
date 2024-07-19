@@ -1,9 +1,8 @@
 package com.diamond_shop.diamond_shop.controller;
 
+import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
-import com.diamond_shop.diamond_shop.pojo.VNpayBillPojo;
 import com.diamond_shop.diamond_shop.repository.ProcessRequestRepository;
-import com.diamond_shop.diamond_shop.repository.ProcessResultRepository;
 import com.diamond_shop.diamond_shop.service.PaymentService;
 import com.diamond_shop.diamond_shop.service.ProcessResultService;
 import com.diamond_shop.diamond_shop.service.VNPayService;
@@ -12,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,13 +21,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/vnpay")
 @RequiredArgsConstructor
-public class VNpayController {
+public class VNPAYController {
     private final ValuationRequestService valuationRequestService;
 
     private final PaymentService paymentService;
@@ -96,7 +95,7 @@ public class VNpayController {
             @RequestParam("pendingRequestId") int pendingRequestId,
             HttpServletResponse response,
             HttpServletRequest request) throws IOException {
- 
+
         String status = request.getParameter("vnp_ResponseCode");
         String created_date = request.getParameter("vnp_PayDate");
         String bank = request.getParameter("vnp_BankCode");
@@ -111,9 +110,7 @@ public class VNpayController {
 
             ProcessRequestEntity processRequest = processRequestRepository.findByPendingRequestId(pendingRequestId);
             processRequest.setStatus("Paid");
-            processRequestRepository.save(processRequest);
-
-            // processResultService.processResult(processRequest);
+            processRequestRepository.save(processRequest);            
 
             response.sendRedirect(frontend_url + "/?" + VNPayService.createQueryString(params));
             return "success";
@@ -124,8 +121,8 @@ public class VNpayController {
     }
 
     @GetMapping(path = "/get")
-    public List<VNpayBillPojo> getTransaction(@RequestParam("id") int id, HttpServletResponse response) {
+    public Page<PaymentEntity> getTransaction(@RequestParam("id") int id, @RequestParam("page") int page, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return paymentService.getTransaction(id);
+        return paymentService.getTransaction(id, page);
     }
 }

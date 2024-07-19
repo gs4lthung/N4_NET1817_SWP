@@ -13,7 +13,7 @@ public class SealingLetterPojo {
     int id;
     Date createdDate;
     String content;
-    int valuationRequestId;
+    int processRequestId;
     String customerName;
     Date receivedDate;
     Date finishDate;

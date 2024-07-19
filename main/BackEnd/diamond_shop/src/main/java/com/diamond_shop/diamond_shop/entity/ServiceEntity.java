@@ -48,6 +48,13 @@ public class ServiceEntity {
         this.id = id;
     }
 
+    public ServiceEntity(String name, int price, int time, ServiceStatisticEntity statistic_id) {
+        this.name = name;
+        this.price = price;
+        this.time = time;
+        this.statistic_id = statistic_id;
+    }
+
     public ServiceEntity(int id, @NotNull(message = "Service name is mandatory") String name,
                          @NotNull(message = "Service price is mandatory") int price,
                          @NotNull(message = "Service valuation time is mandatory") int time,

@@ -23,7 +23,7 @@ public interface SealingLetterRepository extends JpaRepository<SealingLetterEnti
             "s.id," +
             "s.createdDate," +
             "s.content," +
-            "s.valuationRequest.id," +
+            "s.valuationRequest.pendingRequestId.processRequestEntity.id," +
             "s.valuationRequest.pendingRequestId.customerId.fullname," +
             "s.valuationRequest.createdDate," +
             "s.valuationRequest.finishDate," +
@@ -36,7 +36,7 @@ public interface SealingLetterRepository extends JpaRepository<SealingLetterEnti
             "s.id," +
             "s.createdDate," +
             "s.content," +
-            "s.valuationRequest.id," +
+            "s.valuationRequest.pendingRequestId.processRequestEntity.id," +
             "s.valuationRequest.pendingRequestId.customerId.fullname," +
             "s.valuationRequest.createdDate," +
             "s.valuationRequest.finishDate," +

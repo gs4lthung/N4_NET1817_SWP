@@ -12,19 +12,13 @@ import React, { useEffect } from "react";
 import routes from "../config/Config";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { Icon } from "@chakra-ui/icons";
-import {
-  FaFacebook,
-} from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 export default function Footer() {
   const bgColor = useColorModeValue("white", "black");
   const fontColor = useColorModeValue("black", "#DBA843");
   return (
     <>
-      <Box
-        bg={useColorModeValue("gray.200", "black")}
-        color={fontColor}
-        
-      >
+      <Box bg={useColorModeValue("gray.200", "black")} color={fontColor}>
         <Container as={Stack} maxW={"9xl"}>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} p={10} gap={10}>
             <Stack align={"flex-start"}>
@@ -49,46 +43,26 @@ export default function Footer() {
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Features
               </Text>
-              <Link reloadDocument to={routes.diamondCheck}>
-                Diamond Check
-              </Link>
-              <Link reloadDocument to={routes.diamondCalculate}>
-                Valuation
-              </Link>
-              <Link reloadDocument to={routes.prices}>
-                Price
-              </Link>
+              <Link to={routes.diamondCheck}>Diamond Check</Link>
+              <Link to={routes.diamondCalculate}>Valuation</Link>
+              <Link to={routes.prices}>Price</Link>
             </Stack>
             <Stack align={"flex-start"}>
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Mores
               </Text>
-              <Link reloadDocument to={routes.educationCarat}>
-                Carat
-              </Link>
-              <Link reloadDocument to={routes.educationCertificate}>
-                Diamond Certificate
-              </Link>
-              <Link reloadDocument to={routes.educationClarity}>
-                Clarity
-              </Link>
-              <Link reloadDocument to={routes.educationColor}>
-                Diamond Color
-              </Link>
-              <Link reloadDocument to={routes.educationCut}>
-                Cut
-              </Link>
+              <Link to={routes.educationCarat}>Carat</Link>
+              <Link to={routes.educationCertificate}>Diamond Certificate</Link>
+              <Link to={routes.educationClarity}>Clarity</Link>
+              <Link to={routes.educationColor}>Diamond Color</Link>
+              <Link to={routes.educationCut}>Cut</Link>
             </Stack>
             <Stack align={"flex-start"}>
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Company
               </Text>
-              <Link reloadDocument to={routes.aboutUs}>
-                About us
-              </Link>
-              <Link reloadDocument to={routes.FAQs}>
-                FAQs
-              </Link>
+              <Link to={routes.aboutUs}>About us</Link>
+              <Link to={routes.FAQs}>FAQs</Link>
             </Stack>
           </SimpleGrid>
         </Container>

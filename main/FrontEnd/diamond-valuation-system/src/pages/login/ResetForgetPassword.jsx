@@ -6,6 +6,7 @@ import {
     Icon,
     Input,
     Text,
+    useColorModeValue,
     useToast,
 } from "@chakra-ui/react";
 import { GiDiamondTrophy } from "react-icons/gi";
@@ -18,6 +19,8 @@ export default function ResetForgetPassword() {
     const [token, setToken] = useState('');
     const toast = useToast();
     const nav = useNavigate();
+    const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("blue.400", "#DBA843");
     useEffect(() => {
         const tokenFromURL = searchParams.get("token");
         if (tokenFromURL) {
@@ -39,14 +42,15 @@ export default function ResetForgetPassword() {
     };
     return (
         <Box
+        bg={bgColor}
             w={"100%"}
             height={"100vh"}
             display={"flex"}
             alignItems={"center"}
             justifyContent={"center"}
         >
-            <Box padding={"70px 80px"}>
-                <Flex>
+            <Box border={"1px solid grey"} padding={"70px 80px"}>
+                <Flex color={fontColor}>
                     <Icon
                         as={GiDiamondTrophy}
                         w={{ base: 5, md: 8, lg: 10 }}
@@ -72,8 +76,9 @@ export default function ResetForgetPassword() {
                 />
 
                 <Button
+                bg={fontColor} color={bgColor}
                     onClick={handleResetPassword}
-                    colorScheme="blue"
+                    
                     mb={"12px"}
                 >
                     Send

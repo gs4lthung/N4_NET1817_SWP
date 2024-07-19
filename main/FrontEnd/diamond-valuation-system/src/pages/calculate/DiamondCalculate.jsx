@@ -54,7 +54,7 @@ export default function Calculate() {
 
   const [gradingLab, setGradingLab] = useState("AGS");
   const [carat, setCarat] = useState(1);
-  const [shape, setShape] = useState("ROUND");  
+  const [shape, setShape] = useState("ROUND");
   const [color, setColor] = useState("D");
   const [cut, setCut] = useState("POOR");
   const [clarity, setClarity] = useState("IF");
@@ -80,7 +80,7 @@ export default function Calculate() {
           title: "Diamond Valuation",
           description: "Please fill all the fields",
           status: "error",
-          position: 'top-right',
+          position: "top-right",
           duration: 3000,
           isClosable: true,
         });
@@ -122,7 +122,7 @@ export default function Calculate() {
             toast({
               title: "Diamond Valuation",
               description: "There is no available data for this query.",
-              position: 'top-right',
+              position: "top-right",
               status: "warning",
               duration: 3000,
               isClosable: true,
@@ -132,7 +132,7 @@ export default function Calculate() {
             toast({
               title: "Diamond Valuation",
               description: "Diamond has been valuated successfully",
-              position: 'top-right',
+              position: "top-right",
               status: "success",
               duration: 3000,
               isClosable: true,
@@ -144,7 +144,7 @@ export default function Calculate() {
       toast({
         title: "Diamond Valuation",
         description: "An error occurred",
-        position: 'top-right',
+        position: "top-right",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -158,7 +158,15 @@ export default function Calculate() {
 
   return (
     <Box bg={fontColor}>
-      <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>
+      <ScrollToTop
+        smooth
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "4px",
+        }}
+      />
       <Container maxW={"9xl"}>
         <Flex
           direction="column"
@@ -256,7 +264,7 @@ export default function Calculate() {
                     defaultValue={1}
                     min={0.08}
                     max={9.99}
-                    step={0.01}
+                    step={0.1}
                     onChange={(val) => {
                       setCarat(val);
                       setSliderValue(val);
@@ -281,7 +289,8 @@ export default function Calculate() {
                 </Flex>
                 <Button
                   borderRadius={"md"}
-                  bg={bgColor} color={fontColor}
+                  bg={bgColor}
+                  color={fontColor}
                   w={"inherit"}
                   m={"10px 0 0 0"}
                   isLoading={isLoading}
@@ -363,24 +372,25 @@ export default function Calculate() {
                   Contact with our experts to get a valuation
                 </Text>
                 <Center>
-                  
-                    <Button onClick={() => {                      
+                  <Button
+                    onClick={() => {
                       if (user.userAuth === "") {
                         toast({
                           title: "you need to log in first!",
-                          status: 'error',
-                          position:'top-right',
+                          status: "error",
+                          position: "top-right",
                           duration: 3000,
                           isClosable: true,
-                        })
+                        });
+                      } else {
+                        nav(routes.diamondValuationRequest);
                       }
-                      else {
-                        nav(routes.diamondValuationRequest)
-                      }
-                    }} leftIcon={<IoDiamond />} bg={bgColor} color={fontColor}>
-                      Create Request
-                    </Button>
-                  
+                    }}
+                    leftIcon={<IoDiamond />}
+                    colorScheme="blue"
+                  >
+                    Create Request
+                  </Button>
                 </Center>
               </SimpleGrid>
             </Flex>

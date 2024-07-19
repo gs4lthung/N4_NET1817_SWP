@@ -28,19 +28,19 @@ const images = [
 
 const InfiniteMovingFeaturedCards = () => {
   const [valuationResult, setValuationResult] = useState([]);
-  const fetchValuationResult = async () => {
+  const fetchValuatedValuationResult = async () => {
     axios
       .get(
         `${
           import.meta.env.VITE_REACT_APP_BASE_URL
-        }/api/valuation-result/get/all?page=${1}`
+        }/api/valuation-result/get/all/valuated?page=${1}`
       )
       .then((response) => {
         setValuationResult(response.data.content);
       });
   };
   useEffect(() => {
-    fetchValuationResult();
+    fetchValuatedValuationResult();
     console.log(valuationResult);
   }, []);
   return (

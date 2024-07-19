@@ -11,7 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VNpayBillPojo {
-    private String Customername;
+    private int id;
+    private String customerName;
     private Date date;
     private String bank;
     private int amount;

@@ -1,7 +1,6 @@
 package com.diamond_shop.diamond_shop.repository;
 
 import com.diamond_shop.diamond_shop.entity.ValuationRequestEntity;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +11,21 @@ import java.util.Optional;
 @Repository
 public interface ValuationRequestRepository extends JpaRepository<ValuationRequestEntity, Integer> {
 
+    @Query("SELECT v FROM ValuationRequestEntity v WHERE v.id=:id")
+    Optional<ValuationRequestEntity> getById(@Param("id") int id);
+
+    @Query("SELECT " +
+            "NEW com.diamond_shop.diamond_shop.pojo.ValuationRequestPojo(" +
+            "v.id," +
+            "v.serviceId.name, " +
+            "v.serviceId.price," +
+            "v.serviceId.statistic_id.name," +
+            "v.createdDate," +
+            "v.finishDate," +
+            "v.sealingDate) " +
+            "FROM ValuationRequestEntity as v " +
+            "WHERE v.id=:id")
+    Optional<ValuationRequestEntity> findById(@Param("id") int id);
 
     @Query("SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ValuationRequestPojo(" +

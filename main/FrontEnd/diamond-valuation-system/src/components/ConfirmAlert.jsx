@@ -17,6 +17,7 @@ export default function ConfirmAlert({
   body,
   action,
   colorScheme,
+  isDelete,
   onClickFunc,
 }) {
   return (
@@ -33,7 +34,13 @@ export default function ConfirmAlert({
           </AlertDialogHeader>
           <AlertDialogBody>{body}</AlertDialogBody>
           <AlertDialogFooter>
-            <Button colorScheme={colorScheme} onClick={onClickFunc} mr={3}>
+            <Button
+              isLoading={isDelete}
+              isDisabled={isDelete}
+              colorScheme={colorScheme}
+              onClick={onClickFunc}
+              mr={3}
+            >
               {action}
             </Button>
             <Button ref={cancelRef} onClick={onClose}>

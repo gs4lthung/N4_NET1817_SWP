@@ -1,19 +1,14 @@
 package com.diamond_shop.diamond_shop.entity;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Entity
 @AllArgsConstructor
@@ -39,9 +34,13 @@ public class ProcessResultEntity {
     @Column(name = "status")
     private String status;
 
-    public ProcessResultEntity(AccountEntity valuationStaffId, ValuationResultEntity valuationResultId, String status) {
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    public ProcessResultEntity(AccountEntity valuationStaffId, ValuationResultEntity valuationResultId, String status, Date createdDate) {
         this.valuationStaffId = valuationStaffId;
         this.valuationResultId = valuationResultId;
         this.status = status;
+        this.createdDate = createdDate;
     }
 }

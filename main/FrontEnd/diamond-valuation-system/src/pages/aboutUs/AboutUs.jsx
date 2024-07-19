@@ -6,19 +6,55 @@ import {
   Center,
   Button,
   useToast,
+  useColorModeValue,
+  Avatar,
+  Image,
 } from "@chakra-ui/react";
 import React from "react";
 
 export default function AboutUs() {
   const toast = useToast();
+  const bgColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("black.500", "yellow.500");
   return (
-    <Center h={"80vh"}>
-      <Box w={"80vw"}>
-        <Box textAlign={"center"} p={15}>
-          <Heading>About Diamond Valuation</Heading>
-        </Box>
-        <Flex w={"100%"} fontSize={20}>
-          <Box w={"50%"} m={"30px 10px"}>
+
+      <Box bgColor={bgColor}>
+        <Flex
+          position="relative"
+          textAlign="center"
+          p={0}
+          h={"35vh"}
+          justifyContent="center"
+        >
+          <Image
+            src="/images/banner/Banner4.png"
+            alt="Banner"
+            w={"90%"}
+            h={"35vh"}
+          />
+          <Text
+            position="absolute"
+            top="35%"
+            left="50%"
+            transform="translate(-50%, -50%)"
+            color={fontColor}
+            fontSize="60px"
+            fontWeight="bold"
+            zIndex="1"
+          >
+            About Diamond Valuation
+          </Text>
+          <Avatar
+            size="4xl"
+            top="70%"
+            src="/images/Avatar.png"
+            position="absolute"
+            left="15%"
+            zIndex="1"
+          />
+        </Flex>
+        <Center w={"100%"}>
+          <Box w={"70%"} m={"40px 10px"} fontSize={"2xl"}>
             <Text>
               DiamondVal began as a personal quest to find the right diamond at
               a fair price. Nowadays we're helping our users discover their
@@ -36,13 +72,20 @@ export default function AboutUs() {
               with yours.
             </Text>
             <br />
+            <Text>
+              DiamondVal is dedicated to providing the best and easiest services
+              to value your perfect diamond. If there is anything we can do to
+              improve your online diamond valuation experience, please let us
+              know.
+            </Text>
+            <br/>
             <Button
               colorScheme="blue"
               onClick={() => {
                 toast({
                   title: "Hello my friend !!!",
                   description: "Thank you for visiting us.",
-                  position:"top",
+                  position: "top",
                   status: "success",
                   duration: 3000,
                   isClosable: true,
@@ -52,16 +95,8 @@ export default function AboutUs() {
               SAY HI !
             </Button>
           </Box>
-          <Box w={"50%"} m={"30px 10px"}>
-            <Text>
-              DiamondVal is dedicated to providing the best and easiest services
-              to value your perfect diamond. If there is anything we can do to
-              improve your online diamond valuation experience, please let us
-              know.
-            </Text>
-          </Box>
-        </Flex>
+        </Center>
       </Box>
-    </Center>
+
   );
 }

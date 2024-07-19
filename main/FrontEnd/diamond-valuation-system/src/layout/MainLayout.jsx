@@ -55,7 +55,8 @@ export default function MainLayout({ children }) {
                 position={"fixed"}
                 left={"20px"}
                 bottom={"60px"}
-                colorScheme="blue"
+                bg={bgColor}
+                color={fontColor}
             >
                 <FaPlus style={{ marginRight: "10px" }} /> Create Request
             </Button>

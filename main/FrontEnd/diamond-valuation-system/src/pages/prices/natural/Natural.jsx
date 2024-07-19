@@ -139,6 +139,7 @@ export default function Natural() {
                       bg: bgColor1,
                       borderRadius: "md",
                     }}
+                    _hover={{ bg: bgColor1, borderRadius: "md" }}
                   >
                     <Flex
                       color="gray"
@@ -170,7 +171,9 @@ export default function Natural() {
                 templateColumns={{
                   base: "repeat(1, 1fr)",
                   md: "repeat(2, 1fr)",
-                  lg: "repeat(4, 1fr)",
+                  lg: "repeat(2, 1fr)",
+                  xl: "repeat(2, 1fr)",
+                  '2xl': "repeat(4, 1fr)",
                 }}
                 gap={4}
                 mx={5}
@@ -190,6 +193,7 @@ export default function Natural() {
                   : price.slice(0, 4).map((priceItem, index) => (
                       <GridItem key={index} w="100%" bg="#fff">
                         <Box
+                          width={"100%"}
                           padding={5}
                           border={"1px solid"}
                           borderColor={"gray.100"}
@@ -202,7 +206,8 @@ export default function Natural() {
                               </Text>
                               <Text
                                 ml={3}
-                                fontSize={"12px"}
+                                mt={2}
+                                fontSize={"20px"}
                                 color={
                                   parseFloat(priceItem.priceChange) < 0
                                     ? "red"
@@ -221,7 +226,7 @@ export default function Natural() {
                           </Flex>
                           <Flex>
                             <LazyLoadImage
-                              width={300}
+                              width={"100%"}
                               src={priceItem.imageUrl}
                               alt="Price Image"
                               effect="blur"
@@ -327,7 +332,7 @@ export default function Natural() {
                             <Td>{priceItem.priceIndex}</Td>
                             <Td>
                               <LazyLoadImage
-                                width={100}
+                                width={"100%"}
                                 src={priceItem.chart}
                                 alt="Price Image"
                                 effect="blur"

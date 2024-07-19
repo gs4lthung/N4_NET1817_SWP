@@ -28,6 +28,11 @@ public class ValuationResultController {
         return valuationResultService.totalValuationResults();
     }
 
+    @GetMapping("/total/not-done")
+    public int totalNotDoneValuationResult() {
+        return valuationResultService.totalNotDoneValuationResults();
+    }
+
     @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
     public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
         return valuationResultService.valuateDiamond(id, valuationResultDTO);
@@ -36,6 +41,11 @@ public class ValuationResultController {
     @GetMapping(path = "/get/all")
     public Page<ValuationResultEntity> getAllValuationResults(@RequestParam("page") int page) {
         return valuationResultService.getAllValuationResults(page);
+    }
+
+    @GetMapping(path = "/get/all/valuated")
+    public Page<ValuationResultEntity> getAllValuatedValuationResults(@RequestParam("page") int page) {
+        return valuationResultService.getAllValuatedValuationResults(page);
     }
 
     @GetMapping(path = "/get")

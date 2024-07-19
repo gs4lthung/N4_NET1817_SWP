@@ -53,6 +53,11 @@ public class ValuationRequestImpl implements ValuationRequestService {
     }
 
     @Override
+    public Optional<ValuationRequestEntity> getValuationRequest(int id) {
+        return valuationRequestRepository.findById(id);
+    }
+
+    @Override
     public Optional<ValuationRequestEntity> getValuationRequestByPendingRequestId(int pendingId) {
         return valuationRequestRepository.findByPendingRequestId(pendingId);
     }
@@ -89,7 +94,6 @@ public class ValuationRequestImpl implements ValuationRequestService {
             if (processRequest.isEmpty())
                 return "Process request not found";
             if (!processRequest.get().getStatus().equals("Sealed")
-                    && !processRequest.get().getStatus().equals("Finished")
                     && !processRequest.get().getStatus().equals("Done")) {
                 processRequest.get().setStatus("Sealed");
                 processRequestRepository.save(processRequest.get());

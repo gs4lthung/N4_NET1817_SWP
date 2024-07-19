@@ -36,7 +36,7 @@ const Logout = lazy(() => import("../pages/logout/Logout.jsx"));
 const Prices = lazy(() => import("../pages/prices/Prices.jsx"));
 const Error = lazy(() => import("../pages/error/Error.jsx"));
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
-import DashBoard from "../pages/dashboard/DashBoard.jsx";
+const DashBoard = lazy(() => import("../pages/dashboard/DashBoard.jsx"));
 import DashBoardNotification from "../pages/dashboard/DashBoardNotification.jsx";
 import DashBoardAppoint from "../pages/dashboard/DashBoardAppoint.jsx";
 import Login from "../pages/login/Login.jsx";
@@ -44,12 +44,14 @@ const AboutUs = lazy(() => import("../pages/aboutUs/AboutUs.jsx"));
 const DashBoardSetting = lazy(() =>
   import("../pages/dashboard/DashBoardSetting.jsx")
 );
+import ReceiptTable from "../pages/dashboard/table/ReceiptTable.jsx";
 import DashBoardTransaction from "../pages/dashboard/DashBoardTransaction.jsx";
 import PendingRequestTable from "../pages/dashboard/table/PendingRequestTable.jsx";
 import ProcessRequestTable from "../pages/dashboard/table/ProcessRequestTable.jsx";
 import SealingLetterTable from "../pages/dashboard/table/SealingLetterTable.jsx";
 import CommitmentTable from "../pages/dashboard/table/CommitmentTable.jsx";
 import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaffDashBoard.jsx";
+import ValuatedDiamondTable from "../pages/dashboard/table/ValuatedDiamondTable.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
 const Activate = lazy(() => import("../pages/signUp/Activate.jsx"));
@@ -193,6 +195,11 @@ const ALlRoutes = [
     layout: DashBoardLayout,
   },
   {
+    path: routes.receipt,
+    component: ReceiptTable,
+    layout: DashBoardLayout,
+  },
+  {
     path: routes.pendingRequest,
     component: PendingRequestTable,
     layout: DashBoardLayout,
@@ -215,6 +222,11 @@ const ALlRoutes = [
   {
     path: routes.valuationDiamond,
     component: ValuationStaffDashboard,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.valuatedDiamond,
+    component: ValuatedDiamondTable,
     layout: DashBoardLayout,
   },
   {

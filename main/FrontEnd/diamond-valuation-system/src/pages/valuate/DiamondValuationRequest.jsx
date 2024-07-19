@@ -8,11 +8,13 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import UploadImage from "../../components/UploadImage";
+import { useNavigate } from "react-router-dom"; 
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
   const isUsers =
@@ -21,6 +23,7 @@ export default function DiamondValuationRequest() {
     user.userAuth.authorities.length > 0;
   const bgColor = useColorModeValue("white", "black");
   const toast = useToast();
+  const navigate = useNavigate();
   const createPendingRequest = async (customerId, description, token) => {
     await axios
       .post(
@@ -38,12 +41,13 @@ export default function DiamondValuationRequest() {
       .then(function (response) {
         if (response.status === 200) {
           toast({
-            title: response.data,
+            title: response.data.message,
             status: "success",
             position: "top-right",
             duration: 3000,
             isClosable: true,
           });
+          navigate('/');
         }
       });
   };
@@ -57,8 +61,8 @@ export default function DiamondValuationRequest() {
       .then(function (response) {
         if (response.data.includes("already")) {
           toast({
-            title: response.data,      position: "top-right",
-
+            title: response.data,
+            position: "top-right",
             status: "warning",
             duration: 3000,
             isClosable: true,
@@ -124,12 +128,7 @@ export default function DiamondValuationRequest() {
               }
             }}
           >
-            {({
-              values,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-            }) => (
+            {({ values, handleChange, handleSubmit, isSubmitting }) => (
               <Form onSubmit={handleSubmit}>
                 <Flex direction={"column"} align={"center"} gap={10}>
                   <FormControl>
