@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { activateAccount } from "../../service/ActivateAccount";
+import { Link } from "react-router-dom";
 export default function Activate() {
     let param = useParams();
     let toast = useToast();

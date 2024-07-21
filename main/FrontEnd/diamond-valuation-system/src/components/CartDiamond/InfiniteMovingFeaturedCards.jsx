@@ -50,10 +50,14 @@ const InfiniteMovingFeaturedCards = () => {
         animation="marquee 20s linear infinite"
         display="inline-flex"
       >
-        {images.map((image, index) => (
-          <Skeleton key={index} isLoaded={valuationResult.length > 0} noOfLines={3}>
+        {images?.map((image, index) => (
+          <Skeleton
+            key={index}
+            isLoaded={valuationResult?.length > 0}
+            noOfLines={3}
+          >
             <Link
-              to={routes.diamondCheck + "/" + valuationResult[index]?.id}
+              to={routes?.diamondCheck + "/" + valuationResult[index]?.id}
               reloadDocument
               key={index}
             >
@@ -66,16 +70,20 @@ const InfiniteMovingFeaturedCards = () => {
             </Link>
           </Skeleton>
         ))}
-        {images.map((image, index) => (
-          <Skeleton key={index} isLoaded={valuationResult.length > 0} noOfLines={3}>
+        {images?.map((image, index) => (
+          <Skeleton
+            key={index}
+            isLoaded={valuationResult?.length > 0}
+            noOfLines={3}
+          >
             <Link
               to={routes.diamondCheck + "/" + valuationResult[index]?.id}
               reloadDocument
               key={index}
             >
               <FeaturedCard
-                key={index + images.length}
-                imageSrc={image.src}
+                key={index + images?.length}
+                imageSrc={image?.src}
                 title1={`${valuationResult[index]?.shape} · ${valuationResult[index]?.carat} Carat · ${valuationResult[index]?.color} Color`}
                 title2={`${valuationResult[index]?.origin} · ${valuationResult[index]?.clarity} Clarity · ${valuationResult[index]?.cut}`}
                 title3={`ID ${valuationResult[index]?.id}`}

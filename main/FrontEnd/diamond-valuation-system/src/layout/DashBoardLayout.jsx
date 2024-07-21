@@ -1,6 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import SideBar from "./sidebar/SideBar";
-import { Box, Container, Flex, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Flex,
+  useBreakpointValue,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import Logout from "../pages/logout/Logout";
 import { useNavigate } from "react-router-dom";
 
@@ -12,15 +18,35 @@ export default function DashBoardLayout({ children }) {
       navigate("/");
     }
   });
+  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <>
-      <Flex width={"100vw"} minHeight={"100vh"} bg={bgColor}>
+      {/* <Flex width={"100vw"} minHeight={"100vh"} bg={bgColor}>
         <Box w="256px">
           <SideBar />
         </Box>
         <Box flex="1" bg={bgColor} px={5} pt={"120px"}>
           {children}
         </Box>
+      </Flex> */}
+      <Flex width={"100vw"} minHeight={"100vh"} bg={bgColor}>
+        {isMobile ? (
+          <>
+              <SideBar/>  
+            <Box flex="1" pt={"20px"} mr={"60px"}>
+              {children}
+            </Box>
+          </>
+        ) : (
+          <>
+            <Box w="256px">
+              <SideBar />
+            </Box>
+            <Box flex="1" bg={bgColor} px={5} pt={"120px"}>
+              {children}
+            </Box>
+          </>
+        )}
       </Flex>
     </>
   );

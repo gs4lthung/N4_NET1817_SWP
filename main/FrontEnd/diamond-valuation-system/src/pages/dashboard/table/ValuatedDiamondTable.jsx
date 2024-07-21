@@ -24,7 +24,7 @@ import ValuationResultModal from "../modal/ValuationResultModal";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
-
+import { PiFileTextBold } from "react-icons/pi";
 export default function ValuatedDiamondTable() {
   const user = useContext(UserContext);
   const isUsers =
@@ -63,31 +63,33 @@ export default function ValuatedDiamondTable() {
           <Center>No valuation result to show</Center>
         ) : (
           <Skeleton isLoaded={valuationResults.length > 0} height={"200px"}>
-            <TableContainer shadow={"md"} borderRadius={"md"}>
-              <Table>
-                <Thead
-                  bg="gray.600"
-                  color="white"
-                  mb={5}
-                  boxShadow="sm"
-                  borderRadius="md"
-                  maxW="100%"
-                  minW="100%"
-                >
+            <TableContainer
+              whiteSpace={"wrap"}
+              mb={5}
+              p={8}
+              border={"2px solid"}
+              borderColor={"gray.100"}
+              boxShadow="sm"
+              borderRadius="24px"
+              maxW="100%"
+              minW="100%"
+            >
+              <Table variant={"unstyled"}>
+                <Thead>
                   <Tr>
-                    <Th color="white">No</Th>
-                    <Th color="white">ID</Th>
-                    <Th color="white">Price</Th>
-                    <Th color="white">Origin</Th>
-                    <Th color="white">Shape</Th>
-                    <Th color="white">Carat</Th>
-                    <Th color="white">Color</Th>
-                    <Th color="white">Cut</Th>
-                    <Th color="white">Clarity</Th>
-                    <Th color="white">View</Th>
+                    <Th>No</Th>
+                    <Th>ID</Th>
+                    <Th>Price</Th>
+                    <Th>Origin</Th>
+                    <Th>Shape</Th>
+                    <Th>Carat</Th>
+                    <Th>Color</Th>
+                    <Th>Cut</Th>
+                    <Th>Clarity</Th>
+                    <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody variant="simple" bg="gray.200" color="black">
+                <Tbody>
                   {valuationResults.map((valuationResult, index) => (
                     <Tr key={index} _hover={{ bg: "gray.100" }}>
                       <Td>{index + 1}</Td>
@@ -119,7 +121,7 @@ export default function ValuatedDiamondTable() {
                       <Td>{valuationResult.clarity || "N/A"}</Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<PiFileTextBold />}
                           bg={"transparent"}
                           color={"black"}
                           onClick={() => {
@@ -133,15 +135,15 @@ export default function ValuatedDiamondTable() {
                 </Tbody>
               </Table>
             </TableContainer>
+            <Center m={"50px 0 0 0"}>
+              <PageIndicator
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Center>
           </Skeleton>
         )}
-        <Center m={"50px 0 0 0"}>
-          <PageIndicator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </Center>
       </Flex>
       <ValuationResultModal
         selectedValuationResult={selectedValuationResult}

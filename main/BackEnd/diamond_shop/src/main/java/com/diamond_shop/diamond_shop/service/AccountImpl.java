@@ -214,6 +214,7 @@ public class AccountImpl implements AccountService {
 
     @Override
     public ResponseEntity<?> loginAccount(LoginDTO loginDTO) {
+        try {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDTO.getUsername(),
@@ -234,6 +235,9 @@ public class AccountImpl implements AccountService {
                         userDetails.getAuthorities()
                 )
         );
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+    }
     }
 
     @Override

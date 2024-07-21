@@ -1,10 +1,15 @@
 import { Container, Image, Link, Tooltip } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import React from "react";
 export default function ZaloChat({ phone, type }) {
   const customerZalo = `https://zalo.me/${phone}`;
   return (
     <Link href={customerZalo} isExternal>
-      <Container className="zalo-container">
+      <Container
+        as={motion.div}
+        whileHover={{ scale: 1.2 }}
+        transition="0.1s linear"
+      >
         <Tooltip
           hasArrow
           label={`Contact with ${type} via Zalo`}

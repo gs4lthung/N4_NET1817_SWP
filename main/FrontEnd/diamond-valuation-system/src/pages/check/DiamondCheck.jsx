@@ -20,7 +20,7 @@ export default function DiamondCheck() {
   const fontColor = useColorModeValue("blue.400", "#DBA843");
   return (
     <Box bg={bgColor}>
-      <Container maxW="100vw" h={"90vh"}>
+      <Container maxW="100vw" h={"100vh"}>
         <Flex
           direction={{ base: "column", md: "row", lg: "row" }}
           alignItems="center"
@@ -69,6 +69,7 @@ export default function DiamondCheck() {
                     <FormControl isRequired>
                       <Input
                         name="id"
+                        type="number"
                         onChange={handleChange}
                         value={values.id}
                         placeholder="Enter Valuate ID"

@@ -90,7 +90,7 @@ export default function Home() {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+            setCurrentImage((prevImage) => (prevImage + 1) % images?.length);
         }, 5000);
 
         return () => clearInterval(intervalId);
@@ -226,7 +226,7 @@ export default function Home() {
                     borderColor={"gray.700"}
                     mt={3}
                 >
-                    {stats.map((stat, index) => (
+                    {stats?.map((stat, index) => (
                         <Box key={index} p={4} textAlign="center">
                             <Text
                                 fontSize="2xl"
@@ -291,7 +291,7 @@ export default function Home() {
                         wrap="wrap"
                         mt={5}
                     >
-                        {testimonials.map((testimonial, index) => (
+                        {testimonials?.map((testimonial, index) => (
                             <Box
                                 key={index}
                                 p={5}
@@ -305,7 +305,7 @@ export default function Home() {
                                 position={"relative"}
                             >
                                 <Flex justifyContent="center" mb={5}>
-                                    {[...Array(5)].map((_, i) => (
+                                    {[...Array(5)]?.map((_, i) => (
                                         <StarIcon key={i} color="teal.500" />
                                     ))}
                                 </Flex>

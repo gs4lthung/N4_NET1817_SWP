@@ -34,7 +34,7 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "p.pendingRequestId.customerId.email," +
             "p.pendingRequestId.customerId.phone_number) " +
             "FROM ProcessRequestEntity as p " +
-            "Where p.staffId.is_active=true AND p.id=:id")
+            "WHERE p.staffId.is_active=true AND p.id=:id")
     Optional<ProcessRequestEntity> findProcessRequestById(@Param("id") int id);
 
     @Query(value = "SELECT " +
@@ -54,7 +54,7 @@ public interface ProcessRequestRepository extends JpaRepository<ProcessRequestEn
             "p.pendingRequestId.customerId.phone_number) " +
             "FROM ProcessRequestEntity as p " +
             "Where p.staffId.is_active=true")
-    Page<ProcessRequestEntity> findAllProcessResults(Pageable pageable);
+    Page<ProcessRequestEntity> findAllProcessRequests(Pageable pageable);
 
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessRequestPojo(" +

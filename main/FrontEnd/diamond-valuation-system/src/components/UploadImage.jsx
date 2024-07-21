@@ -11,6 +11,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { UserContext } from "./GlobalContext/AuthContext";
+import { LuUpload } from "react-icons/lu";
 
 export default function UploadImage({ diamondId, type }) {
   const user = useContext(UserContext);
@@ -125,13 +126,16 @@ export default function UploadImage({ diamondId, type }) {
         <FormLabel
           display={"inline-block"}
           cursor={"pointer"}
-          bgColor={"gray.400"}
+          bgColor={"gray.200"}
           borderRadius={"10px"}
-          _hover={{ bgColor: "gray.500" }}
+          _hover={{ bgColor: "gray.300" }}
           m={"10px"}
           p={3}
         >
-          Upload your diamond images
+          <Flex direction={"row"} alignItems={"center"} gap={2}>
+            <LuUpload />
+            Upload diamond images
+          </Flex>
         </FormLabel>
         <Input
           type="file"

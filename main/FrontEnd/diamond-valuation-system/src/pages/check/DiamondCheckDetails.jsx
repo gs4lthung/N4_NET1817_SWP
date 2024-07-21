@@ -17,11 +17,12 @@ import React, { useEffect, useState } from "react";
 import { Cloudinary } from "@cloudinary/url-gen/index";
 import { AdvancedImage, lazyload, placeholder } from "@cloudinary/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import routes from "../../config/Config";
 import { format, parseISO } from "date-fns";
+import { pixelate, vignette } from "@cloudinary/url-gen/actions/effect";
 export default function DiamondCheckDetails() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -32,7 +33,6 @@ export default function DiamondCheckDetails() {
     },
   });
   const bgColor = useColorModeValue("white", "black");
-  const fontColor = useColorModeValue("black", "white");
   const bgColor1 = useColorModeValue("blue.400", "#DBA843");
   const [diamond, setDiamond] = useState({});
   const [diamondImages, setDiamondImages] = useState([]);
@@ -123,7 +123,8 @@ export default function DiamondCheckDetails() {
               key={index}
               cldImg={cld
                 .image(image)
-                .resize(thumbnail().width(200).height(200))}
+                .resize(thumbnail().width(200).height(200))
+              }
               plugins={[lazyload(), placeholder({ mode: "blur" })]}
             />
           );

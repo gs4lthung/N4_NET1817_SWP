@@ -266,7 +266,13 @@ export const fetchValuationResult = async (
       });
     });
 };
-export const createSealingLetter = async (valuationRequestId, token, toast) => {
+export const createSealingLetter = async (
+  valuationRequestId,
+  setIsCreated,
+  token,
+  toast
+) => {
+  setIsCreated(true);
   axios
     .post(
       `${
@@ -280,6 +286,7 @@ export const createSealingLetter = async (valuationRequestId, token, toast) => {
       }
     )
     .then(function (response) {
+      setIsCreated(false);
       console.log(response.data);
       if (response.status === 200) {
         if (response.data.includes("successful")) {
@@ -306,6 +313,7 @@ export const createSealingLetter = async (valuationRequestId, token, toast) => {
       }
     })
     .catch((error) => {
+      setIsCreated(false);
       toast({
         title: "Failed",
         description: error.response.data,
@@ -316,7 +324,12 @@ export const createSealingLetter = async (valuationRequestId, token, toast) => {
       });
     });
 };
-export const createReceipt = async (valuationRequestId, token, toast) => {
+export const createReceipt = async (
+  valuationRequestId,
+  token,
+  toast
+) => {
+  setIsCreated(true);
   await axios
     .post(
       `${
@@ -395,7 +408,8 @@ export const fetchValuationReceipt = async (
       });
     });
 };
-export const createCommitment = async (valuationRequestId, token, toast) => {
+export const createCommitment = async (valuationRequestId,setIsCreated, token, toast) => {
+  setIsCreated(true);
   await axios
     .post(
       `${
@@ -409,6 +423,7 @@ export const createCommitment = async (valuationRequestId, token, toast) => {
       }
     )
     .then(function (response) {
+      setIsCreated(false);
       console.log(response.data);
       if (response.status === 200) {
         if (response.data.includes("successful")) {
@@ -434,6 +449,7 @@ export const createCommitment = async (valuationRequestId, token, toast) => {
       }
     })
     .catch((error) => {
+      setIsCreated(false);
       toast({
         title: "Failed",
         description: error.response.data,

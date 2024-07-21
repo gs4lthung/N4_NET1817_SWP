@@ -11,6 +11,7 @@ import {
   Center,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import React from "react";
 import { GrUpdate } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
@@ -31,12 +32,17 @@ export default function AdminTable({
       <TableContainer
         display={{ base: "block", md: "none", lg: "none" }}
         whiteSpace={"wrap"}
-        h={"100vh"}
-        shadow="md"
-        borderRadius="md"
+        mb={5}
+        p={8}
+        border={"2px solid"}
+        borderColor={"gray.100"}
+        boxShadow="sm"
+        borderRadius="24px"
+        maxW="100%"
+        minW="100%"
       >
-        <Table size={"md"} colorScheme="blue">
-          <Thead bgColor={"blue.500"}>
+        <Table variant={"unstyled"}>
+          <Thead>
             <Tr>
               <Th>No</Th>
               <Th>Role</Th>
@@ -46,7 +52,7 @@ export default function AdminTable({
           </Thead>
           <Tbody>
             {accounts.map((account, index) => (
-              <Tr key={index} _hover={{ bg: bgHoverColor }}>
+              <Tr key={index} _hover={{ bg: "gray.100" }}>
                 <Td>{index + 1}</Td>
                 <Td>{account?.roleName}</Td>
                 <Td>{account?.fullName}</Td>
@@ -71,11 +77,17 @@ export default function AdminTable({
       <TableContainer
         display={{ base: "none", md: "block", lg: "block" }}
         whiteSpace={"wrap"}
-        shadow="md"
-        borderRadius="md"
+        mb={5}
+        p={8}
+        border={"2px solid"}
+        borderColor={"gray.100"}
+        boxShadow="sm"
+        borderRadius="24px"
+        maxW="100%"
+        minW="100%"
       >
-        <Table size={"md"} colorScheme="blue">
-          <Thead bgColor={"blue.500"}>
+        <Table variant={"unstyled"}>
+          <Thead>
             <Tr>
               <Th>No</Th>
               <Th>Role</Th>
@@ -91,7 +103,13 @@ export default function AdminTable({
           </Thead>
           <Tbody>
             {accounts.map((account, index) => (
-              <Tr key={index} _hover={{ bg: bgHoverColor }}>
+              <Tr
+                key={index}
+                as={motion.tr}
+                whileHover={{ scale: 1.02 }}
+                transition="0.1s linear"
+                _hover={{ bg: bgHoverColor }}
+              >
                 <Td>{index + 1}</Td>
                 <Td>{account?.roleName}</Td>
                 <Td>{account?.username}</Td>

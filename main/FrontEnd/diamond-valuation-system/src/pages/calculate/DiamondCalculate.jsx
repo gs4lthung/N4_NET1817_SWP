@@ -387,7 +387,8 @@ export default function Calculate() {
                       }
                     }}
                     leftIcon={<IoDiamond />}
-                    colorScheme="blue"
+                    bg={bgColor}
+                    color={fontColor}
                   >
                     Create Request
                   </Button>

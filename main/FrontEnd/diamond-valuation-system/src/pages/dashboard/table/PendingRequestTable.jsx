@@ -25,7 +25,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
@@ -43,7 +43,12 @@ import { deleteCloudinaryImage } from "../../../service/CloudinaryService";
 import { format, parseISO } from "date-fns";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import ZaloChat from "../../../components/zalo/ZaloChat";
+import { useNavigate } from "react-router-dom";
+import routes from "../../../config/Config";
+import ConfirmAlert from "../../../components/ConfirmAlert";
+import { motion } from "framer-motion";
 export default function PendingRequestTable() {
+  const navigate = useNavigate();
   const toast = useToast();
   const user = useContext(UserContext);
   const isUsers =
@@ -58,6 +63,10 @@ export default function PendingRequestTable() {
   const [isCanceled, setIsCanceled] = useState(false);
   const [pendingRequest, setPendingRequest] = useState([]);
   const [selectedPendingRequest, setSelectedPendingRequest] = useState(null);
+  const cancelRef = useRef();
+  const viewConfirmReceiveRequest = useDisclosure();
+  const viewConfirmCancelRequest = useDisclosure();
+  const viewConfirmDeleteImage = useDisclosure();
   const fetchPendingRequest = (page, id) => {
     if (isUsers) {
       let url = "";
@@ -89,6 +98,7 @@ export default function PendingRequestTable() {
     },
   });
   const [diamondImages, setDiamondImages] = useState([]);
+  const [selectedImage, setSelectedImages] = useState(null);
   useEffect(() => {
     fetchPendingRequest(currentPage, user.userAuth.id);
   }, [currentPage]);
@@ -104,29 +114,38 @@ export default function PendingRequestTable() {
           <Center>No appointment to show</Center>
         ) : (
           <Skeleton isLoaded={pendingRequest.length > 0} height={"200px"}>
-            <TableContainer shadow="md" borderRadius="md">
-              <Table>
-                <Thead
-                  bg="gray.600"
-                  mb={5}
-                  boxShadow="sm"
-                  borderRadius="md"
-                  maxW="100%"
-                  minW="100%"
-                >
+            <TableContainer
+              whiteSpace={"wrap"}
+              mb={5}
+              p={8}
+              border={"2px solid"}
+              borderColor={"gray.100"}
+              boxShadow="sm"
+              borderRadius="24px"
+              maxW="100%"
+              minW="100%"
+            >
+              <Table variant={"unstyled"}>
+                <Thead>
                   <Tr>
-                    <Th color="white">No</Th>
-                    <Th color="white">Customer</Th>
-                    <Th color="white">Email</Th>
-                    <Th color="white">Phone</Th>
-                    <Th color="white">Description</Th>
-                    <Th color="white">Created Date</Th>
-                    <Th color="white">View</Th>
+                    <Th>No</Th>
+                    <Th>Customer</Th>
+                    <Th>Email</Th>
+                    <Th>Phone</Th>
+                    <Th>Description</Th>
+                    <Th>Created Date</Th>
+                    <Th>View</Th>
                   </Tr>
                 </Thead>
-                <Tbody variant="simple" bg="gray.200" color="black">
+                <Tbody>
                   {pendingRequest.map((item, index) => (
-                    <Tr key={index}>
+                    <Tr
+                      key={index}
+                      as={motion.tr}
+                      whileHover={{ scale: 1.02 }}
+                      transition="0.1s linear"
+                      _hover={{ bg: "gray.100" }}
+                    >
                       <Td>{index + 1}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
@@ -224,23 +243,10 @@ export default function PendingRequestTable() {
                 <ModalFooter justifyContent={"space-around"}>
                   <Flex direction={"column"} gap={5} align={"center"}>
                     <Button
-                      isLoading={isCanceled}
-                      isDisabled={isCanceled}
                       w={"100px"}
                       colorScheme="red"
-                      onClick={async () => {
-                        await cancelPendingRequest(
-                          selectedPendingRequest?.id,
-                          "Pending request",
-                          user.userAuth.token,
-                          setIsCanceled,
-                          toast
-                        ).then(() => {
-                          setTimeout(() => {
-                            fetchPendingRequest(currentPage, user.userAuth.id);
-                            viewPendingRequest.onClose();
-                          }, 1000);
-                        });
+                      onClick={() => {
+                        viewConfirmCancelRequest.onOpen();
                       }}
                     >
                       Cancel
@@ -286,23 +292,9 @@ export default function PendingRequestTable() {
 
                               <Button
                                 colorScheme="red"
-                                isDisabled={isDeleted}
-                                isLoading={isDeleted}
-                                onClick={async () => {
-                                  await deletePendingRequestImage(
-                                    image,
-                                    user.userAuth.token,
-                                    setIsDeleted,
-                                    toast
-                                  ).then(() => {
-                                    setTimeout(() => {
-                                      fetchPendingRequest(
-                                        currentPage,
-                                        user.userAuth.id
-                                      );
-                                      viewPendingRequest.onClose();
-                                    }, 1000);
-                                  });
+                                onClick={() => {
+                                  setSelectedImages(image);
+                                  viewConfirmDeleteImage.onOpen();
                                 }}
                               >
                                 Delete
@@ -334,25 +326,9 @@ export default function PendingRequestTable() {
                           hasArrow
                         >
                           <Button
-                            isLoading={isReceived}
-                            isDisabled={isReceived}
                             colorScheme="teal"
-                            onClick={async () => {
-                              await receivePendingRequest(
-                                user?.userAuth?.id,
-                                selectedPendingRequest?.id,
-                                user.userAuth.token,
-                                setIsReceived,
-                                toast
-                              ).then(() => {
-                                setTimeout(() => {
-                                  fetchPendingRequest(
-                                    currentPage,
-                                    user.userAuth.id
-                                  );
-                                  viewPendingRequest.onClose();
-                                }, 1000);
-                              });
+                            onClick={() => {
+                              viewConfirmReceiveRequest.onOpen();
                             }}
                           >
                             Receive
@@ -368,8 +344,6 @@ export default function PendingRequestTable() {
                           hasArrow
                         >
                           <Button
-                            isLoading={isCanceled}
-                            isDisabled={isCanceled}
                             colorScheme="red"
                             onClick={async () => {
                               await cancelPendingRequest(
@@ -440,6 +414,83 @@ export default function PendingRequestTable() {
           </Skeleton>
         </ModalContent>
       </Modal>
+      <ConfirmAlert
+        isOpen={viewConfirmReceiveRequest.isOpen}
+        onClose={viewConfirmReceiveRequest.onClose}
+        cancelRef={cancelRef}
+        header={"Confirm"}
+        body={"Are you sure that want to receive this valuation request ?"}
+        action={"Receive"}
+        colorScheme={"teal"}
+        isDelete={isReceived}
+        onClickFunc={async () => {
+          await receivePendingRequest(
+            user?.userAuth?.id,
+            selectedPendingRequest?.id,
+            user.userAuth.token,
+            setIsReceived,
+            toast
+          ).then(() => {
+            setTimeout(() => {
+              fetchPendingRequest(currentPage, user.userAuth.id);
+              viewConfirmReceiveRequest.onClose();
+              viewPendingRequest.onClose();
+            }, 1000);
+            setTimeout(() => {
+              navigate(routes.processRequest);
+            }, 1500);
+          });
+        }}
+      />
+      <ConfirmAlert
+        isOpen={viewConfirmCancelRequest.isOpen}
+        onClose={viewConfirmCancelRequest.onClose}
+        cancelRef={cancelRef}
+        header={"Confirm"}
+        body={"Are you sure that want to cancel this valuation request ?"}
+        action={"Cancel"}
+        colorScheme={"red"}
+        isDelete={isCanceled}
+        onClickFunc={async () => {
+          await cancelPendingRequest(
+            selectedPendingRequest?.id,
+            "Pending request",
+            user.userAuth.token,
+            setIsCanceled,
+            toast
+          ).then(() => {
+            setTimeout(() => {
+              fetchPendingRequest(currentPage, user.userAuth.id);
+              viewConfirmCancelRequest.onClose();
+              viewPendingRequest.onClose();
+            }, 1000);
+          });
+        }}
+      />
+      <ConfirmAlert
+        isOpen={viewConfirmDeleteImage.isOpen}
+        onClose={viewConfirmDeleteImage.onClose}
+        cancelRef={cancelRef}
+        header={"Confirm"}
+        body={"Are you sure that want to delete this image ?"}
+        action={"Delete"}
+        colorScheme={"red"}
+        isDelete={isDeleted}
+        onClickFunc={async () => {
+          await deletePendingRequestImage(
+            selectedImage,
+            user.userAuth.token,
+            setIsDeleted,
+            toast
+          ).then(() => {
+            setTimeout(() => {
+              fetchPendingRequest(currentPage, user.userAuth.id);
+              viewConfirmDeleteImage.onClose();
+              viewPendingRequest.onClose();
+            }, 1000);
+          });
+        }}
+      />
     </>
   );
 }

@@ -71,11 +71,11 @@ export default function Login({ signIn, signUp }) {
                     theme: "light",
                     transition: Bounce,
                 });
-                localStorage.setItem("user", JSON.stringify(result.data));
                 const driver =  JSON.parse(localStorage.getItem("driver"))
-                if (!driver) {
+                if ( driver!== null && driver === false) {
                     localStorage.setItem("driver", JSON.stringify(true));
                 }
+                localStorage.setItem("user", JSON.stringify(result.data));
             }
         } catch (error) {
             toast.error("An error occurred. Please try again later.", {
@@ -96,11 +96,11 @@ export default function Login({ signIn, signUp }) {
 
     const handleCredentialResponse = async (response) => {
         try {
-            var decoded = jwtDecode(response.credential);
+            const decoded = jwtDecode(response.credential);
             auth.loginUser(decoded);
             setIsLogin(true);
-            console.log("google: ", decoded);
             const res = await loginWithGoogle(decoded.email, decoded.name);
+            console.log(res);            
             if (res) {
                 toast.success("Login Successful", {
                     position: "top-right",
@@ -113,11 +113,15 @@ export default function Login({ signIn, signUp }) {
                     theme: "light",
                     transition: Bounce,
                 });
+                window.location.reload();
                 localStorage.setItem("user", JSON.stringify(res));
             } else {
                 localStorage.setItem("user", JSON.stringify(res));
             }
-            document.getElementById("buttonDiv").hidden = true;
+            const buttonDiv = document.getElementById("buttonDiv");
+            if (buttonDiv) {
+                buttonDiv.hidden = true;
+            }
         } catch (error) {
             console.error("Error handling Google login:", error);
         }
@@ -250,9 +254,9 @@ export default function Login({ signIn, signUp }) {
                                 w={"100%"}
                                 gap={5}
                             >
-                                {/* <Text>
+                                 <Text>
                                     <div id="buttonDiv"></div>
-                                </Text> */}
+                                </Text> 
                                 <Text fontSize={"sm"} display={"flex"} gap={2}>
                                     <div>Don't have an account? </div>
                                     <Link>

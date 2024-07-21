@@ -24,6 +24,7 @@ const routes = {
   dashboardSetting: "/dashboard/setting",
   dashboardTransaction: "/dashboard/transaction",
   manageAccount: "/dashboard/manage-account",
+  inactiveAccount: "/dashboard/inactive-account",
   receipt: "/dashboard/receipt",
   pendingRequest: "/dashboard/pending-request",
   processRequest: "/dashboard/process-request",

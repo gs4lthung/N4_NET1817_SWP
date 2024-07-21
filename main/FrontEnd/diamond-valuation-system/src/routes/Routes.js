@@ -54,6 +54,7 @@ import ValuationStaffDashboard from "../pages/dashboard/valuation/ValuationStaff
 import ValuatedDiamondTable from "../pages/dashboard/table/ValuatedDiamondTable.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import ServiceTable from "../pages/dashboard/table/ServiceTable.jsx";
+import AdminViewInactivePage from "../pages/admin/AdminViewInactivePage.jsx";
 const Activate = lazy(() => import("../pages/signUp/Activate.jsx"));
 const ResetForgetPassword = lazy(() =>
   import("../pages/login/ResetForgetPassword.jsx")
@@ -192,6 +193,11 @@ const ALlRoutes = [
   {
     path: routes.manageAccount,
     component: AdminPage,
+    layout: DashBoardLayout,
+  },
+  {
+    path: routes.inactiveAccount,
+    component: AdminViewInactivePage,
     layout: DashBoardLayout,
   },
   {

@@ -43,7 +43,7 @@ public class ProcessRequestImpl implements ProcessRequestService {
     public Page<ProcessRequestEntity> viewAllProcessRequests(int page) {
         int pageSize = 5;
         int pageNumber = --page;
-        return processRequestRepository.findAllProcessResults(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()));
+        return processRequestRepository.findAllProcessRequests(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()));
     }
 
     @Override
@@ -108,7 +108,18 @@ public class ProcessRequestImpl implements ProcessRequestService {
         }
 
         switch (updateProcessRequestDTO.getStatus()) {
-            case "Contacted", "Done", "Lost Receipt" -> {
+            case "Done", "Lost Receipt" -> {
+                processRequest.setStatus(updateProcessRequestDTO.getStatus());
+                processRequestRepository.save(processRequest);
+            }
+            case "Contacted" -> {
+                if (processRequest.getReceiveDate() == null) {
+                    diamondReceivedPojo.setProcessRequestId(id);
+                    diamondReceivedPojo.setValuationResultId(valuationResultId);
+                    diamondReceivedPojo.setProcessResultId(processResultId);
+                    diamondReceivedPojo.setMessage("Doest not set receive date");
+                    return diamondReceivedPojo;
+                }
                 processRequest.setStatus(updateProcessRequestDTO.getStatus());
                 processRequestRepository.save(processRequest);
             }

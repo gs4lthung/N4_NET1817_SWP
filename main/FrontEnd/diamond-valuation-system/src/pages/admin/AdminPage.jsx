@@ -17,6 +17,7 @@ import AdminUpdateUsers from "./AdminUpdateUsers";
 import AdminTable from "./AdminTable";
 import { fetchAccounts, deleteAccount } from "./AdminServices";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import PageIndicator from "../../components/PageIndicator";
 export default function AdminPage() {
   const bgColor = useColorModeValue("white", "black");
 
@@ -153,9 +154,11 @@ export default function AdminPage() {
             viewUser={viewUser}
             setCurrentAcc={setCurrentAcc}
           />
-          <Flex direction={"row"} gap={5}>
-            {pageIndicator}
-          </Flex>
+          <PageIndicator
+            totalPages={totalPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
         </Flex>
       </Container>
       <AdminViewUsers

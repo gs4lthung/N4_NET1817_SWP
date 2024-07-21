@@ -32,6 +32,39 @@ export const fetchAccounts = async (
   }
 };
 
+export const viewInactiveAccount = async (
+  search,
+  pageId,
+  filter,
+  setAccounts,
+  setTotalPage,
+  toast
+) => {
+  try {
+    await axios
+      .get(
+        `${
+          import.meta.env.VITE_REACT_APP_BASE_URL
+        }/admin/getDeletedAccounts?search=${search}&page=${pageId}&filter=${filter}`
+      )
+      .then(function (response) {
+        console.log(response.data.content);
+        setAccounts(response.data.content);
+        setTotalPage(response.data.totalPages);
+      });
+  } catch (err) {
+    console.log(err);
+    toast({
+      title: "User fetch failed.",
+      description: "Failed to fetch accounts.",
+      position: "top-right",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+};
+
 export const createAccount = async (
   roleid,
   username,

@@ -34,6 +34,8 @@ import {
   Skeleton,
   useToast,
   Tooltip,
+  Box,
+  TableCaption,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
@@ -48,6 +50,7 @@ import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
 import PageIndicator from "../../../components/PageIndicator";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 export default function ValuationStaffDashboard() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -292,36 +295,68 @@ export default function ValuationStaffDashboard() {
         <Skeleton isLoaded={processResult.length > 0} height={"200px"}>
           <TableContainer
             whiteSpace={"wrap"}
-            bg="gray.600"
             mb={5}
+            p={8}
+            border={"2px solid"}
+            borderColor={"gray.100"}
             boxShadow="sm"
-            borderRadius="md"
+            borderRadius="24px"
             maxW="100%"
             minW="100%"
           >
-            <Table>
+            <Table variant={"unstyled"}>
               <Thead>
                 <Tr>
-                  <Th color="white">No</Th>
-                  <Th color="white">ID</Th>
-                  <Th color="white">Created Date</Th>
-                  <Th color="white">Service</Th>
-                  <Th color="white">Status</Th>
-                  <Th color="white">View</Th>
+                  <Th isNumeric>No</Th>
+                  <Th isNumeric>ID</Th>
+                  <Th>Created Date</Th>
+                  <Th>Service</Th>
+                  <Th>Status</Th>
+                  <Th>View</Th>
                 </Tr>
               </Thead>
-              <Tbody variant="simple" bg="gray.200" color="black">
+              <Tbody>
                 {processResult.map((item, index) => (
-                  <Tr key={index}>
-                    <Td>{index + 1}</Td>
-                    <Td>{item?.valuationResultId}</Td>
+                  <Tr
+                    key={index}
+                    as={motion.tr}
+                    whileHover={{ scale: 1.02 }}
+                    transition="0.1s linear"
+                    _hover={{ bg: "gray.100" }}
+                  >
+                    <Td isNumeric>{index + 1}</Td>
+                    <Td isNumeric>{item?.valuationResultId}</Td>
                     <Td>
                       {item?.createdDate
                         ? format(item?.createdDate, "dd/MM/yyyy - HH:mm:ss")
                         : "N/A"}
                     </Td>
-                    <Td>{item?.serviceName}</Td>
-                    <Td>{item?.status}</Td>
+                    <Td>
+                      <Box
+                        bg={
+                          (item?.serviceName === "Normal" && "blue.200") ||
+                          (item?.serviceName === "Pro" && "red.200") ||
+                          (item?.serviceName === "Premium" && "yellow.200")
+                        }
+                        p={3}
+                        borderRadius={"20px"}
+                      >
+                        <Center>{item?.serviceName}</Center>
+                      </Box>
+                    </Td>
+                    <Td>
+                      <Box
+                        bg={
+                          (item?.status === "Valuated" && "#68D391") ||
+                          (item?.status === "Not resolved yet" &&
+                            "RGBA(0, 0, 0, 0.24)")
+                        }
+                        p={3}
+                        borderRadius={"20px"}
+                      >
+                        <Center>{item?.status}</Center>
+                      </Box>
+                    </Td>
                     <Td>
                       <IconButton
                         icon={<ViewIcon />}

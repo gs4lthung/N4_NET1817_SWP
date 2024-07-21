@@ -34,7 +34,15 @@ export default function SignUp({ signUp, signIn }) {
   const handleShowPassWord = () => setShow(!show);
   const nav = useNavigate();
   const handleShowConfirmPw = () => setConfirmShow(!confirmshow);
-  async function signUpApi(username, fullname, email, phonenumber, password) {
+  async function signUpApi(
+    username,
+    fullname,
+    email,
+    phonenumber,
+    password,
+    setSubmitting
+  ) {
+    setSubmitting(true);
     try {
       const res = await Http.httpRequest.post("api/account/save", {
         username,
@@ -106,10 +114,9 @@ export default function SignUp({ signUp, signIn }) {
                 values.fullName,
                 values.email,
                 values.phoneNumber,
-                values.password
+                values.password,
+                setSubmitting
               );
-              setSubmitting(false);
-              // signUp.onClose();
             }}
           >
             {({
