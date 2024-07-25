@@ -19,7 +19,6 @@ const routes = {
   aboutUs: "/aboutUs",
   FAQs: "/FAQs",
   dashboard: "/dashboard",
-  dasboardNotification: "/dashboard/notifications",
   dashboardAppoint: "/dashboard/appointments",
   dashboardSetting: "/dashboard/setting",
   dashboardTransaction: "/dashboard/transaction",

@@ -72,7 +72,7 @@ export default function CommitmentTable() {
 
   return (
     <>
-      <Flex direction={"column"} gap={10}>
+      <Flex direction={"column"} gap={10} m={10}>
         <Center>
           <Text fontSize={"4xl"} fontWeight={"bold"}>
             Commitment
@@ -99,7 +99,7 @@ export default function CommitmentTable() {
                     <Th>ID</Th>
                     <Th>Request ID</Th>
                     <Th>Customer Name</Th>
-                    <Th>Created Date</Th>
+                    <Th w={"150px"}>Created Date</Th>
                     <Th>Description</Th>
                     <Th>View</Th>
                   </Tr>
@@ -258,7 +258,12 @@ export default function CommitmentTable() {
               </Text>
               <Text>
                 <strong>Date</strong>{" "}
-                {selectedCommitment?.createdDate?.slice(0, 10) || "N/A"}
+                {selectedCommitment?.createdDate
+                  ? format(
+                      parseISO(selectedCommitment?.createdDate),
+                      "dd/MM/yyyy - HH:mm:ss"
+                    )
+                  : "N/A"}
               </Text>
               <Text>
                 <strong>RE</strong>: Lost Receipt
@@ -291,24 +296,13 @@ export default function CommitmentTable() {
                 <Text>Amount:</Text>
               </UnorderedList>
               <Text fontWeight={"bold"}>Return Process:</Text>
-              <Text>
-                Once we have verified your ownership, you can schedule an
-                appointment to pick up your diamond. Please note that a valid
-                form of photo ID will be required at the time of pick-up.
-              </Text>
-              <Text fontWeight={"bold"}>Commitment:</Text>
-              <Text>
-                Once we have verified your ownership, you can schedule an
-                appointment to pick up your diamond. Please note that a valid
-                form of photo ID will be required at the time of pick-up.
-              </Text>
               <Text fontWeight={"bold"}>
                 Please sign and return this letter at your earliest convenience.
               </Text>
               <Flex justify={"space-around"}>
                 <Flex direction={"column"}>
                   <Text>Sincerely,</Text>
-                  <Text marginTop={"200px"}>Manager</Text>
+                  <Text marginTop={"50px"}>Manager</Text>
                   <Text>DiamondVal</Text>
                 </Flex>
                 <Text>Your signature</Text>

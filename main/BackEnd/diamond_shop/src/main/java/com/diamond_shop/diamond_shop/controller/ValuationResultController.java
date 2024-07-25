@@ -1,7 +1,6 @@
 package com.diamond_shop.diamond_shop.controller;
 
-import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
-import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
@@ -12,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +36,21 @@ public class ValuationResultController {
     @PutMapping(path = "/valuate", produces = MediaType.APPLICATION_JSON_VALUE)
     public String valuateDiamond(@RequestParam("id") String id, @RequestBody ValuationResultDTO valuationResultDTO) {
         return valuationResultService.valuateDiamond(id, valuationResultDTO);
+    }
+
+    @PutMapping(path = "/valuate/price")
+    public BigDecimal valuatePrice(@RequestParam("id") String id, @RequestBody GeneratePriceDTO generatePriceDTO) {
+        return valuationResultService.valuatePrice(id, generatePriceDTO);
+    }
+
+    @PutMapping(path = "/valuate/cut")
+    public String valuateCutGrade(@RequestParam("id") String id, @RequestBody CutGradeDTO cutGradeDTO) {
+        return valuationResultService.valuateCutGrade(id, cutGradeDTO);
+    }
+
+    @PutMapping(path = "valuate/clarity")
+    public String valuateClarity(@RequestParam("id") String id, @RequestBody ClarityGradeDTO clarityGradeDTO) {
+        return valuationResultService.valuateClarityGrade(id, clarityGradeDTO);
     }
 
     @GetMapping(path = "/get/all")

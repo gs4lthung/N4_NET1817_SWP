@@ -71,47 +71,35 @@ export default function ServiceTable() {
       });
   };
   const createService = (values) => {
-    let statisticName = "";
+    let statistic = "";
     if (values.origin) {
-      statisticName += "Origin, ";
+      statistic += "Origin, ";
     }
     if (values.carat) {
-      statisticName += "Carat, ";
+      statistic += "Carat, ";
     }
     if (values.color) {
-      statisticName += "Color, ";
+      statistic += "Color, ";
     }
     if (values.cut) {
-      statisticName += "Cut, ";
+      statistic += "Cut, ";
     }
     if (values.clarity) {
-      statisticName += "Clarity, ";
+      statistic += "Clarity, ";
     }
     if (values.shape) {
-      statisticName += "Shape, ";
+      statistic += "Shape, ";
     }
     if (values.symmetry) {
-      statisticName += "Symmetry, ";
+      statistic += "Symmetry, ";
     }
     if (values.polish) {
-      statisticName += "Polish, ";
+      statistic += "Polish, ";
     }
     if (values.fluorescence) {
-      statisticName += "Fluorescence, ";
+      statistic += "Fluorescence, ";
     }
-    if (values.measurements) {
-      statisticName += "Measurements, ";
-    }
-    if (values.diamondTable) {
-      statisticName += "Diamond Table, ";
-    }
-    if (values.depth) {
-      statisticName += "Depth, ";
-    }
-    if (values.lwRatio) {
-      statisticName += "L/W Ratio, ";
-    }
-    statisticName = statisticName.slice(0, -2);
+    statistic = statistic.slice(0, -2);
     axios
       .post(
         `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/service/create`,
@@ -119,7 +107,7 @@ export default function ServiceTable() {
           name: values.name,
           price: values.price,
           time: values.time,
-          statisticName: statisticName,
+          statistic: statistic,
         },
         {
           headers: {
@@ -146,47 +134,35 @@ export default function ServiceTable() {
       });
   };
   const updateService = (values) => {
-    let statisticName = "";
+    let statistic = "";
     if (values.origin) {
-      statisticName += "Origin, ";
+      statistic += "Origin, ";
     }
     if (values.carat) {
-      statisticName += "Carat, ";
+      statistic += "Carat, ";
     }
     if (values.color) {
-      statisticName += "Color, ";
+      statistic += "Color, ";
     }
     if (values.cut) {
-      statisticName += "Cut, ";
+      statistic += "Cut, ";
     }
     if (values.clarity) {
-      statisticName += "Clarity, ";
+      statistic += "Clarity, ";
     }
     if (values.shape) {
-      statisticName += "Shape, ";
+      statistic += "Shape, ";
     }
     if (values.symmetry) {
-      statisticName += "Symmetry, ";
+      statistic += "Symmetry, ";
     }
     if (values.polish) {
-      statisticName += "Polish, ";
+      statistic += "Polish, ";
     }
     if (values.fluorescence) {
-      statisticName += "Fluorescence, ";
+      statistic += "Fluorescence, ";
     }
-    if (values.measurements) {
-      statisticName += "Measurements, ";
-    }
-    if (values.diamondTable) {
-      statisticName += "Diamond Table, ";
-    }
-    if (values.depth) {
-      statisticName += "Depth, ";
-    }
-    if (values.lwRatio) {
-      statisticName += "L/W Ratio, ";
-    }
-    statisticName = statisticName.slice(0, -2);
+    statistic = statistic.slice(0, -2);
     axios
       .put(
         `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/service/update`,
@@ -195,8 +171,7 @@ export default function ServiceTable() {
           name: values.name,
           price: values.price,
           time: values.time,
-          statisticId: values.statisticId,
-          statisticName: statisticName,
+          statistic: statistic,
         },
         {
           headers: {
@@ -329,17 +304,17 @@ export default function ServiceTable() {
                     </Td>
                     <Td>{item?.time} days</Td>
                     <Td>
-                      <Tooltip label={item?.statisticName} hasArrow>
+                      <Tooltip label={item?.statistic} hasArrow>
                         <Input
                           readOnly
                           type="text"
-                          value={item?.statisticName}
+                          value={item?.statistic}
                         />
                       </Tooltip>
                     </Td>
                     <Td>
                       <IconButton
-                        icon={<GrUpdate />}
+                        icon={<GrUpdate color="black"/>}
                         bgColor={"transparent"}
                         onClick={() => {
                           setIsCreate(false);
@@ -389,51 +364,50 @@ export default function ServiceTable() {
               name: selectedService?.name,
               price: selectedService?.price,
               time: selectedService?.time,
-              statisticId: selectedService?.statisticId,
-              statisticName: selectedService?.statisticName,
-              origin: selectedService?.statisticName?.includes("Origin")
+              statistic: selectedService?.statistic,
+              origin: selectedService?.statistic?.includes("Origin")
                 ? true
                 : false,
-              carat: selectedService?.statisticName?.includes("Carat")
+              carat: selectedService?.statistic?.includes("Carat")
                 ? true
                 : false,
-              color: selectedService?.statisticName?.includes("Color")
+              color: selectedService?.statistic?.includes("Color")
                 ? true
                 : false,
-              cut: selectedService?.statisticName?.includes("Cut")
+              cut: selectedService?.statistic?.includes("Cut")
                 ? true
                 : false,
-              clarity: selectedService?.statisticName?.includes("Clarity")
+              clarity: selectedService?.statistic?.includes("Clarity")
                 ? true
                 : false,
-              shape: selectedService?.statisticName?.includes("Shape")
+              shape: selectedService?.statistic?.includes("Shape")
                 ? true
                 : false,
-              symmetry: selectedService?.statisticName?.includes("Symmetry")
+              symmetry: selectedService?.statistic?.includes("Symmetry")
                 ? true
                 : false,
-              polish: selectedService?.statisticName?.includes("Polish")
+              polish: selectedService?.statistic?.includes("Polish")
                 ? true
                 : false,
-              fluorescence: selectedService?.statisticName?.includes(
+              fluorescence: selectedService?.statistic?.includes(
                 "Fluorescence"
               )
                 ? true
                 : false,
-              measurements: selectedService?.statisticName?.includes(
+              measurements: selectedService?.statistic?.includes(
                 "Measurements"
               )
                 ? true
                 : false,
-              diamondTable: selectedService?.statisticName?.includes(
+              diamondTable: selectedService?.statistic?.includes(
                 "Diamond Table"
               )
                 ? true
                 : false,
-              depth: selectedService?.statisticName?.includes("Depth")
+              depth: selectedService?.statistic?.includes("Depth")
                 ? true
                 : false,
-              lwRatio: selectedService?.statisticName?.includes("L/W Ratio")
+              lwRatio: selectedService?.statistic?.includes("L/W Ratio")
                 ? true
                 : false,
             }}
@@ -585,7 +559,7 @@ export default function ServiceTable() {
                               Symmetry
                             </Checkbox>
                           )}
-                        </Field>{" "}
+                        </Field>
                         <Field name="polish">
                           {({ field, form }) => (
                             <Checkbox
@@ -628,51 +602,6 @@ export default function ServiceTable() {
                               }}
                             >
                               Measurements
-                            </Checkbox>
-                          )}
-                        </Field>
-                        <Field name="diamondTable">
-                          {({ field, form }) => (
-                            <Checkbox
-                              isChecked={values.diamondTable}
-                              onChange={(e) => {
-                                form.setFieldValue(
-                                  field.name,
-                                  e.target.checked
-                                );
-                              }}
-                            >
-                              Diamond Table
-                            </Checkbox>
-                          )}
-                        </Field>
-                        <Field name="depth">
-                          {({ field, form }) => (
-                            <Checkbox
-                              isChecked={values.depth}
-                              onChange={(e) => {
-                                form.setFieldValue(
-                                  field.name,
-                                  e.target.checked
-                                );
-                              }}
-                            >
-                              Depth
-                            </Checkbox>
-                          )}
-                        </Field>
-                        <Field name="lwRatio">
-                          {({ field, form }) => (
-                            <Checkbox
-                              isChecked={values.lwRatio}
-                              onChange={(e) => {
-                                form.setFieldValue(
-                                  field.name,
-                                  e.target.checked
-                                );
-                              }}
-                            >
-                              L/W Ratio
                             </Checkbox>
                           )}
                         </Field>

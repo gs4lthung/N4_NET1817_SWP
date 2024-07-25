@@ -2,11 +2,9 @@ package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.dto.UpdateServiceDTO;
 import com.diamond_shop.diamond_shop.entity.ServiceEntity;
-import com.diamond_shop.diamond_shop.entity.ServiceStatisticEntity;
 import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.pojo.ServiceResultPojo;
 import com.diamond_shop.diamond_shop.repository.ServiceRepository;
-import com.diamond_shop.diamond_shop.repository.ServiceStatisticRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,6 @@ import java.util.Map;
 public class DiamondImpl implements DiamondService {
 
     private final ServiceRepository serviceRepository;
-    private final ServiceStatisticRepository serviceStatisticRepository;
 
 
     @Override
@@ -47,9 +44,7 @@ public class DiamondImpl implements DiamondService {
 
     @Override
     public ResponsePojo createService(UpdateServiceDTO updateServiceDTO) {
-        ServiceStatisticEntity serviceStatistic = new ServiceStatisticEntity(updateServiceDTO.getStatisticName());
-        serviceStatisticRepository.save(serviceStatistic);
-        ServiceEntity service = new ServiceEntity(updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime(), serviceStatistic);
+        ServiceEntity service = new ServiceEntity(updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime(), updateServiceDTO.getStatistic());
         serviceRepository.save(service);
         ResponsePojo responsePojo = new ResponsePojo();
         responsePojo.setId(service.getId());
@@ -60,8 +55,7 @@ public class DiamondImpl implements DiamondService {
     @Override
     public ResponsePojo updateService(UpdateServiceDTO updateServiceDTO) {
         ResponsePojo responsePojo = new ResponsePojo();
-        serviceRepository.updateServiceById(updateServiceDTO.getId(), updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime());
-        serviceStatisticRepository.updateStatistic(updateServiceDTO.getStatisticId(), updateServiceDTO.getStatisticName());
+        serviceRepository.updateServiceById(updateServiceDTO.getId(), updateServiceDTO.getName(), updateServiceDTO.getPrice(), updateServiceDTO.getTime(), updateServiceDTO.getStatistic());
         responsePojo.setId(updateServiceDTO.getId());
         responsePojo.setMessage("Update service " + updateServiceDTO.getId() + " successful");
         return responsePojo;
@@ -71,7 +65,6 @@ public class DiamondImpl implements DiamondService {
     public ResponsePojo deleteService(int serviceId, int statisticId) {
         ResponsePojo responsePojo = new ResponsePojo();
         serviceRepository.deleteById(serviceId);
-        serviceStatisticRepository.deleteById(statisticId);
         responsePojo.setId(serviceId);
         responsePojo.setMessage("Delete successful");
         return responsePojo;

@@ -324,12 +324,7 @@ export const createSealingLetter = async (
       });
     });
 };
-export const createReceipt = async (
-  valuationRequestId,
-  token,
-  toast
-) => {
-  setIsCreated(true);
+export const createReceipt = async (valuationRequestId, token, toast) => {
   await axios
     .post(
       `${
@@ -350,7 +345,6 @@ export const createReceipt = async (
             title: "Success",
             description: response.data,
             position: "top-right",
-
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -360,7 +354,6 @@ export const createReceipt = async (
             title: "Failed",
             description: response.data,
             position: "top-right",
-
             status: "warning",
             duration: 3000,
             isClosable: true,
@@ -408,7 +401,12 @@ export const fetchValuationReceipt = async (
       });
     });
 };
-export const createCommitment = async (valuationRequestId,setIsCreated, token, toast) => {
+export const createCommitment = async (
+  valuationRequestId,
+  setIsCreated,
+  token,
+  toast
+) => {
   setIsCreated(true);
   await axios
     .post(

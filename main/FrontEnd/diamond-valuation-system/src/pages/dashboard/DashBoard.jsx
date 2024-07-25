@@ -30,6 +30,7 @@ import { PiPiggyBankBold } from "react-icons/pi";
 import { MdDone } from "react-icons/md";
 import { IoDiamond } from "react-icons/io5";
 import DashBoardTransaction from "./DashBoardTransaction";
+import DashBoardAppoint from "./DashBoardAppoint";
 import { Line, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -42,8 +43,9 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../../config/Config";
+import ValuatedDiamondTable from "./table/ValuatedDiamondTable";
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -54,7 +56,8 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-export default function DashBoardAppoint() {
+export default function DashBoard() {
+  const navigate=useNavigate();
   const user = useContext(UserContext);
   const isUsers =
     user.userAuth &&
@@ -174,181 +177,22 @@ export default function DashBoardAppoint() {
   return (
     <>
       {isUsers && user.userAuth.authorities[0].authority === "Customer" ? (
-        <>
-          <Box
-            bg="gray.600"
-            color="white"
-            mb={5}
-            boxShadow="sm"
-            borderRadius="md"
-            maxW="100%"
-            
-          >
-            <Text py={3} fontSize="lg" pl={4}>
-              APPOINTMENTS
-            </Text>
-            {request?.length === 0 ? (
-              <Box variant="simple" bg="gray.200" color="black" p={3}>
-                No appointment to show
-              </Box>
-            ) : (
-              <Link to={routes.dashboardAppoint}>
-                <TableContainer>
-                  <Table variant="simple" bg="gray.200" color="black">
-                    <Thead>
-                      <Tr>
-                        <Th color="black">No</Th>
-                        <Th color="black">Name</Th>
-                        <Th color="black">Date Create Request</Th>
-                        <Th color="black">Description</Th>
-                        <Th color="black">Status</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {request?.map((req, i) => {
-                        return (
-                          <Tr key={i}>
-                            <Td>{i + 1}</Td>
-                            <Td>{req.customerName}</Td>
-                            <Td>{req.createdDate?.slice(0, 10)}</Td>
-                            <Td>{req.description}</Td>
-                            <Td>Contacting...</Td>
-                          </Tr>
-                        );
-                      })}
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-              </Link>
-            )}
-          </Box>
-          <Link to={routes.dashboardTransaction}>
-            <DashBoardTransaction hidePagination={true} />
-          </Link>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-            <Box
-              bg="gray.600"
-              color="white"
-              borderRadius="md"
-              maxW="100%"
-              minW="100%"
-            >
-              <Text py={3} fontSize="lg" pl={4}>
-                SAVED DIAMONDS
-              </Text>
-              <VStack
-                background="rgb(239 246 255)"
-                divider={<StackDivider borderColor="gray.200" />}
-                spacing={1}
-                align="stretch"
-                justifyContent="center"
-                px={4}
-                py={2}
-              >
-                <HStack spacing={4} align="center">
-                  <Image
-                    boxSize="50px"
-                    src="https://d3at7kzws0mw3g.cloudfront.net/images/diamond/240108-874.jpg"
-                    alt="Diamond 1"
-                    borderRadius="full"
-                  />
-                  <Box>
-                    <Text color="blue.600">Round · 0.33 Carat · J Color</Text>
-                    <Text color="blue.600">VS1 Clarity · None Fluor</Text>
-                    <Text color="#222">GIA 2486742135</Text>
-                  </Box>
-                  <Button size="sm" bg="gray.300" ml="auto">
-                    View
-                  </Button>
-                </HStack>
-              </VStack>
-            </Box>
-            <Box
-              bg="gray.600"
-              color="white"
-              borderRadius="md"
-              maxW="100%"
-              minW="100%"
-            >
-              <Text py={3} fontSize="lg" pl={4}>
-                RECENT DIAMONDS
-              </Text>
-              <VStack
-                background="rgb(239 246 255)"
-                divider={<StackDivider borderColor="gray.200" />}
-                spacing={2}
-                align="stretch"
-                justifyContent="center"
-                px={4}
-                py={2}
-              >
-                <HStack spacing={4} align="center">
-                  <Image
-                    boxSize="50px"
-                    src="https://d3at7kzws0mw3g.cloudfront.net/images/diamond/240108-874.jpg"
-                    alt="Diamond 1"
-                    borderRadius="full"
-                  />
-                  <Box>
-                    <Text color="blue.600">Round · 0.33 Carat · J Color</Text>
-                    <Text color="blue.600">VS1 Clarity · None Fluor</Text>
-                    <Text color="#222">GIA 2486742135</Text>
-                  </Box>
-                  <Button size="sm" bg="gray.300" ml="auto">
-                    View
-                  </Button>
-                </HStack>
-                <HStack spacing={4} align="center">
-                  <Image
-                    boxSize="50px"
-                    src="https://d3at7kzws0mw3g.cloudfront.net/images/diamond/240108-874.jpg"
-                    alt="Diamond 1"
-                    borderRadius="full"
-                  />
-                  <Box>
-                    <Text color="blue.600">Round · 0.33 Carat · J Color</Text>
-                    <Text color="blue.600">VS1 Clarity · None Fluor</Text>
-                    <Text color="#222">GIA 2486742135</Text>
-                  </Box>
-                  <Button size="sm" bg="gray.300" ml="auto">
-                    View
-                  </Button>
-                </HStack>
-                <HStack spacing={4} align="center">
-                  <Image
-                    boxSize="50px"
-                    src="https://d3at7kzws0mw3g.cloudfront.net/images/diamond/240108-874.jpg"
-                    alt="Diamond 1"
-                    borderRadius="full"
-                  />
-                  <Box>
-                    <Text color="blue.600">Round · 0.33 Carat · J Color</Text>
-                    <Text color="blue.600">VS1 Clarity · None Fluor</Text>
-                    <Text color="#222">GIA 2486742135</Text>
-                  </Box>
-                  <Button size="sm" bg="gray.300" ml="auto">
-                    View
-                  </Button>
-                </HStack>
-              </VStack>
-              <Button
-                backgroundColor="gray.400"
-                size="sm"
-                border="1px solid"
-                borderColor="gray."
-                ml="auto"
-                mt={1}
-                mb={1}
-                display="flex"
-              >
-                View All
-              </Button>
-            </Box>
-          </SimpleGrid>
-        </>
+        // <Flex direction={"column"} align={"center"} mt={10} gap={5}>
+        //   <Link to={routes.pendingRequest}>
+        //     <DashBoardAppoint hidePagination={true} />
+        //   </Link>
+
+        //   <Link to={routes.dashboardTransaction}>
+        //     <DashBoardTransaction hidePagination={true} />
+        //   </Link>
+        //   <Link to={routes.valuatedDiamond}>
+        //     <ValuatedDiamondTable hidePagination={true} />
+        //   </Link>
+        // </Flex>
+        navigate(routes.pendingRequest)
       ) : (
         <>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4} mx={14}>
             <Card border={"md"} shadow={"md"}>
               <CardHeader>
                 <Flex align={"center"} gap={15}>
@@ -368,7 +212,7 @@ export default function DashBoardAppoint() {
             <Card border={"md"} shadow={"md"}>
               <CardHeader>
                 <Flex align={"center"} gap={15}>
-                  <MdDone size={30} style={{ background: "green" }} />
+                  <MdDone size={30} style={{ background: "green", borderRadius:"8px" }} />
                   <Text fontSize={"2xl"}>DONE REQUEST</Text>
                 </Flex>
               </CardHeader>

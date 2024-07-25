@@ -19,7 +19,7 @@ import { fetchAccounts, deleteAccount } from "./AdminServices";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
 import PageIndicator from "../../components/PageIndicator";
 export default function AdminPage() {
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "white");
 
   const toast = useToast();
 
@@ -130,7 +130,7 @@ export default function AdminPage() {
           justifyContent={"center"}
           // h={"100vh"}
           gap={10}
-          bg={bgColor}
+         
         >
           <Text
             fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}

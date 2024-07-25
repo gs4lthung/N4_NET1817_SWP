@@ -1,10 +1,6 @@
 package com.diamond_shop.diamond_shop.controller;
 
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
-import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.service.AccountService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,7 +33,6 @@ public class UserController {
         return accountService.addAccount(accountDTO);
     }
 
-    //No need token
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginCustomer(@RequestBody LoginDTO loginDTO) {
         return accountService.loginAccount(loginDTO);
@@ -66,6 +61,14 @@ public class UserController {
     @GetMapping(path = "/activate")
     public String activateAccount(@RequestParam("code") String code, HttpServletResponse response) {
         return accountService.activate(code, response);
+    }
+    @PutMapping(path = "/update")
+    public String updateCustomer(@RequestParam("id") int id,@Valid @RequestBody UpdateAccountDTO updateAccountDTO, Errors errors)
+    {
+        if (errors.hasErrors()) {
+            return errors.getAllErrors().toString();
+        }
+        return accountService.updateAccount(id,updateAccountDTO);
     }
 
     @DeleteMapping(path = "/delete")

@@ -13,16 +13,23 @@ import {
   Icon,
   Text,
   SimpleGrid,
+  InputGroup,
+  InputLeftAddon,
+  InputRightAddon,
+  IconButton,
+  Tooltip,
+  Checkbox,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import Title from "../../components/Title";
 import { Form, Formik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import routes from "../../config/Config";
 import { LuUpload } from "react-icons/lu";
+import { GrUpdate } from "react-icons/gr";
 
 export default function DiamondValuationRequest() {
   const user = useContext(UserContext);
@@ -36,13 +43,19 @@ export default function DiamondValuationRequest() {
   const bgColor1 = useColorModeValue("blue.400", "yellow.500");
   const toast = useToast();
   const navigate = useNavigate();
-  const createPendingRequest = async (customerId, description, token) => {
+  const createPendingRequest = async (
+    customerId,
+    description,
+    token,
+    hasCertificate
+  ) => {
     await axios
       .post(
         `${import.meta.env.VITE_REACT_APP_BASE_URL}/api/pending-request/create`,
         {
           customerId: customerId,
           description: description,
+          hasCertificate: hasCertificate,
         },
         {
           headers: {
@@ -56,7 +69,11 @@ export default function DiamondValuationRequest() {
         }
       });
   };
-  const checkCustomerPendingRequest = async (customerId, description) => {
+  const checkCustomerPendingRequest = async (
+    customerId,
+    description,
+    hasCertificate
+  ) => {
     await axios
       .get(
         `${
@@ -73,13 +90,17 @@ export default function DiamondValuationRequest() {
             isClosable: true,
           });
         } else {
-          createPendingRequest(customerId, description, user.userAuth.token);
+          createPendingRequest(
+            customerId,
+            description,
+            user.userAuth.token,
+            hasCertificate
+          );
         }
       });
   };
   const handleSubmitImages = async (pendingRequestId) => {
     try {
-      setIsUpLoading(true);
       for (const image of selectedImages) {
         const formData = new FormData();
         formData.append("file", image);
@@ -115,7 +136,6 @@ export default function DiamondValuationRequest() {
           );
         }
       }
-      setIsUpLoading(false);
       toast({
         title: "Request submitted successfully",
         position: "top-right",
@@ -125,7 +145,6 @@ export default function DiamondValuationRequest() {
       });
       navigate(routes.pendingRequest);
     } catch (error) {
-      setIsUpLoading(false);
       toast({
         title: "Error",
         position: "top-right",
@@ -143,13 +162,13 @@ export default function DiamondValuationRequest() {
         minH={"100vh"}
         alignItems={"center"}
         bg={bgColor}
-        pt={"100px"}
+        pt={"20px"}
       >
         <Flex
           direction={"column"}
-          align={"center"}
           p={8}
-          border={"1px solid gray"}
+          border={"1px solid"}
+          borderColor={bgColor1}
           borderRadius={"24px"}
           m={"10px"}
           gap={10}
@@ -161,12 +180,75 @@ export default function DiamondValuationRequest() {
             }
             width={"50vw"}
           />
+          <Flex direction={"column"} align={"start"} gap={5}>
+            <InputGroup>
+
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Name</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.fullname || "N/A"}
+                isReadOnly
+              />
+              <InputRightAddon >
+                <Tooltip label="Update your name" hasArrow placement="top">
+                  <Link to={routes.dashboardSetting} >
+                    <Button  >
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
+            <InputGroup>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Phone</InputLeftAddon>
+              <Input
+                type="number"
+                value={user.userAuth.phonenumber}
+                isReadOnly
+              />
+              <InputRightAddon>
+                <Tooltip
+                  label="Update your phone number"
+                  hasArrow
+                  placement="top"
+                >
+                  <Link to={routes.dashboardSetting}>
+                    <Button>
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
+            <InputGroup>
+              <InputLeftAddon color={bgColor} bgColor={bgColor1}>Address</InputLeftAddon>
+              <Input
+                type="text"
+                value={user.userAuth.address || "N/A"}
+                isReadOnly
+              />
+              <InputRightAddon>
+                <Tooltip
+                  label="Update your address"
+                  hasArrow
+                  placement="top"
+                >
+                  <Link to={routes.dashboardSetting}>
+                    <Button>
+                      <GrUpdate />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </InputRightAddon>
+            </InputGroup>
+          </Flex>
           <Formik
-            initialValues={{ description: "" }}
+            initialValues={{ description: "", hasCertificate: false }}
             onSubmit={async (values, { setSubmitting }) => {
+              console.log(values);
+              setSubmitting(true);
               try {
-                setSubmitting(true);
-                if (localStorage.getItem("user") === null) {
+                if (!user.userAuth) {
                   toast({
                     title: "Please login first !",
                     status: "error",
@@ -185,12 +267,38 @@ export default function DiamondValuationRequest() {
                     position: "top-right",
                     isClosable: true,
                   });
+                } else if (
+                  isUsers &&
+                  (!user.userAuth.fullname ||
+                    !user.userAuth.email ||
+                    !user.userAuth.phonenumber)
+                ) {
+                  toast({
+                    title: "Please update your profile first !",
+                    status: "warning",
+                    duration: 3000,
+                    position: "top-right",
+                    isClosable: true,
+                  });
+                } else if (
+                  values.hasCertificate === true &&
+                  selectedImages.length === 0
+                ) {
+                  toast({
+                    title: "Please upload your certificate images !",
+                    status: "warning",
+                    duration: 3000,
+                    position: "top-right",
+                    isClosable: true,
+                  });
                 } else {
-                  setSubmitting(true);
-                  checkCustomerPendingRequest(
+                  await checkCustomerPendingRequest(
                     user.userAuth.id,
-                    values.description
-                  );
+                    values.description,
+                    values.hasCertificate
+                  ).then(() => {
+                    setSubmitting(false);
+                  });
                 }
               } catch (e) {
                 console.log(e);
@@ -201,21 +309,24 @@ export default function DiamondValuationRequest() {
               <Form onSubmit={handleSubmit}>
                 <Flex direction={"column"} align={"center"} gap={10}>
                   <FormControl>
-                    <Textarea
-                      name="description"
-                      value={values.description}
-                      onChange={handleChange}
-                      h={"150px"}
-                      w={{ base: "70vw", md: "50vw", lg: "40vw" }}
-                      placeholder="Please write your request description here..."
-                    />
+                    <Center>
+                      <Textarea
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                        h={"150px"}
+                        w={"100%"}
+                        placeholder="Please write your request description here..."
+                      />
+                    </Center>
                   </FormControl>
                   <FormControl>
                     <Center>
                       <FormLabel
                         display={"inline-block"}
                         cursor={"pointer"}
-                        bgColor={"gray.200"}
+                        color={bgColor}
+                        bgColor={bgColor1}
                         borderRadius={"20px"}
                         _hover={{ bgColor: "gray.300" }}
                         m={"10px"}
@@ -287,12 +398,27 @@ export default function DiamondValuationRequest() {
                       </SimpleGrid>
                     </Flex>
                   )}
+                  <FormControl>
+                    <Checkbox
+                      name="hasCertificate"
+                      value={values.hasCertificate}
+                      onChange={handleChange}
+                      onClick={() => {
+                        console.log(values.hasCertificate);
+                      }}
+                    >
+                      <Text color={"gray"}>
+                        Click if you has a diamond certificate and upload your
+                        certificate images (Ex: GIA certificate)
+                      </Text>
+                    </Checkbox>
+                  </FormControl>
                   <Button
                     type="submit"
-                    colorScheme="blue"
-                    isLoading={isSubmitting || isUploading}
-                    isDisabled={isSubmitting || isUploading}
-                    m={"0 0 100px 0"}
+                    color={bgColor}
+                        bgColor={bgColor1}
+                    isLoading={isSubmitting}
+                    isDisabled={isSubmitting}
                   >
                     Submit
                   </Button>

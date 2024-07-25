@@ -29,7 +29,7 @@ export default function DiamondService() {
   }
   try {
     for (let i = 0; i < serviceResponse.length; i++) {
-      serviceStatisticNames.push(serviceResponse[i].statisticName);
+      serviceStatisticNames.push(serviceResponse[i].statistic);
       serviceStatisticNames[i] = serviceStatisticNames[i]
         .split(",")
         .map((item) => item.trim());

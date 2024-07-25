@@ -1,13 +1,13 @@
 package com.diamond_shop.diamond_shop.service;
 
-import com.diamond_shop.diamond_shop.dto.CreateImageDTO;
-import com.diamond_shop.diamond_shop.dto.ValuationResultDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
 import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +28,12 @@ public interface ValuationResultService {
     Optional<ValuationResultEntity> getValuationResultByValuationRequestId(int valuationRequestId);
 
     String valuateDiamond(String id, ValuationResultDTO valuationResultDTO);
+
+    String valuateCutGrade(String id, CutGradeDTO cutGradeDto);
+
+    String valuateClarityGrade(String id, ClarityGradeDTO clarityGradeDto);
+
+    BigDecimal valuatePrice(String id, GeneratePriceDTO generatePriceDTO);
 
     String createValuationResult(ProcessRequestEntity processRequest);
 

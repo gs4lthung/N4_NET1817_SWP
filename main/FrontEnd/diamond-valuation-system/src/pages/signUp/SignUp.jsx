@@ -52,6 +52,7 @@ export default function SignUp({ signUp, signIn }) {
         password,
       });
       if (res.data.includes("exist")) {
+        setSubmitting(false);
         toast({
           title: "Sign up failed.",
           description: res.data,
@@ -62,6 +63,7 @@ export default function SignUp({ signUp, signIn }) {
         });
         throw new Error(res.data);
       } else {
+        setSubmitting(false);
         toast({
           title: "Account created.",
           description: "Please check your email to active account! 🙌.",
@@ -75,14 +77,7 @@ export default function SignUp({ signUp, signIn }) {
         }, 2000);
       }
     } catch (error) {
-      toast({
-        title: "Sign up failed.",
-        description: "Please try again.",
-        position: "top-right",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      setSubmitting(false);
       console.error("Login failed:", error);
     }
   }

@@ -11,6 +11,6 @@ public class DiamondShopApplication {
     public static void main(String[] args) {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
         SpringApplication.run(DiamondShopApplication.class, args);
-        System.out.println("It's running!");
+        System.out.println("Diamond Valuation System is running !!!");
     }
 }

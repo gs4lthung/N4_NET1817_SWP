@@ -12,8 +12,10 @@ import {
     useColorMode,
     useColorModeValue,
     Container,
+    Badge,
 } from "@chakra-ui/react";
 import {
+    BellIcon,
     ChevronDownIcon,
     HamburgerIcon,
     Icon,
@@ -26,6 +28,7 @@ import routes from "../config/Config";
 import Login from "../pages/login/Login";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./GlobalContext/AuthContext";
+import { NotificationContext } from "./GlobalContext/NotificationContext";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 export default function Header() {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -36,6 +39,8 @@ export default function Header() {
     const modalSignIn = useDisclosure();
     const modalSignUp = useDisclosure();
     const auth = useContext(UserContext);
+    const { notifications, resetNotifications } =
+        useContext(NotificationContext);
     const nav = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("user");
@@ -57,6 +62,10 @@ export default function Header() {
     };
     const changeColorMode = () => {
         toggleColorMode();
+    };
+    const handleNotificationsClick = () => {
+        resetNotifications();
+        nav("/dashboard");
     };
     return (
         <>
@@ -232,6 +241,25 @@ export default function Header() {
                             onClick={changeColorMode}
                             color={fontColor}
                         />
+
+                        <IconButton
+                            size={{ base: "xs", md: "sm", lg: "md" }}
+                            icon={<BellIcon />}
+                            onClick={handleNotificationsClick}
+                            color={fontColor}
+                        >
+                            {notifications > 0 && (
+                                <Badge
+                                    borderRadius="full"
+                                    px="2"
+                                    colorScheme="red"
+                                    ml="1"
+                                    fontSize="0.8em"
+                                >
+                                    {notifications}
+                                </Badge>
+                            )}
+                        </IconButton>
                         {!auth.userAuth ? (
                             <Button
                                 colorScheme="gray"

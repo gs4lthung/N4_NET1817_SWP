@@ -20,15 +20,14 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Integer>
             "s.name, " +
             "s.price, " +
             "s.time, " +
-            "s.statistic_id.id," +
-            "s.statistic_id.name) " +
+            "s.statistic) " +
             "FROM ServiceEntity as s")
     List<ServiceResultPojo> getAllServices();
 
     @Modifying
     @Transactional
     @Query("UPDATE ServiceEntity s " +
-            "SET s.name=:name,s.price=:price, s.time=:time " +
+            "SET s.name=:name,s.price=:price, s.time=:time, s.statistic=:statistic " +
             "WHERE s.id=:id")
-    void updateServiceById(@Param("id") int id, @Param("name") String name, @Param("price") int price, @Param("time") int time);
+    void updateServiceById(@Param("id") int id, @Param("name") String name, @Param("price") int price, @Param("time") int time, @Param("statistic") String statistic);
 }

@@ -1,17 +1,12 @@
 package com.diamond_shop.diamond_shop.service;
 
 import com.diamond_shop.diamond_shop.config.JWTUtil;
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
-import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.RoleEntity;
 import com.diamond_shop.diamond_shop.pojo.LoginPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
-import java.util.List;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -108,7 +104,7 @@ public class AccountImpl implements AccountService {
             accountEntity.setActivate_code(null);
             accountRepository.save(accountEntity);
             try {
-                response.sendRedirect(frontendUrl+"/?code=00");
+                response.sendRedirect(frontendUrl + "/?code=00");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -117,6 +113,7 @@ public class AccountImpl implements AccountService {
             return "Invalid activation code!";
         }
     }
+
 
     @Override
     public String createAccount(AccountDTO accountDTO) {
@@ -150,9 +147,9 @@ public class AccountImpl implements AccountService {
         switch (type) {
             case "add", "create":
                 isUsernameExist = accountRepository.findByUserName(username) != null;
-                if (isUsernameExist) errorMessage += "Username, ";
+                if (isUsernameExist) errorMessage += "Username ";
                 isEmailExist = accountRepository.findByEmail(email) != null;
-                if (isEmailExist) errorMessage += "Email, ";
+                if (isEmailExist) errorMessage += "Email ";
                 isPhoneNumberExist = accountRepository.findByPhoneNumber(phoneNumber) != null;
                 if (isPhoneNumberExist) errorMessage += "Phone number ";
                 if (isUsernameExist || isEmailExist || isPhoneNumberExist) return errorMessage + "already exist.";
@@ -161,14 +158,14 @@ public class AccountImpl implements AccountService {
                 AccountEntity checkAccount = accountRepository.findByUserName(username);
                 if (checkAccount != null) {
                     if (checkAccount.getId() != id) {
-                        errorMessage += "Username, ";
+                        errorMessage += "Username ";
                         isUsernameExist = true;
                     }
                 }
                 checkAccount = accountRepository.findByEmail(email);
                 if (checkAccount != null) {
                     if (checkAccount.getId() != id) {
-                        errorMessage += "Email, ";
+                        errorMessage += "Email ";
                         isEmailExist = true;
                     }
                 }
@@ -215,29 +212,32 @@ public class AccountImpl implements AccountService {
     @Override
     public ResponseEntity<?> loginAccount(LoginDTO loginDTO) {
         try {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDTO.getUsername(),
-                        loginDTO.getPassword()
-                )
-        );
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDTO.getUsername(),
+                            loginDTO.getPassword()
+                    )
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = JWTUtil.generateJwtToken(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = JWTUtil.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return ResponseEntity.ok(
-                new LoginPojo(
-                        jwt,
-                        userDetails.getId(),
-                        userDetails.getUsername(),
-                        userDetails.getEmail(),
-                        userDetails.getAuthorities()
-                )
-        );
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
-    }
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            return ResponseEntity.ok(
+                    new LoginPojo(
+                            jwt,
+                            userDetails.getId(),
+                            userDetails.getUsername(),
+                            userDetails.getFullname(),
+                            userDetails.getPhonenumber(),
+                            userDetails.getAddress(),
+                            userDetails.getEmail(),
+                            userDetails.getAuthorities()
+                    )
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+        }
     }
 
     @Override
@@ -247,43 +247,49 @@ public class AccountImpl implements AccountService {
         AccountEntity accountEntity = new AccountEntity();
         if (acc != null) {
             UserDetailsImpl userDetails = new UserDetailsImpl(
-                acc.getId(), 
-                acc.getUsername(),
-                acc.getEmail(),
-                acc.getPassword(),
-                List.of(new SimpleGrantedAuthority(roleEntity.getName()))
+                    acc.getId(),
+                    acc.getUsername(),
+                    acc.getFullname(), acc.getPhone_number(),
+                    acc.getAddress(),
+                    acc.getEmail(),
+                    acc.getPassword(),
+                    List.of(new SimpleGrantedAuthority(roleEntity.getName()))
             );
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                userDetails.getPassword(),
-                userDetails.getAuthorities()
+                    userDetails,
+                    userDetails.getPassword(),
+                    userDetails.getAuthorities()
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = JWTUtil.generateJwtToken(authentication);
             return ResponseEntity.ok(
-                new LoginPojo(
-                    jwt,
-                    userDetails.getId(),
-                    userDetails.getUsername(),
-                    userDetails.getEmail(),
-                    userDetails.getAuthorities()
-                )
+                    new LoginPojo(
+                            jwt,
+                            userDetails.getId(),
+                            userDetails.getUsername(),
+                            userDetails.getFullname(), userDetails.getPhonenumber(),
+                            userDetails.getAddress(),
+                            userDetails.getEmail(),
+                            userDetails.getAuthorities()
+                    )
             );
         }
-            accountEntity.setRole(roleEntity); 
-            accountEntity.setUsername(googleLoginRequestDTO.getName());
-            accountEntity.setPassword(passwordEncoder.encode("null"));
-            accountEntity.setFullname(googleLoginRequestDTO.getName());
-            accountEntity.setEmail(googleLoginRequestDTO.getEmail());
-            accountEntity.setIs_active(true);
-            accountRepository.save(accountEntity);
-            
+        accountEntity.setRole(roleEntity);
+        accountEntity.setUsername(googleLoginRequestDTO.getName());
+        accountEntity.setPassword(passwordEncoder.encode("null"));
+        accountEntity.setFullname(googleLoginRequestDTO.getName());
+        accountEntity.setEmail(googleLoginRequestDTO.getEmail());
+        accountEntity.setIs_active(true);
+        accountRepository.save(accountEntity);
+
         UserDetailsImpl userDetails = new UserDetailsImpl(
-            accountEntity.getId(), 
-            accountEntity.getUsername(),
-            accountEntity.getEmail(),
-            accountEntity.getPassword(),
-            List.of(new SimpleGrantedAuthority(roleEntity.getName()))
+                accountEntity.getId(),
+                accountEntity.getUsername(),
+                accountEntity.getFullname(), accountEntity.getPhone_number(),
+                accountEntity.getAddress(),
+                accountEntity.getEmail(),
+                accountEntity.getPassword(),
+                List.of(new SimpleGrantedAuthority(roleEntity.getName()))
         );
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails,
@@ -293,13 +299,15 @@ public class AccountImpl implements AccountService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = JWTUtil.generateJwtToken(authentication);
         return ResponseEntity.ok(
-            new LoginPojo(
-                jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                userDetails.getAuthorities()
-            )
+                new LoginPojo(
+                        jwt,
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getFullname(), userDetails.getPhonenumber(),
+                        userDetails.getAddress(),
+                        userDetails.getEmail(),
+                        userDetails.getAuthorities()
+                )
         );
     }
 
@@ -317,6 +325,22 @@ public class AccountImpl implements AccountService {
         return ResponseEntity.ok("Reset password email sent");
     }
 
+    @Override
+    public String updateAccount(int id, UpdateAccountDTO updateAccountDTO) {
+        AccountEntity accountEntity = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        AccountEntity existingAccount = accountRepository.findByPhoneNumber(updateAccountDTO.getPhone());
+        if (existingAccount == null || existingAccount.getId() == id) {
+            accountEntity.setFullname(updateAccountDTO.getFullname());
+            accountEntity.setPhone_number(updateAccountDTO.getPhone());
+            accountEntity.setAddress(updateAccountDTO.getAddress());
+            accountRepository.save(accountEntity);
+            return "Update successful";
+        } else {
+            return "Phone number already exists!";
+        }
+    }
 
     @Override
     public ResponseEntity<?> resetPassword(ResetPasswordRequestDTO resetPasswordRequestDTO, HttpServletResponse response) {

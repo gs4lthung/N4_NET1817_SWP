@@ -21,10 +21,11 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
 
     @Query("SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ValuationResultPojo(" +
-            "v.id," +
+            "v.processResults.valuationResultId.valuationRequestId.pendingRequestId.hasCertificate" +
+            ",v.id," +
             "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -34,20 +35,44 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.symmetry," +
             "v.polish," +
             "v.fluorescence," +
-            "v.measurements," +
-            "v.diamondTable," +
+            "v.length," +
+            "v.width," +
             "v.depth," +
-            "v.lengthToWidthRatio," +
+            "v.depthPct," +
+            "v.tablePct," +
+            "v.pavPct," +
+            "v.pavAngle," +
+            "v.crownPct," +
+            "v.crownAngle," +
+            "v.lowerHalfPct," +
+            "v.starPct," +
+            "v.girdlePct," +
+            "v.culet," +
+            "v.isLaserDrillHole," +
+            "v.isFeather," +
+            "v.isCrystal," +
+            "v.isChip," +
+            "v.isNeedle," +
+            "v.isCavity," +
+            "v.isPinpoint," +
+            "v.isBruise," +
+            "v.isCloud," +
+            "v.isEtchChannel," +
+            "v.isTwinningWisp," +
+            "v.isIndentedNatural," +
+            "v.isKnot," +
+            "v.isNatural," +
             "v.price)" +
             "FROM ValuationResultEntity as v ")
     Page<ValuationResultEntity> findAllValuationResults(Pageable pageable);
 
     @Query("SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ValuationResultPojo(" +
+            "v.processResults.valuationResultId.valuationRequestId.pendingRequestId.hasCertificate," +
             "v.id," +
             "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -57,10 +82,33 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.symmetry," +
             "v.polish," +
             "v.fluorescence," +
-            "v.measurements," +
-            "v.diamondTable," +
+            "v.length," +
+            "v.width," +
             "v.depth," +
-            "v.lengthToWidthRatio," +
+            "v.depthPct," +
+            "v.tablePct," +
+            "v.pavPct," +
+            "v.pavAngle," +
+            "v.crownPct," +
+            "v.crownAngle," +
+            "v.lowerHalfPct," +
+            "v.starPct," +
+            "v.girdlePct," +
+            "v.culet," +
+            "v.isLaserDrillHole," +
+            "v.isFeather," +
+            "v.isCrystal," +
+            "v.isChip," +
+            "v.isNeedle," +
+            "v.isCavity," +
+            "v.isPinpoint," +
+            "v.isBruise," +
+            "v.isCloud," +
+            "v.isEtchChannel," +
+            "v.isTwinningWisp," +
+            "v.isIndentedNatural," +
+            "v.isKnot," +
+            "v.isNatural," +
             "v.price)" +
             "FROM ValuationResultEntity as v " +
             "WHERE v.processResults.status='Valuated'")
@@ -68,10 +116,11 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
 
     @Query("SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ValuationResultPojo(" +
+            "v.processResults.valuationResultId.valuationRequestId.pendingRequestId.hasCertificate," +
             "v.id," +
             "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -81,10 +130,33 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.symmetry," +
             "v.polish," +
             "v.fluorescence," +
-            "v.measurements," +
-            "v.diamondTable," +
+            "v.length," +
+            "v.width," +
             "v.depth," +
-            "v.lengthToWidthRatio," +
+            "v.depthPct," +
+            "v.tablePct," +
+            "v.pavPct," +
+            "v.pavAngle," +
+            "v.crownPct," +
+            "v.crownAngle," +
+            "v.lowerHalfPct," +
+            "v.starPct," +
+            "v.girdlePct," +
+            "v.culet," +
+            "v.isLaserDrillHole," +
+            "v.isFeather," +
+            "v.isCrystal," +
+            "v.isChip," +
+            "v.isNeedle," +
+            "v.isCavity," +
+            "v.isPinpoint," +
+            "v.isBruise," +
+            "v.isCloud," +
+            "v.isEtchChannel," +
+            "v.isTwinningWisp," +
+            "v.isIndentedNatural," +
+            "v.isKnot," +
+            "v.isNatural," +
             "v.price)" +
             "FROM ValuationResultEntity as v " +
             "WHERE v.id=:id")
@@ -92,10 +164,11 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
 
     @Query("SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ValuationResultPojo(" +
+            "v.processResults.valuationResultId.valuationRequestId.pendingRequestId.hasCertificate," +
             "v.id," +
-            "v.createdDate," +
+            "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -105,21 +178,45 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.symmetry," +
             "v.polish," +
             "v.fluorescence," +
-            "v.measurements," +
-            "v.diamondTable," +
+            "v.length," +
+            "v.width," +
             "v.depth," +
-            "v.lengthToWidthRatio," +
-            "v.price) " +
+            "v.depthPct," +
+            "v.tablePct," +
+            "v.pavPct," +
+            "v.pavAngle," +
+            "v.crownPct," +
+            "v.crownAngle," +
+            "v.lowerHalfPct," +
+            "v.starPct," +
+            "v.girdlePct," +
+            "v.culet," +
+            "v.isLaserDrillHole," +
+            "v.isFeather," +
+            "v.isCrystal," +
+            "v.isChip," +
+            "v.isNeedle," +
+            "v.isCavity," +
+            "v.isPinpoint," +
+            "v.isBruise," +
+            "v.isCloud," +
+            "v.isEtchChannel," +
+            "v.isTwinningWisp," +
+            "v.isIndentedNatural," +
+            "v.isKnot," +
+            "v.isNatural," +
+            "v.price)" +
             "FROM ValuationResultEntity as v " +
             "WHERE v.valuationRequestId.pendingRequestId.customerId.id=:customerId")
     Page<ValuationResultEntity> getValuationResultsByCustomerId(Pageable pageable, @Param("customerId") int customerId);
 
     @Query("SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ValuationResultPojo(" +
+            "v.processResults.valuationResultId.valuationRequestId.pendingRequestId.hasCertificate," +
             "v.id," +
-            "v.createdDate," +
+            "v.createdDate, " +
             "v.valuationRequestId.serviceId.name," +
-            "v.valuationRequestId.serviceId.statistic_id.name," +
+            "v.valuationRequestId.serviceId.statistic," +
             "v.origin," +
             "v.shape," +
             "v.carat," +
@@ -129,11 +226,34 @@ public interface ValuationResultRepository extends JpaRepository<ValuationResult
             "v.symmetry," +
             "v.polish," +
             "v.fluorescence," +
-            "v.measurements," +
-            "v.diamondTable," +
+            "v.length," +
+            "v.width," +
             "v.depth," +
-            "v.lengthToWidthRatio," +
-            "v.price) " +
+            "v.depthPct," +
+            "v.tablePct," +
+            "v.pavPct," +
+            "v.pavAngle," +
+            "v.crownPct," +
+            "v.crownAngle," +
+            "v.lowerHalfPct," +
+            "v.starPct," +
+            "v.girdlePct," +
+            "v.culet," +
+            "v.isLaserDrillHole," +
+            "v.isFeather," +
+            "v.isCrystal," +
+            "v.isChip," +
+            "v.isNeedle," +
+            "v.isCavity," +
+            "v.isPinpoint," +
+            "v.isBruise," +
+            "v.isCloud," +
+            "v.isEtchChannel," +
+            "v.isTwinningWisp," +
+            "v.isIndentedNatural," +
+            "v.isKnot," +
+            "v.isNatural," +
+            "v.price)" +
             "FROM ValuationResultEntity as v " +
             "WHERE v.valuationRequestId.id=:valuationRequestId")
     Optional<ValuationResultEntity> getValuationResultByValuationRequestId(@Param("valuationRequestId") int valuationRequestId);

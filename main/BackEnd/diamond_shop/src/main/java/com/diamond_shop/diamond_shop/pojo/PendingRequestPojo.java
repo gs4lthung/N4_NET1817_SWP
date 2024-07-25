@@ -16,6 +16,7 @@ public class PendingRequestPojo {
     int id;
     Date createdDate;
     String description;
+    boolean hasCertificate;
     int customerId;
     String customerName;
     String customerEmail;

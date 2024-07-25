@@ -18,7 +18,7 @@ export default function Footer() {
   const fontColor = useColorModeValue("black", "#DBA843");
   return (
     <>
-      <Box bg={useColorModeValue("gray.200", "black")} color={fontColor}>
+      <Box bg={useColorModeValue("gray.200", "black")} color={fontColor} borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"}>
         <Container as={Stack} maxW={"9xl"}>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} p={10} gap={10}>
             <Stack align={"flex-start"}>

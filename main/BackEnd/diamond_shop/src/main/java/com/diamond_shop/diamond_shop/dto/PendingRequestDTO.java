@@ -14,4 +14,6 @@ public class PendingRequestDTO {
     @NotNull
     private int customerId;
     private String description;
+    @NotNull
+    private boolean hasCertificate;
 }

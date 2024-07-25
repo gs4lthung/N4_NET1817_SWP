@@ -24,7 +24,7 @@ import {
   SimpleGrid,
   Tooltip,
 } from "@chakra-ui/react";
-import { ViewIcon } from "@chakra-ui/icons";
+import { TbPhotoCancel } from "react-icons/tb";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
 import axios from "axios";
@@ -47,6 +47,7 @@ import { useNavigate } from "react-router-dom";
 import routes from "../../../config/Config";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import { motion } from "framer-motion";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 export default function PendingRequestTable() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -104,7 +105,7 @@ export default function PendingRequestTable() {
   }, [currentPage]);
   return (
     <>
-      <Flex direction={"column"} gap={10}>
+      <Flex direction={"column"} gap={10} m={10}>
         <Center>
           <Text fontSize="4xl" fontWeight="bold">
             Appointments
@@ -128,13 +129,14 @@ export default function PendingRequestTable() {
               <Table variant={"unstyled"}>
                 <Thead>
                   <Tr>
-                    <Th>No</Th>
-                    <Th>Customer</Th>
-                    <Th>Email</Th>
-                    <Th>Phone</Th>
-                    <Th>Description</Th>
-                    <Th>Created Date</Th>
-                    <Th>View</Th>
+                    <Th textAlign={"center"}>No</Th>
+                    <Th textAlign={"center"}>Customer</Th>
+                    <Th textAlign={"center"}>Email</Th>
+                    <Th textAlign={"center"}>Phone</Th>
+                    <Th textAlign={"center"} w={"150px"}>Created Date</Th>
+                    <Th textAlign={"center"}>Description</Th>
+                    <Th textAlign={"center"}>Certificate</Th>
+                    <Th textAlign={"center"}>View</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -150,14 +152,21 @@ export default function PendingRequestTable() {
                       <Td>{item?.customerName || "N/A"}</Td>
                       <Td>{item?.customerEmail || "N/A"}</Td>
                       <Td>{item?.customerPhone || "N/A"}</Td>
-                      <Td>{item?.description || "N/A"}</Td>
                       <Td>
                         {item?.createdDate
                           ? format(
                               parseISO(item?.createdDate),
-                              "dd/MM/yyyy HH:mm:ss"
+                              "dd/MM/yyyy - HH:mm:ss"
                             )
                           : "N/A"}
+                      </Td>
+                      <Td>{item?.description || "N/A"}</Td>
+                      <Td textAlign={"center"}>
+                        {item?.hasCertificate ? (
+                          <CheckIcon color={"green"} />
+                        ) : (
+                          <CloseIcon color={"red"} />
+                        )}
                       </Td>
                       <Td>
                         <IconButton
@@ -221,18 +230,27 @@ export default function PendingRequestTable() {
                   <Text>{selectedPendingRequest?.customerPhone || "N/A"}</Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Description:</Text>
-                  <Text>{selectedPendingRequest?.description || "N/A"}</Text>
-                </Box>
-                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
                   <Text color={"gray.600"}>Email:</Text>
                   <Text>{selectedPendingRequest?.customerEmail || "N/A"}</Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
                   <Text color={"gray.600"}>Created Date:</Text>
                   <Text>
-                    {selectedPendingRequest?.createdDate?.slice(0, 10) || "N/A"}
+                    {selectedPendingRequest?.createdDate
+                      ? format(
+                          parseISO(selectedPendingRequest?.createdDate),
+                          "dd/MM/yyyy - HH:mm:ss"
+                        )
+                      : "N/A"}
                   </Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Description:</Text>
+                  <Text>{selectedPendingRequest?.description || "N/A"}</Text>
+                </Box>
+                <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
+                  <Text color={"gray.600"}>Certificate:</Text>
+                  <Text>{selectedPendingRequest?.hasCertificate}</Text>
                 </Box>
               </Flex>
             </Skeleton>
@@ -279,7 +297,7 @@ export default function PendingRequestTable() {
                                       cldImg={cld
                                         .image(image)
                                         .resize(
-                                          thumbnail().width(200).height(200)
+                                          thumbnail().width(250).height(300)
                                         )}
                                       plugins={[
                                         lazyload(),
@@ -289,14 +307,16 @@ export default function PendingRequestTable() {
                                   </Box>
                                 </Tooltip>
                               )}
-
                               <Button
                                 colorScheme="red"
+                                size="sm"
+                                fontSize="sm"
                                 onClick={() => {
                                   setSelectedImages(image);
                                   viewConfirmDeleteImage.onOpen();
                                 }}
                               >
+                                <TbPhotoCancel style={{ marginRight: "5px" }} />
                                 Delete
                               </Button>
                             </Flex>
@@ -345,22 +365,8 @@ export default function PendingRequestTable() {
                         >
                           <Button
                             colorScheme="red"
-                            onClick={async () => {
-                              await cancelPendingRequest(
-                                selectedPendingRequest?.id,
-                                "Pending request",
-                                user.userAuth.token,
-                                setIsCanceled,
-                                toast
-                              ).then(() => {
-                                setTimeout(() => {
-                                  fetchPendingRequest(
-                                    currentPage,
-                                    user.userAuth.id
-                                  );
-                                  viewPendingRequest.onClose();
-                                }, 1000);
-                              });
+                            onClick={() => {
+                              viewConfirmCancelRequest.onOpen();
                             }}
                           >
                             Cancel
@@ -448,7 +454,7 @@ export default function PendingRequestTable() {
         cancelRef={cancelRef}
         header={"Confirm"}
         body={"Are you sure that want to cancel this valuation request ?"}
-        action={"Cancel"}
+        action={"Delete"}
         colorScheme={"red"}
         isDelete={isCanceled}
         onClickFunc={async () => {

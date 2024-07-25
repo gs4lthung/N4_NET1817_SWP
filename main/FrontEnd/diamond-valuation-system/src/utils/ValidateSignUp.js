@@ -20,6 +20,13 @@ export const validateSignUp = (values, type) => {
           "Password must contain at least 8 characters, including UPPER/lowercase, special character and numbers";
       }
     }
+    if (values.email) {
+      if (
+        !/([a-zA-Z0-9]+)\@([a-zA-Z0-9]+)([\.])([a-zA-Z\.]+)/.test(values.email)
+      ) {
+        errors.email = "Invalid email address";
+      }
+    }
     if (type !== "createAdmin") {
       if (values.confirmPassword !== values.password) {
         errors.confirmPassword = "Password does not match";
@@ -37,24 +44,24 @@ export const validateSignUp = (values, type) => {
   }
   if (values.email) {
     if (
-      !/([a-zA-Z0-9]+)\@([a-zA-Z0-9]+)([\.])([a-zA-Z\.]+)/.test(
-        values.email
-      )
+      !/([a-zA-Z0-9]+)\@([a-zA-Z0-9]+)([\.])([a-zA-Z\.]+)/.test(values.email)
     ) {
       errors.email = "Invalid email address";
     }
   }
 
-  if (values.phoneNumber) {
-    if (values.phoneNumber.length > 10) {
-      errors.phoneNumber = "Invalid phone number";
-    }
-    if (!values.phoneNumber.startsWith("0") && values.phoneNumber.length > 9) {
-      errors.phoneNumber = "Invalid phone number";
-    }
-    if (!/^0?([3|5|7|8|9]+([0-9]{8})\b)/.test(values.phoneNumber)) {
-      errors.phoneNumber = "Invalid phone number";
-    }
+  if (values.phoneNumber.length === 0) {
+    errors.phoneNumber = "Invalid phone number";
   }
+  if (values.phoneNumber.length > 10) {
+    errors.phoneNumber = "Invalid phone number";
+  }
+  if (!values.phoneNumber.startsWith("0") && values.phoneNumber.length > 9) {
+    errors.phoneNumber = "Invalid phone number";
+  }
+  if (!/^0?([3|5|7|8|9]+([0-9]{8})\b)/.test(values.phoneNumber)) {
+    errors.phoneNumber = "Invalid phone number";
+  }
+
   return errors;
 };

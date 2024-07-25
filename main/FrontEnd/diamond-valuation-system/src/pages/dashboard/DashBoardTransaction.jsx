@@ -38,119 +38,129 @@ export default function DashBoardTransaction({ hidePagination }) {
   }, [currentPage]);
   return (
     <>
-      <Box
-        bg="gray.600"
-        color="white"
-        mb={5}
-        boxShadow="sm"
-        borderRadius="md"
-        maxW="100%"
-        minW="100%"
-      >
-        <Text py={3} fontSize="lg" pl={4}>
-          TRANSACTIONS
-        </Text>
-        <TableContainer>
-          <Table variant="simple" bg="gray.200" color="black">
-            <Thead>
-              <Tr>
-                <Th color="black">No</Th>
-                <Th color="black">Transaction No</Th>
-                <Th color="black">Name</Th>
-                <Th color="black">Bank</Th>
-                <Th color="black">Amount</Th>
-                <Th color="black">Date</Th>
-                <Th color="black">Description</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {loading && (
-                <>
-                  <Tr>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                    <Td>
-                      <Skeleton height="20px" />
-                    </Td>
-                  </Tr>
-                </>
-              )}
-              {transaction &&
-                transaction.map((transaction, index) => {
-                  return (
-                    <Tr key={index}>
-                      <Td>{index + 1}</Td>
-                      <Td>{transaction?.transaction}</Td>
-                      <Td>{transaction?.customerName}</Td>
-                      <Td>{transaction?.bank}</Td>
-                      <Td>
-                        {new Intl.NumberFormat("vi-VN").format(
-                          transaction?.amount
-                        )}{" "}
-                        vnd
-                      </Td>
-                      <Td>
-                        {format(
-                          new Date(transaction?.date),
-                          "dd/MM/yyyy - HH:mm:ss"
-                        )}
-                      </Td>
-                      <Td>{transaction?.order_info}</Td>
-                    </Tr>
-                  );
-                })}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Box>
-      {!hidePagination && (
-        <Center>
-          <PageIndicator
-            totalPages={totalPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+      <Box m={10}>
+        <Center mb={5}>
+          <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Transactions
+          </Text>
         </Center>
-      )}
+        {totalPage === 0 ? (
+          <Center>No transaction to show</Center>
+        ) : (
+          <Skeleton isLoaded={transaction.length > 0} height={"200px"}>
+            <TableContainer
+              whiteSpace={"wrap"}
+              mb={5}
+              p={8}
+              border={"2px solid"}
+              borderColor={"gray.100"}
+              boxShadow="sm"
+              borderRadius="24px"
+              maxW="100%"
+              minW="100%"
+            >
+              <Table variant="unstyled">
+                <Thead>
+                  <Tr>
+                    <Th>No</Th>
+                    <Th>Transaction No</Th>
+                    <Th>Name</Th>
+                    <Th>Bank</Th>
+                    <Th>Amount</Th>
+                    <Th>Date</Th>
+                    <Th>Description</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {loading && (
+                    <>
+                      <Tr>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                      </Tr>
+                      <Tr>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                        <Td>
+                          <Skeleton height="20px" />
+                        </Td>
+                      </Tr>
+                    </>
+                  )}
+                  {transaction &&
+                    transaction.map((transaction, index) => {
+                      return (
+                        <Tr key={index}>
+                          <Td>{index + 1}</Td>
+                          <Td>{transaction?.transaction}</Td>
+                          <Td>{transaction?.customerName}</Td>
+                          <Td>{transaction?.bank}</Td>
+                          <Td>
+                            {new Intl.NumberFormat("vi-VN").format(
+                              transaction?.amount
+                            )}{" "}
+                            vnd
+                          </Td>
+                          <Td>
+                            {format(
+                              new Date(transaction?.date),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )}
+                          </Td>
+                          <Td>{transaction?.order_info}</Td>
+                        </Tr>
+                      );
+                    })}
+                </Tbody>
+              </Table>
+            </TableContainer>
+            {!hidePagination && (
+              <Center>
+                <PageIndicator
+                  totalPages={totalPage}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              </Center>
+            )}
+          </Skeleton>
+        )}
+      </Box>
     </>
   );
 }

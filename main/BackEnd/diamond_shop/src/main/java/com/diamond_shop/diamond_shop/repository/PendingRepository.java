@@ -19,6 +19,7 @@ public interface PendingRepository extends JpaRepository<PendingRequestsEntity, 
             "p.id," +
             "p.createdDate," +
             "p.description," +
+            "p.hasCertificate," +
             "p.customerId.id," +
             "p.customerId.fullname," +
             "p.customerId.email," +
@@ -37,6 +38,7 @@ public interface PendingRepository extends JpaRepository<PendingRequestsEntity, 
             "p.id," +
             "p.createdDate," +
             "p.description," +
+            "p.hasCertificate," +
             "p.customerId.id," +
             "p.customerId.fullname," +
             "p.customerId.email," +

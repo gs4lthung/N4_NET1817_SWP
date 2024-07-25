@@ -19,7 +19,7 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
             "v.id," +
             "v.serviceId.name, " +
             "v.serviceId.price," +
-            "v.serviceId.statistic_id.name," +
+            "v.serviceId.statistic," +
             "v.createdDate," +
             "v.finishDate," +
             "v.sealingDate) " +
@@ -32,7 +32,7 @@ public interface ValuationRequestRepository extends JpaRepository<ValuationReque
             "v.id," +
             "v.serviceId.name, " +
             "v.serviceId.price," +
-            "v.serviceId.statistic_id.name," +
+            "v.serviceId.statistic," +
             "v.createdDate," +
             "v.finishDate," +
             "v.sealingDate) " +

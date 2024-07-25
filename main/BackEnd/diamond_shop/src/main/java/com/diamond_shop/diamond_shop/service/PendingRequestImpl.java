@@ -53,7 +53,8 @@ public class PendingRequestImpl implements PendingRequestService {
         PendingRequestsEntity pendingRequestsEntity = new PendingRequestsEntity(
                 acc,
                 pendingRequestDTO.getDescription(),
-                createdDate
+                createdDate,
+                pendingRequestDTO.isHasCertificate()
         );
         pendingRepository.save(pendingRequestsEntity);
         response.setId(pendingRequestsEntity.getId());

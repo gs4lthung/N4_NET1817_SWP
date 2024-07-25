@@ -12,18 +12,22 @@ import {
   Tbody,
   Td,
   Skeleton,
+  Center,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { viewCustomerRequest } from "../../service/ViewRequest";
 import { UserContext } from "../../components/GlobalContext/AuthContext";
+import { NotificationContext  } from "../../components/GlobalContext/NotificationContext";
 export default function DashBoardAppoint() {
   const user = useContext(UserContext);
+  const { incrementNotifications } = useContext(NotificationContext);
   const [request, SetRequest] = useState([]);
   useEffect(() => {
     const fetchApi = async (id) => {
       try {
         const result = await viewCustomerRequest(1, id);
         SetRequest(result.content);
+        incrementNotifications();
       } catch (error) {
         console.log(error);
       }
@@ -31,20 +35,15 @@ export default function DashBoardAppoint() {
     fetchApi(user.userAuth.id);
   }, []);
   return (
-    <Box
-      bg="gray.600"
-      color="white"
-      mb={5}
-      boxShadow="sm"
-      borderRadius="md"
-      maxW="100%"
-      minW="100%"
-    >
-      <Text py={3} fontSize="lg" pl={4}>
-        APPOINTMENTS
-      </Text>
+    <Box m={10}  >
+      <Center mb={5}>
+      <Text fontSize={"4xl"} fontWeight={"bold"}>
+            Appointments
+          </Text>
+      </Center>
+      
       {request?.length === 0 ? (
-        <Box variant="simple" bg="gray.200" color="black">
+        <Box variant="simple" display="flex" justifyContent="center"  color="black" m={5}>
           No appointment to show
         </Box>
       ) : (
@@ -62,7 +61,7 @@ export default function DashBoardAppoint() {
           <Table variant="unstyled">
             <Thead>
               <Tr>
-                <Th>#</Th>
+                <Th>No</Th>
                 <Th>Customer</Th>
                 <Th>Date</Th>
                 <Th>Email</Th>

@@ -31,6 +31,7 @@ import { PiFileTextBold } from "react-icons/pi";
 import ZaloChat from "../../../components/zalo/ZaloChat";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
+import { NotificationContext } from "../../../components/GlobalContext/NotificationContext";
 import axios from "axios";
 import PageIndicator from "../../../components/PageIndicator";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -60,11 +61,13 @@ import ReceiptModal from "../modal/ReceiptModal";
 import ValuationResultModal from "../modal/ValuationResultModal";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import { motion } from "framer-motion";
+
 export default function ProcessRequestTable() {
   const navigate = useNavigate();
   const preProcessRequestId = useLocation().state?.processRequestId;
   const toast = useToast();
   const user = useContext(UserContext);
+  const { incrementNotifications } = useContext(NotificationContext);
   const isUsers =
     user.userAuth &&
     user.userAuth.authorities &&
@@ -72,6 +75,7 @@ export default function ProcessRequestTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [processRequest, setProcessRequest] = useState([]);
+  const [previousStatuses, setPreviousStatuses] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [isUpdateProcess, setIsUpdateProcess] = useState(false);
   const [selectedProcessRequest, setSelectedProcessRequest] = useState(null);
@@ -104,10 +108,21 @@ export default function ProcessRequestTable() {
       axios
         .get(url)
         .then(function (response) {
-          console.log(response.data);
           if (response.status === 200) {
+            const newStatuses = {};
+            response.data.content.forEach((item) => {
+              newStatuses[item.id] = item.status;
+              if (
+                previousStatuses[item.id] &&
+                previousStatuses[item.id] !== item.status
+              ) {
+                incrementNotifications();
+              }
+            });
+            setPreviousStatuses(newStatuses);
+
             Promise.all(
-              response.data.content.map(async (item, index) => {
+              response.data.content.map(async (item) => {
                 if (item?.status === "Not resolved yet") {
                   await checkProcessRequestReceiveDate(
                     item?.id,
@@ -159,6 +174,8 @@ export default function ProcessRequestTable() {
   };
   const cancelRef = useRef();
   const viewConfirmContacted = useDisclosure();
+  const viewConfirmReOpen = useDisclosure();
+  const viewConfirmCancel = useDisclosure();
   const viewConfirmService = useDisclosure();
   const viewConfirmDiamondReceived = useDisclosure();
   const viewConfirmCustomerReceived = useDisclosure();
@@ -189,7 +206,7 @@ export default function ProcessRequestTable() {
   });
   return (
     <>
-      <Flex direction={"column"} gap={10}>
+      <Flex direction={"column"} gap={10} m={10}>
         <Center>
           <Text fontSize={"4xl"} fontWeight={"bold"}>
             Process Request
@@ -214,18 +231,12 @@ export default function ProcessRequestTable() {
                 <Thead>
                   <Tr>
                     <Th>ID</Th>
-                    {(user.userAuth.roleid === 2 ||
-                      user.userAuth.roleid === 3) && <Th>Customer ID</Th>}
                     <Th>Customer</Th>
-                    {(user.userAuth.roleid === 2 ||
-                      user.userAuth.roleid === 3) && (
-                      <Th>Consulting Staff ID</Th>
-                    )}
                     <Th>Consulting Staff</Th>
-                    <Th>Created Date</Th>
-                    <Th>Receive Date</Th>
+                    <Th w={"150px"}>Created Date</Th>
+                    <Th w={"150px"}>Receive Date</Th>
                     <Th>Description</Th>
-                    <Th>Status</Th>
+                    <Th w={"250px"}>Status</Th>
                     <Th>View</Th>
                   </Tr>
                 </Thead>
@@ -250,15 +261,7 @@ export default function ProcessRequestTable() {
                       }}
                     >
                       <Td>{item?.id}</Td>
-                      {(user.userAuth.roleid === 2 ||
-                        user.userAuth.roleid === 3) && (
-                        <Td>{item?.customerId || "N/A"}</Td>
-                      )}
                       <Td>{item?.customerName || "N/A"}</Td>
-                      {(user.userAuth.roleid === 2 ||
-                        user.userAuth.roleid === 3) && (
-                        <Td>{item?.consultingStaffId || "N/A"}</Td>
-                      )}
                       <Td>{item?.consultingStaffName}</Td>
                       <Td>
                         {item?.createdDate
@@ -292,7 +295,7 @@ export default function ProcessRequestTable() {
                             (item?.status === "Finished" &&
                               "rgb(255, 205, 86)") ||
                             (item?.status === "Done" && "#68D391") ||
-                            (item?.status === "Sealed" && "#2D3748") ||
+                            (item?.status === "Sealed" && "gray.300") ||
                             (item?.status === "Lost Receipt" && "#718096")
                           }
                           borderRadius={"20px"}
@@ -457,6 +460,21 @@ export default function ProcessRequestTable() {
                           : " ",
                       }}
                       onSubmit={(values, { setSubmitting }) => {
+                        if (
+                          values.receiveDate <
+                          selectedProcessRequest?.createdDate
+                        ) {
+                          toast({
+                            title: "Failed",
+                            description: "Receive date is before created date",
+                            status: "warning",
+                            position: "top-right",
+                            duration: 3000,
+                            isClosable: true,
+                          });
+                          setSubmitting(false);
+                          return;
+                        }
                         axios
                           .post(
                             `${
@@ -474,21 +492,38 @@ export default function ProcessRequestTable() {
                           .then((res) => {
                             console.log(res);
                             setSubmitting(false);
-                            toast({
-                              title: "Success",
-                              description: res.data,
-                              status: "success",
-                              position: "top-right",
-                              duration: 3000,
-                              isClosable: true,
-                            });
-                            viewValuationRequest.onClose();
-                            setTimeout(() => {
-                              fetchProcessRequest(
-                                currentPage,
-                                user.userAuth.id
-                              );
-                            }, 1000);
+                            if (res.status === 200) {
+                              if (
+                                res.data ===
+                                  "Receive date is after created date" ||
+                                res.data.includes("Cannot")
+                              ) {
+                                toast({
+                                  title: "Failed",
+                                  description: res.data,
+                                  status: "warning",
+                                  position: "top-right",
+                                  duration: 3000,
+                                  isClosable: true,
+                                });
+                              } else {
+                                toast({
+                                  title: "Success",
+                                  description: res.data,
+                                  status: "success",
+                                  position: "top-right",
+                                  duration: 3000,
+                                  isClosable: true,
+                                });
+                              }
+                              viewValuationRequest.onClose();
+                              setTimeout(() => {
+                                fetchProcessRequest(
+                                  currentPage,
+                                  user.userAuth.id
+                                );
+                              }, 1000);
+                            }
                           })
                           .catch((error) => {
                             setSubmitting(false);
@@ -594,11 +629,16 @@ export default function ProcessRequestTable() {
                   <Center>
                     <Flex direction={"column"} align={"center"} p={10} gap={5}>
                       <Text textTransform={"uppercase"} color={"tomato"}>
-                        Your request has been canceled because you didn't send
-                        your diamond to us on time.
+                        The request has been canceled
                       </Text>
                       <Text>
-                        Please contact with our staff for more information
+                        Please contact with{" "}
+                        {(user.userAuth.authorities[0].authority ===
+                          "Consulting staff" &&
+                          "customer") ||
+                          (user.userAuth.authorities[0].authority ===
+                            "Customer" &&
+                            "staff")}
                       </Text>
                     </Flex>
                   </Center>
@@ -620,7 +660,7 @@ export default function ProcessRequestTable() {
                   {(selectedProcessRequest?.status === "Sealed" && (
                     <Button
                       onClick={() => {
-                        viewConfirmDiamondReceived.onOpen();
+                        viewConfirmSealingLetter.onOpen();
                       }}
                     >
                       Create sealing letter
@@ -641,180 +681,122 @@ export default function ProcessRequestTable() {
                 user.userAuth.authorities[0].authority ===
                   "Consulting staff" && (
                   <ModalFooter justifyContent={"space-around"}>
-                    {(selectedProcessRequest?.status === "Not resolved yet" && (
+                    {selectedProcessRequest?.status === "Not resolved yet" && (
                       <>
                         <Button onClick={viewConfirmContacted.onOpen}>
                           Contacted
                         </Button>
-                        <ZaloChat
-                          phone={selectedProcessRequest?.customerPhone}
-                          type={"customer"}
-                        />
                       </>
-                    )) ||
-                      ((selectedProcessRequest?.status === "Contacted" ||
-                        selectedProcessRequest?.status === "Canceled") && (
-                        <ZaloChat
-                          phone={selectedProcessRequest?.customerPhone}
-                          type={"customer"}
-                        />
-                      )) ||
-                      (selectedProcessRequest?.status === "Paid" && (
-                        <>
-                          <Button
-                            onClick={() => {
-                              viewConfirmDiamondReceived.onOpen();
-                            }}
-                          >
-                            Diamond Received
-                          </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.customerPhone}
-                            type={"customer"}
-                          />
-                        </>
-                      )) ||
-                      (selectedProcessRequest?.status ===
-                        "Diamond Received" && (
-                        <>
-                          <Button
-                            onClick={() => {
-                              viewReceipt.onOpen();
-                              fetchValuationReceipt(
-                                selectedValuationRequest?.id,
-                                setSelectedValuationReceipt,
-                                toast
-                              );
-                            }}
-                          >
-                            Receipt
-                          </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.customerPhone}
-                            type={"customer"}
-                          />
-                        </>
-                      )) ||
-                      (selectedProcessRequest?.status === "Valuated" && (
-                        <>
-                          <Button
-                            colorScheme="teal"
-                            onClick={() => {
-                              fetchValuationResult(
-                                selectedValuationRequest?.id,
-                                setSelectedValuationResult,
-                                toast
-                              );
-                              viewValuationResult.onOpen();
-                            }}
-                          >
-                            View
-                          </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.customerPhone}
-                            type={"customer"}
-                          />
-                        </>
-                      )) ||
-                      ((selectedProcessRequest?.status === "Finished" ||
-                        selectedProcessRequest?.status === "Sealed" ||
-                        selectedProcessRequest?.status === "Lost Receipt") && (
-                        <>
-                          <SimpleGrid columns={2} spacing={5}>
-                            <Button
-                              colorScheme="teal"
-                              onClick={() => {
-                                fetchValuationResult(
-                                  selectedValuationRequest?.id,
-                                  setSelectedValuationResult,
-                                  toast
-                                );
-                                viewValuationResult.onOpen();
-                              }}
-                            >
-                              View
-                            </Button>
-                            <ZaloChat
-                              phone={selectedProcessRequest?.customerPhone}
-                              type={"customer"}
-                            />
-                            <Button
-                              colorScheme="blue"
-                              onClick={() => {
-                                viewConfirmCustomerReceived.onOpen();
-                              }}
-                            >
-                              Cust. Received
-                            </Button>
-                            {selectedProcessRequest?.status !==
-                              "Lost Receipt" && (
-                              <Button
-                                colorScheme="red"
-                                onClick={() => {
-                                  viewConfirmLostReceipt.onOpen();
-                                }}
-                              >
-                                Lost Receipt
-                              </Button>
-                            )}
-                          </SimpleGrid>
-                        </>
-                      )) ||
-                      (selectedProcessRequest?.status === "Done" && (
-                        <>
-                          <Button
-                            colorScheme="teal"
-                            onClick={() => {
-                              fetchValuationResult(
-                                selectedValuationRequest?.id,
-                                setSelectedValuationResult,
-                                toast
-                              );
-                              viewValuationResult.onOpen();
-                            }}
-                          >
-                            View
-                          </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.customerPhone}
-                            type={"customer"}
-                          />
-                        </>
-                      ))}
+                    )}
+                    {(selectedProcessRequest?.status === "Contacted" ||
+                      selectedProcessRequest?.status ===
+                        "Not resolved yet") && (
+                      <Button
+                        colorScheme="red"
+                        onClick={() => {
+                          viewConfirmCancel.onOpen();
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    )}
+
+                    {selectedProcessRequest?.status === "Canceled" && (
+                      <Button
+                        colorScheme="teal"
+                        onClick={() => {
+                          viewConfirmReOpen.onOpen();
+                        }}
+                      >
+                        Re-open
+                      </Button>
+                    )}
+                    {selectedProcessRequest?.status === "Paid" && (
+                      <Button
+                        onClick={() => {
+                          viewConfirmDiamondReceived.onOpen();
+                        }}
+                      >
+                        Diamond Received
+                      </Button>
+                    )}
+                    {selectedProcessRequest?.status === "Diamond Received" && (
+                      <Button
+                        onClick={() => {
+                          viewReceipt.onOpen();
+                          fetchValuationReceipt(
+                            selectedValuationRequest?.id,
+                            setSelectedValuationReceipt,
+                            toast
+                          );
+                        }}
+                      >
+                        Receipt
+                      </Button>
+                    )}
+                    {(selectedProcessRequest?.status === "Valuated" ||
+                      selectedProcessRequest?.status === "Finished" ||
+                      selectedProcessRequest?.status === "Sealed" ||
+                      selectedProcessRequest?.status === "Lost Receipt" ||
+                      selectedProcessRequest?.status === "Done") && (
+                      <Button
+                        colorScheme="teal"
+                        onClick={() => {
+                          fetchValuationResult(
+                            selectedValuationRequest?.id,
+                            setSelectedValuationResult,
+                            toast
+                          );
+                          viewValuationResult.onOpen();
+                        }}
+                      >
+                        View
+                      </Button>
+                    )}
+                    {(selectedProcessRequest?.status === "Finished" ||
+                      selectedProcessRequest?.status === "Sealed" ||
+                      selectedProcessRequest?.status === "Lost Receipt") && (
+                      <Button
+                        colorScheme="blue"
+                        onClick={() => {
+                          viewConfirmCustomerReceived.onOpen();
+                        }}
+                      >
+                        Cust. Received
+                      </Button>
+                    )}
+                    {(selectedProcessRequest?.status === "Finished" ||
+                      selectedProcessRequest?.status === "Sealed") && (
+                      <Button
+                        colorScheme="red"
+                        onClick={() => {
+                          viewConfirmLostReceipt.onOpen();
+                        }}
+                      >
+                        Lost Receipt
+                      </Button>
+                    )}
+                    <ZaloChat
+                      phone={selectedProcessRequest?.customerPhone}
+                      type={"customer"}
+                    />
                   </ModalFooter>
                 )) ||
               (isUsers &&
                 user.userAuth.authorities[0].authority === "Customer" && (
                   <ModalFooter justifyContent={"space-around"}>
-                    {((selectedProcessRequest?.status === "Not resolved yet" ||
-                      selectedProcessRequest?.status === "Canceled") && (
-                      <ZaloChat
-                        phone={selectedProcessRequest?.consultingStaffPhone}
-                        type={"staff"}
-                      />
+                    {(selectedProcessRequest?.status === "Contacted" && (
+                      <>
+                        <Button
+                          colorScheme="teal"
+                          onClick={() => {
+                            viewConfirmService.onOpen();
+                          }}
+                        >
+                          Service
+                        </Button>
+                      </>
                     )) ||
-                      (selectedProcessRequest?.status === "Contacted" && (
-                        <>
-                          <Button
-                            colorScheme="teal"
-                            onClick={() => {
-                              viewConfirmService.onOpen();
-                            }}
-                          >
-                            Service
-                          </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.consultingStaffPhone}
-                            type={"staff"}
-                          />
-                        </>
-                      )) ||
-                      (selectedProcessRequest?.status === "Paid" && (
-                        <ZaloChat
-                          phone={selectedProcessRequest?.consultingStaffPhone}
-                          type={"staff"}
-                        />
-                      )) ||
                       ((selectedProcessRequest?.status === "Valuated" ||
                         selectedProcessRequest?.status === "Finished" ||
                         selectedProcessRequest?.status === "Done" ||
@@ -833,12 +815,12 @@ export default function ProcessRequestTable() {
                           >
                             View Result
                           </Button>
-                          <ZaloChat
-                            phone={selectedProcessRequest?.consultingStaffPhone}
-                            type={"staff"}
-                          />
                         </>
                       ))}
+                    <ZaloChat
+                      phone={selectedProcessRequest?.consultingStaffPhone}
+                      type={"staff"}
+                    />
                   </ModalFooter>
                 ))}
           </Skeleton>
@@ -887,7 +869,60 @@ export default function ProcessRequestTable() {
               duration: 3000,
               isClosable: true,
             });
+            viewConfirmContacted.onClose();
           }
+        }}
+      />
+      <ConfirmAlert
+        isOpen={viewConfirmReOpen.isOpen}
+        onClose={viewConfirmReOpen.onClose}
+        cancelRef={cancelRef}
+        header={"Confirm"}
+        body={
+          "Are you sure that re-open the request after the customer doesn't come to send their diamond on time ?"
+        }
+        action={"Re-open"}
+        colorScheme={"teal"}
+        isDelete={isUpdateProcess}
+        onClickFunc={async () => {
+          await updateProcessRequest(
+            selectedProcessRequest?.id,
+            "Re-open",
+            user.userAuth.token,
+            setIsUpdateProcess,
+            toast
+          ).then(() => {
+            setTimeout(() => {
+              fetchProcessRequest(currentPage, user.userAuth.id);
+              viewConfirmReOpen.onClose();
+              viewValuationRequest.onClose();
+            }, 1000);
+          });
+        }}
+      />
+      <ConfirmAlert
+        isOpen={viewConfirmCancel.isOpen}
+        onClose={viewConfirmCancel.onClose}
+        cancelRef={cancelRef}
+        header={"Confirm"}
+        body={"Are you sure that cancel the customer is request ?"}
+        action={"Delete"}
+        colorScheme={"red"}
+        isDelete={isUpdateProcess}
+        onClickFunc={async () => {
+          await updateProcessRequest(
+            selectedProcessRequest?.id,
+            "Canceled",
+            user.userAuth.token,
+            setIsUpdateProcess,
+            toast
+          ).then(() => {
+            setTimeout(() => {
+              fetchProcessRequest(currentPage, user.userAuth.id);
+              viewConfirmCancel.onClose();
+              viewValuationRequest.onClose();
+            }, 1000);
+          });
         }}
       />
       <ConfirmAlert

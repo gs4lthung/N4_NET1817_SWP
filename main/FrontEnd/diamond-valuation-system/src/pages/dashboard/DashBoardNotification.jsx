@@ -34,7 +34,7 @@ export default function DashBoardNotification() {
   }, []);
   return (
     <>
-    <Box>
+    <Box m={10}>
       <Flex direction={"column"} gap={10}>
         <Center>
           <Text fontSize={"4xl"} fontWeight={"bold"}>

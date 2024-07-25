@@ -23,13 +23,13 @@ const FeaturedCard = ({ imageSrc, title1, title2, title3 }) => {
       />
       <Box>
         <Text fontSize="lg" color={fontColor}>
-          {title1}
+          {title1.includes("undefined") ? "No result" : title1}
         </Text>
         <Text fontSize="lg" color={fontColor}>
-          {title2}
+          {title2.includes("undefined") ? "No result" : title2}
         </Text>
         <Text fontSize="md" color={fontColor}>
-          {title3}
+          {title3.includes("undefined") ? "No result" : title3}
         </Text>
       </Box>
     </Flex>

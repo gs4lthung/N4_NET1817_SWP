@@ -7,7 +7,7 @@ const DiamondCheck = lazy(() => import("../pages/check/DiamondCheck.jsx"));
 const DiamondCheckDetails = lazy(() =>
   import("../pages/check/DiamondCheckDetails.jsx")
 );
-const Detail = lazy(() => import("../pages/detail/Detail.jsx"));
+const Detail = lazy(() => import("../pages/check/DiamondCheckDetails.jsx"));
 const DiamondService = lazy(() =>
   import("../pages/services/DiamondService.jsx")
 );
@@ -37,7 +37,6 @@ const Prices = lazy(() => import("../pages/prices/Prices.jsx"));
 const Error = lazy(() => import("../pages/error/Error.jsx"));
 import DashBoardLayout from "../layout/DashBoardLayout.jsx";
 const DashBoard = lazy(() => import("../pages/dashboard/DashBoard.jsx"));
-import DashBoardNotification from "../pages/dashboard/DashBoardNotification.jsx";
 import DashBoardAppoint from "../pages/dashboard/DashBoardAppoint.jsx";
 import Login from "../pages/login/Login.jsx";
 const AboutUs = lazy(() => import("../pages/aboutUs/AboutUs.jsx"));
@@ -169,11 +168,6 @@ const ALlRoutes = [
   {
     path: routes.dashboard,
     component: DashBoard,
-    layout: DashBoardLayout,
-  },
-  {
-    path: routes.dasboardNotification,
-    component: DashBoardNotification,
     layout: DashBoardLayout,
   },
   {

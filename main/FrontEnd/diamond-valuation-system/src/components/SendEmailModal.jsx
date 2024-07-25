@@ -14,9 +14,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { UserContext } from "./GlobalContext/AuthContext";
 export default function SendEmailModal({ sendEmailModal, message }) {
+  const user=useContext(UserContext)
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -69,7 +71,7 @@ export default function SendEmailModal({ sendEmailModal, message }) {
               from_name: "DiamondVal",
               from_email: "lamtienhung0412@gmail.com",
               user_name: "",
-              user_email: "",
+              user_email: user.userAuth.email,
               message: { message },
             }}
             onSubmit={(values) => {

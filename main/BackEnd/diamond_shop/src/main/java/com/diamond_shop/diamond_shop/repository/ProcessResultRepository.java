@@ -19,11 +19,13 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
 
     @Query(value = "SELECT " +
             "NEW com.diamond_shop.diamond_shop.pojo.ProcessResultPojo(" +
+            "p.valuationResultId.valuationRequestId.pendingRequestId.hasCertificate," +
             "p.valuationResultId.id, " +
             "p.createdDate," +
+            "p.valuationResultId.updateDate," +
             "p.valuationStaffId.fullname," +
             "p.valuationResultId.valuationRequestId.serviceId.name, " +
-            "p.valuationResultId.valuationRequestId.serviceId.statistic_id.name," +
+            "p.valuationResultId.valuationRequestId.serviceId.statistic," +
             "p.status," +
             "p.valuationResultId.origin," +
             "p.valuationResultId.shape," +
@@ -34,10 +36,33 @@ public interface ProcessResultRepository extends JpaRepository<ProcessResultEnti
             "p.valuationResultId.symmetry," +
             "p.valuationResultId.polish," +
             "p.valuationResultId.fluorescence," +
-            "p.valuationResultId.measurements," +
-            "p.valuationResultId.diamondTable," +
+            "p.valuationResultId.length," +
+            "p.valuationResultId.width," +
             "p.valuationResultId.depth," +
-            "p.valuationResultId.lengthToWidthRatio," +
+            "p.valuationResultId.depthPct," +
+            "p.valuationResultId.tablePct," +
+            "p.valuationResultId.pavPct," +
+            "p.valuationResultId.pavAngle," +
+            "p.valuationResultId.crownPct," +
+            "p.valuationResultId.crownAngle," +
+            "p.valuationResultId.lowerHalfPct," +
+            "p.valuationResultId.starPct," +
+            "p.valuationResultId.girdlePct," +
+            "p.valuationResultId.culet," +
+            "p.valuationResultId.isLaserDrillHole," +
+            "p.valuationResultId.isFeather," +
+            "p.valuationResultId.isCrystal," +
+            "p.valuationResultId.isChip," +
+            "p.valuationResultId.isNeedle," +
+            "p.valuationResultId.isCavity," +
+            "p.valuationResultId.isPinpoint," +
+            "p.valuationResultId.isBruise," +
+            "p.valuationResultId.isCloud," +
+            "p.valuationResultId.isEtchChannel," +
+            "p.valuationResultId.isTwinningWisp," +
+            "p.valuationResultId.isIndentedNatural," +
+            "p.valuationResultId.isKnot," +
+            "p.valuationResultId.isNatural," +
             "p.valuationResultId.price)" +
             "FROM ProcessResultEntity as p " +
             "WHERE p.valuationStaffId.is_active=true AND p.valuationStaffId.id=:valuationStaffId")

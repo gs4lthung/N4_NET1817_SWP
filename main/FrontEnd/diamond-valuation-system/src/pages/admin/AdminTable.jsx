@@ -26,7 +26,7 @@ export default function AdminTable({
   setDeleteId,
   confirmDeleteUser,
 }) {
-  const bgHoverColor = useColorModeValue("gray.100", "gray.700");
+  const bgHoverColor = useColorModeValue("gray.100");
   return (
     <>
       <TableContainer
@@ -113,7 +113,7 @@ export default function AdminTable({
                 <Td>{index + 1}</Td>
                 <Td>{account?.roleName}</Td>
                 <Td>{account?.username}</Td>
-                <Td>***</Td>
+                <Td textAlign={"center"}>***</Td>
                 <Td>{account?.fullName}</Td>
                 <Td>{account?.email}</Td>
                 <Td>{account?.phoneNumber}</Td>

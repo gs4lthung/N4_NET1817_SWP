@@ -14,6 +14,8 @@ import {
   Skeleton,
   Button,
   SimpleGrid,
+  UnorderedList,
+  ListItem,
 } from "@chakra-ui/react";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { format, parseISO } from "date-fns";
@@ -74,22 +76,21 @@ export default function ValuationResultModal({
                         )
                       : "N/A"}
                   </Text>
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Origin"
-                  ) && (
-                    <Text>
-                      <strong>Origin: </strong>
-                      {selectedValuationResult?.origin}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Shape"
-                  ) && (
-                    <Text>
-                      <strong>Shape: </strong>
-                      {selectedValuationResult?.shape}
-                    </Text>
-                  )}
+                  <Text>
+                    <strong>Origin: </strong>
+                    {selectedValuationResult?.origin}
+                  </Text>
+
+                  <Text>
+                    <strong>Shape: </strong>
+                    {selectedValuationResult?.shape}
+                  </Text>
+                  <Text>
+                    <strong>Measurements: </strong>
+                    {selectedValuationResult?.length} -{" "}
+                    {selectedValuationResult?.width} x{" "}
+                    {selectedValuationResult?.depth} mm
+                  </Text>
                   <Text>
                     <strong>Price: </strong>
                     {selectedValuationResult?.price} $
@@ -97,99 +98,89 @@ export default function ValuationResultModal({
                   <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
                     4C GRADING REPORT
                   </Text>
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Carat"
-                  ) && (
-                    <Text>
-                      <strong>Carat: </strong>
-                      {selectedValuationResult?.carat}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Color"
-                  ) && (
-                    <Text>
-                      <strong>Color: </strong>
-                      {selectedValuationResult?.color}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Cut"
-                  ) && (
-                    <Text>
-                      <strong>Cut: </strong>
-                      {selectedValuationResult?.cut}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Clarity"
-                  ) && (
-                    <Text>
-                      <strong>Clarity: </strong>
-                      {selectedValuationResult?.clarity}
-                    </Text>
-                  )}
+
+                  <Text>
+                    <strong>Carat: </strong>
+                    {selectedValuationResult?.carat}
+                  </Text>
+
+                  <Text>
+                    <strong>Color: </strong>
+                    {selectedValuationResult?.color}
+                  </Text>
+
+                  <Text>
+                    <strong>Cut: </strong>
+                    {selectedValuationResult?.cut}
+                  </Text>
+
+                  <Text>
+                    <strong>Clarity: </strong>
+                    {selectedValuationResult?.clarity}
+                  </Text>
                 </Flex>
                 <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
                   <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
                     ADDITIONAL GRADING INFORMATION
                   </Text>
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Symmetry"
-                  ) && (
-                    <Text>
-                      <strong>Symmetry: </strong>
-                      {selectedValuationResult?.symmetry}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Polish"
-                  ) && (
-                    <Text>
-                      <strong>Polish: </strong>
-                      {selectedValuationResult?.polish}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Fluorescence"
-                  ) && (
-                    <Text>
-                      <strong>Fluorescence: </strong>
-                      {selectedValuationResult?.fluorescence}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Measurements"
-                  ) && (
-                    <Text>
-                      <strong>Measurements: </strong>
-                      {selectedValuationResult?.measurements}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Table"
-                  ) && (
-                    <Text>
-                      <strong>Table: </strong>
-                      {selectedValuationResult?.diamondTable}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "Depth"
-                  ) && (
-                    <Text>
-                      <strong>Depth: </strong>
-                      {selectedValuationResult?.depth}
-                    </Text>
-                  )}
-                  {selectedValuationResult?.serviceStatistic?.includes(
-                    "L/W Ratio"
-                  ) && (
-                    <Text>
-                      <strong>L/W Ratio: </strong>
-                      {selectedValuationResult?.lengthToWidthRatio}
-                    </Text>
-                  )}
+
+                  <Text>
+                    <strong>Symmetry: </strong>
+                    {selectedValuationResult?.symmetry}
+                  </Text>
+
+                  <Text>
+                    <strong>Polish: </strong>
+                    {selectedValuationResult?.polish}
+                  </Text>
+
+                  <Text>
+                    <strong>Fluorescence: </strong>
+                    {selectedValuationResult?.fluorescence}
+                  </Text>
+                  <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
+                    Clarity Characteristics
+                  </Text>
+                  <UnorderedList spacing={2}>
+                    {selectedValuationResult?.laserDrillHole && (
+                      <ListItem>Laser Drill Hole</ListItem>
+                    )}
+                    {selectedValuationResult?.feather && (
+                      <ListItem>Feather</ListItem>
+                    )}
+                    {selectedValuationResult?.crystal && (
+                      <ListItem>Crystal</ListItem>
+                    )}
+                    {selectedValuationResult?.chip && <ListItem>Chip</ListItem>}
+                    {selectedValuationResult?.needle && (
+                      <ListItem>Needle</ListItem>
+                    )}
+                    {selectedValuationResult?.cavity && (
+                      <ListItem>Cavity</ListItem>
+                    )}
+                    {selectedValuationResult?.pinpoint && (
+                      <ListItem>Pinpoint</ListItem>
+                    )}
+                    {selectedValuationResult?.bruise && (
+                      <ListItem>Bruise</ListItem>
+                    )}
+                    {selectedValuationResult?.cloud && (
+                      <ListItem>Cloud</ListItem>
+                    )}
+                    {selectedValuationResult?.etchChannel && (
+                      <ListItem>Etch Channel</ListItem>
+                    )}
+                    {selectedValuationResult?.twinningWisp && (
+                      <ListItem>Twinning Wisp</ListItem>
+                    )}
+                    {selectedValuationResult?.identedNatural && (
+                      <ListItem>Indented Natural</ListItem>
+                    )}
+                    {selectedValuationResult?.knot && <ListItem>Knot</ListItem>}
+                    {selectedValuationResult?.natural && (
+                      <ListItem>Natural</ListItem>
+                    )}
+                  </UnorderedList>
                 </Flex>
               </SimpleGrid>
             </Flex>

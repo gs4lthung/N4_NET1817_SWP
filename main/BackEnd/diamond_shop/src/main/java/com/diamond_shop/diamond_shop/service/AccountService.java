@@ -1,11 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
 
-import com.diamond_shop.diamond_shop.dto.AccountDTO;
-import com.diamond_shop.diamond_shop.dto.ForgetPasswordDTO;
-import com.diamond_shop.diamond_shop.dto.GoogleLoginRequestDTO;
-import com.diamond_shop.diamond_shop.dto.LoginDTO;
-import com.diamond_shop.diamond_shop.dto.ResetPasswordRequestDTO;
+import com.diamond_shop.diamond_shop.dto.*;
 import com.diamond_shop.diamond_shop.entity.AccountEntity;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +22,9 @@ public interface AccountService {
     String deleteHardAccount(int id);
 
     String deleteSoftAccount(int id);
-    
+
+    String updateAccount(int id, UpdateAccountDTO updateAccountDTO);
+
     String updateAccount(AccountDTO accountDTO);
 
     String activate(String code, HttpServletResponse response);

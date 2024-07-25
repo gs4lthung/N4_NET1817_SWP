@@ -23,7 +23,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import routes from "../../../config/Config";
 import ReceiptModal from "../modal/ReceiptModal";
-import { ViewIcon } from "@chakra-ui/icons";
+import { TbReceipt } from "react-icons/tb";
 import { motion } from "framer-motion";
 
 export default function ReceiptTable() {
@@ -59,10 +59,10 @@ export default function ReceiptTable() {
   };
   useEffect(() => {
     fetchReceipt(user.userAuth.id, currentPage);
-  }, []);
+  }, [currentPage]);
   return (
     <>
-      <Flex direction={"column"} gap={10}>
+      <Flex direction={"column"} gap={10} m={10}>
         <Center>
           <Text fontSize={"4xl"} fontWeight={"bold"}>
             Receipt
@@ -93,7 +93,7 @@ export default function ReceiptTable() {
                     <Th>Customer Name</Th>
                     <Th>Staff Name</Th>
                     <Th>Description</Th>
-                    <Th>View</Th>
+                    <Th>Detail</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -146,10 +146,10 @@ export default function ReceiptTable() {
                       </Td>
                       <Td>{receipt.customerName}</Td>
                       <Td>{receipt.consultingStaffName}</Td>
-                      <Td>{receipt.description}</Td>
+                      <Td>{receipt.description || "N/A"}</Td>
                       <Td>
                         <IconButton
-                          icon={<ViewIcon />}
+                          icon={<TbReceipt />}
                           bg={"transparent"}
                           color={"black"}
                           onClick={() => {

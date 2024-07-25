@@ -1,5 +1,3 @@
-create database diamond
-use diamond
 
 CREATE TABLE roles(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
@@ -25,6 +23,7 @@ CREATE TABLE pending_requests(
 	customer_id BIGINT,
 	description NVARCHAR(255),
 	created_date DATETIME,
+	has_certificate BIT,
 	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
 CREATE TABLE pending_request_images(
@@ -54,18 +53,12 @@ CREATE TABLE payments(
 	FOREIGN KEY (customer_id) REFERENCES users(id) on DELETE SET NULL
 )
 
-CREATE TABLE service_statistics(
-	id BIGINT PRIMARY KEY IDENTITY(1,1),
-	name NVARCHAR(255)
-)
-
 CREATE TABLE services(
 	id BIGINT PRIMARY KEY IDENTITY(1,1),
 	name nvarchar(25),
 	price INT,
 	time INT,
-	service_statistic_id BIGINT,
-	FOREIGN KEY (service_statistic_id) REFERENCES service_statistics(id)
+	statistic NVARCHAR(255),
 )
 
 CREATE TABLE valuation_requests(
@@ -85,6 +78,7 @@ CREATE TABLE valuation_results(
 	id NVARCHAR(50) PRIMARY KEY,
 	valuation_request_id BIGINT,
 	created_date DATETIME,
+	update_date DATETIME,
 	origin NVARCHAR(25),
 	shape NVARCHAR(25),
 	carat DECIMAL(4,2),
@@ -94,10 +88,33 @@ CREATE TABLE valuation_results(
 	symmetry NVARCHAR(25),
 	polish NVARCHAR(25),
 	fluorescence NVARCHAR(25),
-	measurements NVARCHAR(50),
-	diamond_table DECIMAL(3,1),
-	depth DECIMAL(3,1),
-	length_to_width_ratio DECIMAL(3,1),
+	length DECIMAL(4,2),
+	width DECIMAL(4,2),
+	depth DECIMAL(4,2),
+	depth_pct DECIMAL(4,2),
+	table_pct DECIMAL(4,2),
+	pav_pct DECIMAL(4,2),
+	pav_angle DECIMAL(4,2),
+	crown_pct DECIMAL(4,2),
+	crown_angle DECIMAL(4,2),
+	lower_half_pct DECIMAL(4,2),
+	star_pct DECIMAL(4,2),
+	girdle_pct DECIMAL(4,2),
+	culet NVARCHAR(10),
+	is_laser_drill_hole BIT,
+	is_feather BIT,
+	is_crystal BIT,
+	is_chip BIT,
+	is_needle BIT,
+	is_cavity BIT,
+	is_pinpoint BIT,
+	is_bruise BIT,
+	is_cloud BIT,
+	is_etch_channel BIT,
+	is_twinning_wisp BIT,
+	is_indented_natural BIT,
+	is_knot BIT,
+	is_natural BIT,
 	price DECIMAL(10,2)
 	FOREIGN KEY (valuation_request_id) REFERENCES valuation_requests(id)
 )
@@ -186,18 +203,11 @@ INSERT INTO roles(name)
 VALUES
 ('Admin'),('Manager'),('Consulting staff'),('Valuation staff'),('Customer')
 
-INSERT INTO service_statistics(
-    NAME
-) VALUES(
-    'Origin, Shape, Carat Weight, Color, Cut, Clarity'
-),
-(
-    'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish'
-),
-(
-    'Origin, Shape, Carat Weight, Color, Cut, Clarity, Measurement, Polish, Symmetry, Fluorescence, Proportion')
 
-INSERT INTO Services(Name, Price, Time, service_statistic_id) VALUES('Normal', 200000, 30, 1),('Pro', 500000, 20, 2), ('Premium',1000000, 10, 3)
+INSERT INTO services(name, price, time, statistic) 
+VALUES('Normal', 200000, 30, 'Origin, Shape, Carat, Cut, Color, Clarity, Polish, Symmetry, Fluorescence, Measurements, Proportions'),
+('Pro', 500000, 20, 'Origin, Shape, Carat, Cut, Color, Clarity, Polish, Symmetry, Fluorescence, Measurements, Proportions'), 
+('Premium',1000000, 10, 'Origin, Shape, Carat, Cut, Color, Clarity, Polish, Symmetry, Fluorescence, Measurements, Proportions')
 
 INSERT INTO users(role_id, username, password, full_name, email, phone_number, address,is_active)
 VALUES

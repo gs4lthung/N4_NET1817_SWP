@@ -7,6 +7,7 @@ import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,13 +23,13 @@ public class SealingLetterImpl implements SealingLetterService {
     @Override
     public Page<SealingLetterEntity> getAllSealingLetters(int page) {
         int pageNumber = --page, pageSize = 5;
-        return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return sealingLetterRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()));
     }
 
     @Override
     public Page<SealingLetterEntity> getAllSealingLettersByCustomerId(int page, int customerId) {
         int pageNumber = --page, pageSize = 5;
-        return sealingLetterRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize), customerId);
+        return sealingLetterRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), customerId);
     }
 
     @Override

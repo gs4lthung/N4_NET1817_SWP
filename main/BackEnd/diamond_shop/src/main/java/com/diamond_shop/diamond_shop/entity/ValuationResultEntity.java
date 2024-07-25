@@ -32,6 +32,9 @@ public class ValuationResultEntity {
     @Column(name = "created_date")
     private Date createdDate;
 
+    @Column(name = "update_date")
+    private Date updateDate;
+
     @Column(name = "origin")
     private String origin;
 
@@ -59,17 +62,86 @@ public class ValuationResultEntity {
     @Column(name = "fluorescence")
     private String fluorescence;
 
-    @Column(name = "measurements")
-    private String measurements;
+    @Column(name = "length")
+    private BigDecimal length;
 
-    @Column(name = "diamond_table")
-    private BigDecimal diamondTable;
+    @Column(name = "width")
+    private BigDecimal width;
 
     @Column(name = "depth")
     private BigDecimal depth;
 
-    @Column(name = "length_to_width_ratio")
-    private BigDecimal lengthToWidthRatio;
+    @Column(name = "depth_pct")
+    private BigDecimal depthPct;
+
+    @Column(name = "table_pct")
+    private BigDecimal tablePct;
+
+    @Column(name = "pav_pct")
+    private BigDecimal pavPct;
+
+    @Column(name = "pav_angle")
+    private BigDecimal pavAngle;
+
+    @Column(name = "crown_pct")
+    private BigDecimal crownPct;
+
+    @Column(name = "crown_angle")
+    private BigDecimal crownAngle;
+
+    @Column(name = "lower_half_pct")
+    private BigDecimal lowerHalfPct;
+
+    @Column(name = "star_pct")
+    private BigDecimal starPct;
+
+    @Column(name = "girdle_pct")
+    private BigDecimal girdlePct;
+
+    @Column(name = "culet")
+    private String culet;
+
+    @Column(name = "is_laser_drill_hole")
+    private boolean isLaserDrillHole;
+
+    @Column(name = "is_feather")
+    private boolean isFeather;
+
+    @Column(name = "is_crystal")
+    private boolean isCrystal;
+
+    @Column(name = "is_chip")
+    private boolean isChip;
+
+    @Column(name = "is_needle")
+    private boolean isNeedle;
+
+    @Column(name = "is_cavity")
+    private boolean isCavity;
+
+    @Column(name = "is_pinpoint")
+    private boolean isPinpoint;
+
+    @Column(name = "is_bruise")
+    private boolean isBruise;
+
+    @Column(name = "is_cloud")
+    private boolean isCloud;
+
+    @Column(name = "is_etch_channel")
+    private boolean isEtchChannel;
+
+    @Column(name = "is_twinning_wisp")
+    private boolean isTwinningWisp;
+
+    @Column(name = "is_indented_natural")
+    private boolean isIndentedNatural;
+
+    @Column(name = "is_knot")
+    private boolean isKnot;
+
+    @Column(name = "is_natural")
+    private boolean isNatural;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -84,6 +156,7 @@ public class ValuationResultEntity {
             String id,
             ValuationRequestEntity valuationRequestId,
             Date createdDate,
+            Date updateDate,
             String origin,
             String shape,
             BigDecimal carat,
@@ -93,14 +166,38 @@ public class ValuationResultEntity {
             String symmetry,
             String polish,
             String fluorescence,
-            String measurements,
-            BigDecimal diamondTable,
+            BigDecimal length,
+            BigDecimal width,
             BigDecimal depth,
-            BigDecimal lengthToWidthRatio,
+            BigDecimal depthPct,
+            BigDecimal tablePct,
+            BigDecimal pavPct,
+            BigDecimal pavAngle,
+            BigDecimal crownPct,
+            BigDecimal crownAngle,
+            BigDecimal lowerHalfPct,
+            BigDecimal starPct,
+            BigDecimal girdlePct,
+            String culet,
+            boolean isLaserDrillHole,
+            boolean isFeather,
+            boolean isCrystal,
+            boolean isChip,
+            boolean isNeedle,
+            boolean isCavity,
+            boolean isPinpoint,
+            boolean isBruise,
+            boolean isCloud,
+            boolean isEtchChannel,
+            boolean isTwinningWisp,
+            boolean isIndentedNatural,
+            boolean isKnot,
+            boolean isNatural,
             BigDecimal price) {
         this.id = id;
         this.valuationRequestId = valuationRequestId;
         this.createdDate = createdDate;
+        this.updateDate = updateDate;
         this.origin = origin;
         this.shape = shape;
         this.carat = carat;
@@ -110,10 +207,33 @@ public class ValuationResultEntity {
         this.symmetry = symmetry;
         this.polish = polish;
         this.fluorescence = fluorescence;
-        this.measurements = measurements;
-        this.diamondTable = diamondTable;
+        this.length = length;
+        this.width = width;
         this.depth = depth;
-        this.lengthToWidthRatio = lengthToWidthRatio;
+        this.depthPct = depthPct;
+        this.tablePct = tablePct;
+        this.pavPct = pavPct;
+        this.pavAngle = pavAngle;
+        this.crownPct = crownPct;
+        this.crownAngle = crownAngle;
+        this.lowerHalfPct = lowerHalfPct;
+        this.starPct = starPct;
+        this.girdlePct = girdlePct;
+        this.culet = culet;
+        this.isLaserDrillHole = isLaserDrillHole;
+        this.isFeather = isFeather;
+        this.isCrystal = isCrystal;
+        this.isChip = isChip;
+        this.isNeedle = isNeedle;
+        this.isCavity = isCavity;
+        this.isPinpoint = isPinpoint;
+        this.isBruise = isBruise;
+        this.isCloud = isCloud;
+        this.isEtchChannel = isEtchChannel;
+        this.isTwinningWisp = isTwinningWisp;
+        this.isIndentedNatural = isIndentedNatural;
+        this.isKnot = isKnot;
+        this.isNatural = isNatural;
         this.price = price;
     }
 }

@@ -3,7 +3,6 @@ package com.diamond_shop.diamond_shop.controller;
 import com.diamond_shop.diamond_shop.dto.ReceivePendingRequestDTO;
 import com.diamond_shop.diamond_shop.dto.UpdateProcessRequestDTO;
 import com.diamond_shop.diamond_shop.entity.ProcessRequestEntity;
-import com.diamond_shop.diamond_shop.pojo.DiamondReceivedPojo;
 import com.diamond_shop.diamond_shop.pojo.ResponsePojo;
 import com.diamond_shop.diamond_shop.service.ProcessRequestService;
 import jakarta.validation.Valid;
@@ -49,7 +48,7 @@ public class ProcessRequestController {
     }
 
     @PutMapping(path = "/update")
-    public DiamondReceivedPojo updateProcessRequest(@Valid @RequestParam("id") int id, @RequestBody UpdateProcessRequestDTO updateProcessRequestDTO) {
+    public ResponsePojo updateProcessRequest(@Valid @RequestParam("id") int id, @RequestBody UpdateProcessRequestDTO updateProcessRequestDTO) {
         return processRequestService.updateProcessRequest(id, updateProcessRequestDTO);
     }
 

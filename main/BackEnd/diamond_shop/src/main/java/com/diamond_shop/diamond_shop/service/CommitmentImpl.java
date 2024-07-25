@@ -6,6 +6,7 @@ import com.diamond_shop.diamond_shop.repository.CommitmentRepository;
 import com.diamond_shop.diamond_shop.repository.ValuationRequestRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,13 +26,13 @@ public class CommitmentImpl implements CommitmentService {
     @Override
     public Page<CommitmentLetterEntity> findAll(int page) {
         int pageSize = 5, pageNumber = --page;
-        return commitmentRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return commitmentRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()));
     }
 
     @Override
     public Page<CommitmentLetterEntity> findAllByCustomerId(int page, int customerId) {
         int pageSize = 5, pageNumber = --page;
-        return commitmentRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize), customerId);
+        return commitmentRepository.findAllByCustomerId(PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending()), customerId);
     }
 
     @Override

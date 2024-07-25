@@ -93,7 +93,6 @@ export default function AdminCreateUsers({
                     <option value="3">Consulting Staff</option>
                     <option value="4">Valuation Staff</option>
                     <option value="5">Customer</option>
-                    <option value="6">Guest</option>
                   </Select>
                 </FormControl>
                 <FormControl

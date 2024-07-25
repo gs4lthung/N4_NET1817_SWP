@@ -12,6 +12,5 @@ public class UpdateServiceDTO {
     String name;
     int price;
     int time;
-    int statisticId;
-    String statisticName;
+    String statistic;
 }
