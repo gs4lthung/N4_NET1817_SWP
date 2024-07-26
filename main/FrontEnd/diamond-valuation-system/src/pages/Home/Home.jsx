@@ -271,9 +271,9 @@ export default function Home() {
                             Diamonds have been valuated
                         </Text>
                     </Flex>
-                    {/* <Box>
+                    <Box>
                         <InfiniteMovingFeaturedCards />
-                    </Box> */}
+                    </Box>
                 </Box>
                 <Box
                     mt={10}

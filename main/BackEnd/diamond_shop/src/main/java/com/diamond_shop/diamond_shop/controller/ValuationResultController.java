@@ -5,6 +5,7 @@ import com.diamond_shop.diamond_shop.entity.ValuationResultEntity;
 import com.diamond_shop.diamond_shop.pojo.DetailDiamondPojo;
 import com.diamond_shop.diamond_shop.pojo.DiamondPojo;
 import com.diamond_shop.diamond_shop.service.ValuationResultService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -74,12 +75,14 @@ public class ValuationResultController {
     }
 
     @GetMapping(path = "/valuation-request/get")
-    public Optional<ValuationResultEntity> getValuationResultByRequestId(@RequestParam("id") int id) {
+    public Optional<ValuationResultEntity> getValuationResultByRequestId(@RequestParam("id") int id, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return valuationResultService.getValuationResultByValuationRequestId(id);
     }
 
     @GetMapping(path = "/image/get")
-    public List<String> getValuationResultImage(@RequestParam("id") String id) {
+    public List<String> getValuationResultImage(@RequestParam("id") String id, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return valuationResultService.getValuationResultImage(id);
     }
 
@@ -94,12 +97,14 @@ public class ValuationResultController {
     }
 
     @GetMapping("/crawl-natural")
-    public List<DiamondPojo> scrapeNaturalDiamonds(@RequestParam String shape) {
+    public List<DiamondPojo> scrapeNaturalDiamonds(@RequestParam String shape, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return valuationResultService.crawlNaturalDiamond(shape);
     }
 
     @GetMapping("/crawl-lab-grown")
-    public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape) {
+    public List<DiamondPojo> scrapeLabGrownDiamonds(@RequestParam String shape, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return valuationResultService.crawlLabGrownDiamond(shape);
     }
 
