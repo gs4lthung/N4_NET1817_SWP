@@ -28,7 +28,6 @@ import axios from "axios";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import routes from "../../config/Config";
 import { format, parseISO } from "date-fns";
-import { pixelate, vignette } from "@cloudinary/url-gen/actions/effect";
 import { GrNotes } from "react-icons/gr";
 export default function DiamondCheckDetails() {
   const navigate = useNavigate();
@@ -39,7 +38,7 @@ export default function DiamondCheckDetails() {
       cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
     },
   });
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const bgColor1 = useColorModeValue("blue.400", "#DBA843");
   const forntColor = useColorModeValue("black", "white");
   const bgColor2 = useColorModeValue("rgb(45, 84, 119)", "#DBA843");
@@ -188,8 +187,7 @@ export default function DiamondCheckDetails() {
             <Center justifyContent={"flex-start"}>
               <Link to={routes.diamondCheck}>
                 <Button
-                  bg={bgColor1}
-                  color={bgColor}
+                colorScheme={useColorModeValue("blue", "yellow")}
                   size={{ base: "sm", md: "md", lg: "lg" }}
                 >
                   Run another check
@@ -202,7 +200,7 @@ export default function DiamondCheckDetails() {
               borderRadius={"10px"}
               borderColor={bgColor1}
               p={5}
-              gap={10}
+              gap={5}
             >
               <GridItem>
                 <Text fontSize="md" fontWeight={"bold"} color={"gray"}>
@@ -289,7 +287,7 @@ export default function DiamondCheckDetails() {
         </GridItem>
       </Grid>
       <Box mt={10}>
-        <Container maxW="6xl" color="white">
+        <Container maxW="8xl" color="white">
           <HStack spacing="24px" justifyContent={"center"} mb={"40px"}>
             <Tag
               alignItems={"center"}
@@ -481,8 +479,8 @@ export default function DiamondCheckDetails() {
                     </Box>
                     <Image
                       marginX={"auto"}
-                      w={"230"}
-                      height={"162"}
+                      w={"400px"}
+                      height={"250px"}
                       src="/images/diamond_attr.png"
                     />
                     <Grid templateColumns="repeat(5, 1fr)" gap={6} p={"12px"}>

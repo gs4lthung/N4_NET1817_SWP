@@ -36,7 +36,7 @@ import { UserContext } from "../../components/GlobalContext/AuthContext";
 import routes from "../../config/Config";
 
 export default function Calculate() {
-  const fontColor = useColorModeValue("white", "black");
+  const fontColor = useColorModeValue("white", "gray.800");
   const bgColor = useColorModeValue("blue.400", "#DBA843");
   const toast = useToast();
   const user = useContext(UserContext);
@@ -290,8 +290,7 @@ export default function Calculate() {
                 </Flex>
                 <Button
                   borderRadius={"md"}
-                  bg={bgColor}
-                  color={fontColor}
+                  colorScheme={useColorModeValue("blue", "yellow")}
                   w={"inherit"}
                   m={"10px 0 0 0"}
                   isLoading={isLoading}
@@ -321,6 +320,7 @@ export default function Calculate() {
                     content={"$" + valuationResult.price || "No result"}
                     header={"Real Time Price"}
                     body={"Current Average Price in USD / carat"}
+                    align={"center"}
                   />
                   <Text fontSize={"sm"} color={"gray"}>
                     {shape} {carat} ct. {color} {clarity}
@@ -391,8 +391,7 @@ export default function Calculate() {
                       }
                     }}
                     leftIcon={<IoDiamond />}
-                    bg={bgColor}
-                    color={fontColor}
+                    colorScheme={useColorModeValue("blue", "yellow")}
                   >
                     Create Request
                   </Button>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Flex, IconButton } from "@chakra-ui/react";
+import { Button, Flex, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 export default function PageIndicator({
@@ -19,7 +19,7 @@ export default function PageIndicator({
           colorScheme="blue"
           variant={"outline"}
           border={"none"}
-          bg={currentPage === i ? "blue.100" : "transparent"}
+          bg={currentPage === i ? useColorModeValue("blue.100", "blue.700") : "transparent"}
           onClick={() => {
             setCurrentPage(i);
           }}

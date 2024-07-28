@@ -5,7 +5,7 @@ import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import com.diamond_shop.diamond_shop.entity.PaymentEntity;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,16 +17,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentImpl implements PaymentService {
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-
-    public PaymentImpl(PaymentRepository paymentRepository, AccountRepository accountRepository) {
-        this.paymentRepository = paymentRepository;
-        this.accountRepository = accountRepository;
-    }
+    private final PaymentRepository paymentRepository;
+    private final AccountRepository accountRepository;
 
     @Override
     public int createPayment(int userid,

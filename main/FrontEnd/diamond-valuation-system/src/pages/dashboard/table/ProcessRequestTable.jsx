@@ -26,6 +26,7 @@ import {
   FormControl,
   Tooltip,
   Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { PiFileTextBold } from "react-icons/pi";
 import ZaloChat from "../../../components/zalo/ZaloChat";
@@ -224,6 +225,7 @@ export default function ProcessRequestTable() {
               borderColor={"gray.100"}
               boxShadow="sm"
               borderRadius="24px"
+              bg={useColorModeValue("white", "gray.800")}
               maxW="100%"
               minW="100%"
             >
@@ -236,7 +238,9 @@ export default function ProcessRequestTable() {
                     <Th w={"150px"}>Created Date</Th>
                     <Th w={"150px"}>Receive Date</Th>
                     <Th>Description</Th>
-                    <Th w={"250px"}>Status</Th>
+                    <Th w={"250px"} textAlign={"center"}>
+                      Status
+                    </Th>
                     <Th>View</Th>
                   </Tr>
                 </Thead>
@@ -249,15 +253,15 @@ export default function ProcessRequestTable() {
                       transition="0.1s linear"
                       bg={
                         preProcessRequestId && item?.id === preProcessRequestId
-                          ? "green.100"
+                          ? useColorModeValue("green.100", "green.600")
                           : ""
                       }
                       _hover={{
                         bg:
                           preProcessRequestId &&
                           item?.id === preProcessRequestId
-                            ? "green.200"
-                            : "gray.100",
+                            ? useColorModeValue("green.200", "green.700")
+                            : useColorModeValue("gray.100", "gray.700"),
                       }}
                     >
                       <Td>{item?.id}</Td>
@@ -295,8 +299,14 @@ export default function ProcessRequestTable() {
                             (item?.status === "Finished" &&
                               "rgb(255, 205, 86)") ||
                             (item?.status === "Done" && "#68D391") ||
-                            (item?.status === "Sealed" && "gray.300") ||
-                            (item?.status === "Lost Receipt" && "#718096")
+                            (item?.status === "Sealed" && "indigo") ||
+                            (item?.status === "Lost Receipt" && "gray.700")
+                          }
+                          color={
+                            item?.status === "Sealed" ||
+                            item?.status === "Lost Receipt"
+                              ? "white"
+                              : "black"
                           }
                           borderRadius={"20px"}
                           p={3}
@@ -308,7 +318,7 @@ export default function ProcessRequestTable() {
                         <IconButton
                           icon={<PiFileTextBold />}
                           bg={"transparent"}
-                          color="black"
+                          color={useColorModeValue("gray.800", "gray.200")}
                           onClick={() => {
                             setSelectedProcessRequest(item);
                             viewValuationRequest.onOpen();

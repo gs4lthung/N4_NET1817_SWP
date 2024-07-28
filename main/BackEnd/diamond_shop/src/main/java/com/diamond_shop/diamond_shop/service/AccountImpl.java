@@ -8,7 +8,7 @@ import com.diamond_shop.diamond_shop.pojo.LoginPojo;
 import com.diamond_shop.diamond_shop.repository.AccountRepository;
 import com.diamond_shop.diamond_shop.repository.RoleRepository;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,23 +28,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AccountImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    @Autowired
-    private JWTUtil JWTUtil;
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    public AccountImpl(AccountRepository accountRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.accountRepository = accountRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final JWTUtil JWTUtil;
+    private final EmailService emailService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public Page<AccountEntity> getAllAccountsById(String search, int pageId, String filter) {

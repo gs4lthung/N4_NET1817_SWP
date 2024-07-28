@@ -23,6 +23,7 @@ import {
   Skeleton,
   SimpleGrid,
   Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { TbPhotoCancel } from "react-icons/tb";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -108,7 +109,7 @@ export default function PendingRequestTable() {
       <Flex direction={"column"} gap={10} m={10}>
         <Center>
           <Text fontSize="4xl" fontWeight="bold">
-            Appointments
+            Pending Request
           </Text>
         </Center>
         {totalPages === 0 ? (
@@ -123,6 +124,7 @@ export default function PendingRequestTable() {
               borderColor={"gray.100"}
               boxShadow="sm"
               borderRadius="24px"
+              bg={useColorModeValue("white", "gray.800")}
               maxW="100%"
               minW="100%"
             >
@@ -146,7 +148,7 @@ export default function PendingRequestTable() {
                       as={motion.tr}
                       whileHover={{ scale: 1.02 }}
                       transition="0.1s linear"
-                      _hover={{ bg: "gray.100" }}
+                      _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
                     >
                       <Td>{index + 1}</Td>
                       <Td>{item?.customerName || "N/A"}</Td>
@@ -172,7 +174,7 @@ export default function PendingRequestTable() {
                         <IconButton
                           icon={<AiOutlineFileSearch />}
                           bgColor={"transparent"}
-                          color="black"
+                          color={useColorModeValue("gray.800", "gray.200")}
                           onClick={() => {
                             setSelectedPendingRequest(item);
                             fetchPendingRequestImages(

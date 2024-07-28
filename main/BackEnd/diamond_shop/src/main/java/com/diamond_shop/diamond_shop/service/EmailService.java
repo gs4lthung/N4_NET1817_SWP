@@ -4,16 +4,16 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
     @Value("${app.frontend_url}")
     String frontend_url;
     @Value("${app.backend_url}")
@@ -114,6 +114,7 @@ public class EmailService {
         }
         mailSender.send(mimeMessage);
     }
+
     public boolean isEmailValid(String email) {
         boolean result = true;
         try {

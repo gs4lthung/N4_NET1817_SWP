@@ -24,7 +24,7 @@ import ScrollToTop from "react-scroll-to-top";
 import AOS from "aos";
 import "aos/dist/aos.css";
 export default function EducationCertificate() {
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   AOS.init();
   return (

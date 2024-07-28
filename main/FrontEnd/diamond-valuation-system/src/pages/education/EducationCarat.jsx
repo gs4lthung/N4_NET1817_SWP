@@ -27,7 +27,7 @@ import { caratTable, caratFAQs } from "../../shared/SharedEducationCarat";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ScrollToTop from "react-scroll-to-top";
 export default function EducationCarat() {
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
     <Box bg={bgColor}>

@@ -24,6 +24,7 @@ import {
   Tooltip,
   Tr,
   UnorderedList,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { UserContext } from "../../../components/GlobalContext/AuthContext";
@@ -90,6 +91,7 @@ export default function CommitmentTable() {
               borderColor={"gray.100"}
               boxShadow="sm"
               borderRadius="24px"
+              bg={useColorModeValue("white", "gray.800")}
               maxW="100%"
               minW="100%"
             >
@@ -111,7 +113,7 @@ export default function CommitmentTable() {
                       as={motion.tr}
                       whileHover={{ scale: 1.02 }}
                       transition="0.1s linear"
-                      _hover={{ bg: "gray.100" }}
+                      _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
                     >
                       <Td>{item?.id}</Td>
                       <Td>
@@ -148,7 +150,7 @@ export default function CommitmentTable() {
                         <IconButton
                           icon={<PiFileTextBold />}
                           bg={"transparent"}
-                          color="black"
+                          color={useColorModeValue("gray.800", "gray.200")}
                           onClick={() => {
                             setSelectedCommitment(item);
                             viewCommitment.onOpen();
@@ -183,7 +185,12 @@ export default function CommitmentTable() {
               <Flex direction={"column"} gap={5}>
                 <Text>
                   <strong>Created Date</strong>:{" "}
-                  {selectedCommitment?.createdDate?.slice(0, 10) || "N/A"}
+                  {selectedCommitment?.createdDate
+                    ? format(
+                        parseISO(selectedCommitment?.createdDate),
+                        "dd/MM/yyyy - HH:mm:ss"
+                      )
+                    : "N/A"}
                 </Text>
                 <Text>
                   <strong>Request ID</strong>:{" "}
@@ -199,13 +206,21 @@ export default function CommitmentTable() {
                 </Text>
                 <Text>
                   <strong>Date of purchase</strong>:{" "}
-                  {selectedCommitment?.paymentDate?.slice(0, 16) || "N/A"}
+                  {selectedCommitment?.paymentDate
+                    ? format(
+                        parseISO(selectedCommitment?.paymentDate),
+                        "dd/MM/yyyy - HH:mm:ss"
+                      )
+                    : "N/A"}
                 </Text>
                 <Text>
                   <strong>Bank</strong>: {selectedCommitment?.bank || "N/A"}
                 </Text>
                 <Text>
-                  <strong>Amount</strong>: {selectedCommitment?.amount || "N/A"}{" "}
+                  <strong>Amount</strong>:{" "}
+                  {new Intl.NumberFormat("vi-VN").format(
+                    selectedCommitment?.amount
+                  ) || "N/A"}
                   vnd
                 </Text>
                 <Text>

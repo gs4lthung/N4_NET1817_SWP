@@ -5,6 +5,7 @@ import {
   FormLabel,
   Image,
   Input,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -126,9 +127,9 @@ export default function UploadImage({ diamondId, type }) {
         <FormLabel
           display={"inline-block"}
           cursor={"pointer"}
-          bgColor={"gray.200"}
+          bgColor={useColorModeValue("gray.200", "gray.800")}
           borderRadius={"10px"}
-          _hover={{ bgColor: "gray.300" }}
+          _hover={{ bgColor: useColorModeValue("gray.300", "gray.900") }}
           m={"10px"}
           p={3}
         >

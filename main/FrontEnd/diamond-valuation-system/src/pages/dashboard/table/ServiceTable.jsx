@@ -34,6 +34,7 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useColorModeValue,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -273,6 +274,7 @@ export default function ServiceTable() {
             borderColor={"gray.100"}
             boxShadow="sm"
             borderRadius="24px"
+            bg={useColorModeValue("white", "gray.800")}
             maxW="100%"
             minW="100%"
           >
@@ -295,7 +297,7 @@ export default function ServiceTable() {
                     as={motion.tr}
                     whileHover={{ scale: 1.02 }}
                     transition="0.1s linear"
-                    _hover={{ bg: "gray.100" }}
+                    _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
                   >
                     <Td>{item?.id}</Td>
                     <Td>{item?.name}</Td>
@@ -305,16 +307,16 @@ export default function ServiceTable() {
                     <Td>{item?.time} days</Td>
                     <Td>
                       <Tooltip label={item?.statistic} hasArrow>
-                        <Input
-                          readOnly
-                          type="text"
-                          value={item?.statistic}
-                        />
+                        <Input readOnly type="text" value={item?.statistic} />
                       </Tooltip>
                     </Td>
                     <Td>
                       <IconButton
-                        icon={<GrUpdate color="black"/>}
+                        icon={
+                          <GrUpdate
+                            color={useColorModeValue("gray.800", "white")}
+                          />
+                        }
                         bgColor={"transparent"}
                         onClick={() => {
                           setIsCreate(false);
@@ -374,9 +376,7 @@ export default function ServiceTable() {
               color: selectedService?.statistic?.includes("Color")
                 ? true
                 : false,
-              cut: selectedService?.statistic?.includes("Cut")
-                ? true
-                : false,
+              cut: selectedService?.statistic?.includes("Cut") ? true : false,
               clarity: selectedService?.statistic?.includes("Clarity")
                 ? true
                 : false,
@@ -389,14 +389,10 @@ export default function ServiceTable() {
               polish: selectedService?.statistic?.includes("Polish")
                 ? true
                 : false,
-              fluorescence: selectedService?.statistic?.includes(
-                "Fluorescence"
-              )
+              fluorescence: selectedService?.statistic?.includes("Fluorescence")
                 ? true
                 : false,
-              measurements: selectedService?.statistic?.includes(
-                "Measurements"
-              )
+              measurements: selectedService?.statistic?.includes("Measurements")
                 ? true
                 : false,
               diamondTable: selectedService?.statistic?.includes(

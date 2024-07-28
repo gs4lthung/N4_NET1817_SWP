@@ -12,7 +12,7 @@ const FeaturedCard = ({ imageSrc, title1, title2, title3 }) => {
       boxShadow="md"
       m={4}
       minW="400px"
-      _hover={{ bg: "blue.100" }}
+      _hover={{ bg: useColorModeValue("blue.100", "blue.800") }}
     >
       <Image
         boxSize="100px"

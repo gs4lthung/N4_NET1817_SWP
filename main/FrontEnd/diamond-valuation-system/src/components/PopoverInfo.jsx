@@ -8,6 +8,7 @@ import {
   PopoverCloseButton,
   PopoverHeader,
   PopoverBody,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 export default function PopoverInfo({ content, header, body, align }) {
@@ -18,7 +19,7 @@ export default function PopoverInfo({ content, header, body, align }) {
           <Flex direction={"row"} gap={2}>
             <Text
               fontSize={{ base: "sm", md: "md", lg: "md" }}
-              color={"black"}
+              color={useColorModeValue("black", "white")}
               fontWeight={"bold"}
             >
               {header}

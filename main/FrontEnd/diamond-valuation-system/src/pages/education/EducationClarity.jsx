@@ -37,7 +37,7 @@ import EducationFAQs from "../../components/education/EducationFAQs";
 import ScrollToTop from "react-scroll-to-top";
 export default function EducationClarity() {
   const [sliderValue, setSliderValue] = useState(4);
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
     <>

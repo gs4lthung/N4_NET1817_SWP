@@ -31,6 +31,7 @@ import { naturalDiamond } from "../../../service/Price";
 import { RxExternalLink } from "react-icons/rx";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { motion } from "framer-motion";
 const tabs = [
   {
     shape: "Round",
@@ -84,7 +85,7 @@ const tabs = [
   },
 ];
 export default function Natural() {
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const bgColor1 = useColorModeValue("rgb(224 231 255)", "yellow.400");
   const [price, setPrice] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -173,7 +174,7 @@ export default function Natural() {
                   md: "repeat(2, 1fr)",
                   lg: "repeat(2, 1fr)",
                   xl: "repeat(2, 1fr)",
-                  '2xl': "repeat(4, 1fr)",
+                  "2xl": "repeat(4, 1fr)",
                 }}
                 gap={4}
                 mx={5}
@@ -198,6 +199,8 @@ export default function Natural() {
                           border={"1px solid"}
                           borderColor={"gray.100"}
                           bg={bgColor}
+                          transition={"all 0.3s ease"}
+                          _hover={{ transform: "scale(1.05)" }}
                         >
                           <Flex padding={5} justifyContent={"space-between"}>
                             <div>
@@ -303,7 +306,12 @@ export default function Natural() {
                       ? Array(5)
                           .fill("")
                           .map((_, i) => (
-                            <Tr key={i}>
+                            <Tr
+                              key={i}
+                              _hover={{
+                                bg: useColorModeValue("gray.100", "gray.700"),
+                              }}
+                            >
                               <Td>
                                 <Skeleton height="20px" />
                               </Td>
@@ -328,7 +336,15 @@ export default function Natural() {
                             </Tr>
                           ))
                       : price.slice(4, 18).map((priceItem, i) => (
-                          <Tr key={i}>
+                          <Tr
+                            key={i}
+                            as={motion.tr}
+                            whileHover={{ scale: 1.02 }}
+                            transition={"0.1s linear"}
+                            _hover={{
+                              bg: useColorModeValue("gray.100", "gray.700"),
+                            }}
+                          >
                             <Td>{priceItem.priceIndex}</Td>
                             <Td>
                               <LazyLoadImage

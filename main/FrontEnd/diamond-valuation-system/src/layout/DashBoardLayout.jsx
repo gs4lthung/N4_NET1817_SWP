@@ -9,9 +9,10 @@ import {
 } from "@chakra-ui/react";
 import Logout from "../pages/logout/Logout";
 import { useNavigate } from "react-router-dom";
+import DarkModeButton from "../components/DarkModeButton";
 
 export default function DashBoardLayout({ children }) {
-  const bgColor = useColorModeValue("white", "white");
+  const bgColor = useColorModeValue("white", "gray.900");
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("user") === null) {
@@ -25,7 +26,7 @@ export default function DashBoardLayout({ children }) {
         {isMobile ? (
           <>
             <SideBar />
-            <Box color={"black"} flex="1" pt={"20px"} mr={"60px"}>
+            <Box flex="1" pt={"20px"} mr={"60px"}>
               {children}
             </Box>
           </>
@@ -34,11 +35,14 @@ export default function DashBoardLayout({ children }) {
             <Box w="250px">
               <SideBar />
             </Box>
-            <Box color={"black"} flex="1" bg={bgColor} px={20} alignItems={"center"}>
+            <Box flex="1" bg={bgColor} px={20} alignItems={"center"}>
               {children}
             </Box>
           </>
         )}
+        <Flex position={"fixed"} right={"10px"} top={"10px"}>
+          <DarkModeButton/>
+        </Flex>
       </Flex>
     </>
   );

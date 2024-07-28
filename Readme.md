@@ -2,11 +2,6 @@
 
 ###### We are creating a website to help customers valuate their diamond, using Reactjs as frontend, Spring Boot as backend and Microsoft SQL Server.
 
->[!IMPORTANT]
->**Weekly check list plan**:
->1. [Week 1](https://trello.com/b/iQoY6uOq/week-1)
->2. [Week 2](https://trello.com/b/pM8O5z9z/week-2)
-
 > [!NOTE]  
 > **List of project document, database, prototype,...**
 > - [Project Idea](https://docs.google.com/spreadsheets/d/1LRaiOdBpciMyHXF5gGKJlupdvQVtT5ZzRIgxi-Kn65k/edit#gid=0)
@@ -14,9 +9,6 @@
 > - [Draw SQL](https://drawsql.app/teams/swp391-6/diagrams/diamond-valuation-system)
 > - [Figma Prototype](https://www.figma.com/design/P2hVcvydyJ4b7MRJo3lVPx/Serenity-Jewelry-Landing-Page-(Community)?node-id=0-1&t=uc7QJNoGuJHnrPDV-0)
 > - [Draw IO](https://drive.google.com/file/d/1_bWkAalqmsxhNFyRXtQRYdwDi9JMrb18/view?usp=sharing)
-> - [Kick Off slides](https://lms-hcmuni.fpt.edu.vn/pluginfile.php/231768/mod_forum/post/131366/24.0508.Essential%20Project%20Kickoff%20Guide.pdf)
-> - [Key Points](https://docs.google.com/document/d/1fFyK_q58ebakqrPTRFyg16X7fpAx-Q74nTJ8YCtF17Y/edit)
-> - [Demo Code .NET, Spring Boot, Node JS APIs](https://drive.google.com/file/d/1PZa7a-66p9-pfoTOnZAeEL5gtcDb5WCM/view)
 
 >[!IMPORTANT]
 > **How to use git command** \

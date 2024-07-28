@@ -271,7 +271,7 @@ public class ValuationResultImpl implements ValuationResultService {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal price = BigDecimal.ZERO;
+        BigDecimal price;
 
         int colorScore = switch (generatePriceDTO.getColor()) {
             case "D" -> 10;

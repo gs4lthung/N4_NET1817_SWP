@@ -1,6 +1,7 @@
 import { Box, Center, Image, Text } from "@chakra-ui/react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import EducationProTip from "./EducationProTip";
 export default function EducationShapeForm({
   title,
   image,
@@ -27,11 +28,7 @@ export default function EducationShapeForm({
       <Text fontSize={{ base: "sm", md: "md", lg: "lg" }}>
         <strong>Length to width ratio:</strong> {lengthToWidthRatio}
       </Text>
-      <Box m={"20px 0 20px 0"} p={4} bg={"blue.100"}>
-        <Text fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-          <strong>Pro Tip:</strong> {proTip}
-        </Text>
-      </Box>
+      <EducationProTip content={proTip} />
       <Text fontSize={{ base: "sm", md: "md", lg: "lg" }}>
         <strong>Strong points:</strong> {strongPoints}
       </Text>

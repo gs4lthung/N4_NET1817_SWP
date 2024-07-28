@@ -18,7 +18,10 @@ export default function Footer() {
   const fontColor = useColorModeValue("black", "#DBA843");
   return (
     <>
-      <Box bg={useColorModeValue("gray.200", "black")} color={fontColor} borderTopWidth={1} borderStyle={"solid"} borderColor={"gray.700"}>
+      <Box
+        bg={useColorModeValue("gray.200", "gray.900")}
+        color={fontColor}
+      >
         <Container as={Stack} maxW={"9xl"}>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} p={10} gap={10}>
             <Stack align={"flex-start"}>
@@ -43,26 +46,52 @@ export default function Footer() {
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Features
               </Text>
-              <Link to={routes.diamondCheck}>Diamond Check</Link>
-              <Link to={routes.diamondCalculate}>Valuation</Link>
-              <Link to={routes.prices}>Price</Link>
+              <Link to={routes.diamondCheck}>
+                <Text _hover={{ textDecoration: "underline" }}>
+                  Diamond Check
+                </Text>
+              </Link>
+              <Link to={routes.diamondCalculate}>
+                <Text _hover={{ textDecoration: "underline" }}>Valuation</Text>
+              </Link>
+              <Link to={routes.prices}>
+                <Text _hover={{ textDecoration: "underline" }}>Price</Text>
+              </Link>
             </Stack>
             <Stack align={"flex-start"}>
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Mores
               </Text>
-              <Link to={routes.educationCarat}>Carat</Link>
-              <Link to={routes.educationCertificate}>Diamond Certificate</Link>
-              <Link to={routes.educationClarity}>Clarity</Link>
-              <Link to={routes.educationColor}>Diamond Color</Link>
-              <Link to={routes.educationCut}>Cut</Link>
+              <Link to={routes.educationCarat}>
+                <Text _hover={{ textDecoration: "underline" }}>Carat</Text>
+              </Link>
+              <Link to={routes.educationCertificate}>
+                <Text _hover={{ textDecoration: "underline" }}>
+                  Diamond Certificate
+                </Text>
+              </Link>
+              <Link to={routes.educationClarity}>
+                <Text _hover={{ textDecoration: "underline" }}>Clarity</Text>
+              </Link>
+              <Link to={routes.educationColor}>
+                <Text _hover={{ textDecoration: "underline" }}>
+                  Diamond Color
+                </Text>
+              </Link>
+              <Link to={routes.educationCut}>
+                <Text _hover={{ textDecoration: "underline" }}>Cut</Text>
+              </Link>
             </Stack>
             <Stack align={"flex-start"}>
               <Text fontWeight={"bold"} fontSize={"lg"}>
                 Company
               </Text>
-              <Link to={routes.aboutUs}>About us</Link>
-              <Link to={routes.FAQs}>FAQs</Link>
+              <Link to={routes.aboutUs}>
+                <Text _hover={{ textDecoration: "underline" }}>About us</Text>
+              </Link>
+              <Link to={routes.FAQs}>
+                <Text _hover={{ textDecoration: "underline" }}>FAQs</Text>
+              </Link>
             </Stack>
           </SimpleGrid>
         </Container>

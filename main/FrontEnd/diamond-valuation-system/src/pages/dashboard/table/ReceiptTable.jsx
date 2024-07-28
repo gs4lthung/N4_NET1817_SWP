@@ -12,6 +12,8 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useColorMode,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -80,6 +82,7 @@ export default function ReceiptTable() {
               borderColor={"gray.100"}
               boxShadow="sm"
               borderRadius="24px"
+              bg={useColorModeValue("white", "gray.800")}
               maxW="100%"
               minW="100%"
             >
@@ -103,7 +106,7 @@ export default function ReceiptTable() {
                       as={motion.tr}
                       whileHover={{ scale: 1.02 }}
                       transition="0.1s linear"
-                      _hover={{ bg: "gray.100" }}
+                      _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
                     >
                       <Td>{index + 1}</Td>
                       <Td>
@@ -151,7 +154,7 @@ export default function ReceiptTable() {
                         <IconButton
                           icon={<TbReceipt />}
                           bg={"transparent"}
-                          color={"black"}
+                          color={useColorModeValue("gray.800", "gray.200")}
                           onClick={() => {
                             setSelectedValuationReceipt(receipt);
                             viewReceipt.onOpen();

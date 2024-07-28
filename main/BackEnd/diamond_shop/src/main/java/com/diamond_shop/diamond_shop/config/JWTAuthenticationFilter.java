@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Date;
 
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -39,8 +38,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
-//                System.out.println("Invalid or missing JWT token " + new Date());
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);

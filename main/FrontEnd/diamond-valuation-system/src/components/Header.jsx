@@ -19,8 +19,6 @@ import {
     ChevronDownIcon,
     HamburgerIcon,
     Icon,
-    MoonIcon,
-    SunIcon,
 } from "@chakra-ui/icons";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
@@ -30,12 +28,12 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./GlobalContext/AuthContext";
 import { NotificationContext } from "./GlobalContext/NotificationContext";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import DarkModeButton from "./DarkModeButton";
 export default function Header() {
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onToggle } = useDisclosure();
-    const bgColor = useColorModeValue("white", "black");
+    const bgColor = useColorModeValue("white", "gray.900");
     const fontColor = useColorModeValue("black", "#DBA843");
-    const fontColor1 = useColorModeValue("bule.400", "#DBA843");
     const modalSignIn = useDisclosure();
     const modalSignUp = useDisclosure();
     const auth = useContext(UserContext);
@@ -59,9 +57,6 @@ export default function Header() {
             transition: Bounce,
             fontColor,
         });
-    };
-    const changeColorMode = () => {
-        toggleColorMode();
     };
     const handleNotificationsClick = () => {
         resetNotifications();
@@ -229,18 +224,7 @@ export default function Header() {
                         alignItems={"center"}
                         justify={{ base: "center", md: "end", lg: "end" }}
                     >
-                        <IconButton
-                            size={{ base: "xs", md: "sm", lg: "md" }}
-                            icon={
-                                colorMode === "light" ? (
-                                    <MoonIcon />
-                                ) : (
-                                    <SunIcon />
-                                )
-                            }
-                            onClick={changeColorMode}
-                            color={fontColor}
-                        />
+                       <DarkModeButton/>
 
                         <IconButton
                             size={{ base: "xs", md: "sm", lg: "md" }}

@@ -16,7 +16,7 @@ import routes from "../../config/Config";
 import { useNavigate } from "react-router-dom";
 export default function DiamondCheck() {
   const navigate = useNavigate();
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const fontColor = useColorModeValue("blue.400", "#DBA843");
   return (
     <Box bg={bgColor}>
@@ -77,8 +77,7 @@ export default function DiamondCheck() {
                       />
                     </FormControl>
                     <Button
-                      bg={fontColor}
-                      color={bgColor}
+                    colorScheme={useColorModeValue("blue", "yellow")}
                       type="submit"
                       isLoading={isSubmitting}
                       isDisabled={isSubmitting}

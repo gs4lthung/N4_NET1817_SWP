@@ -16,6 +16,7 @@ import {
   SimpleGrid,
   UnorderedList,
   ListItem,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { GiDiamondTrophy } from "react-icons/gi";
 import { format, parseISO } from "date-fns";
@@ -60,7 +61,7 @@ export default function ValuationResultModal({
                 </Text>
               </Flex>
               <SimpleGrid columns={2} spacing={10}>
-                <Flex direction={"column"} bg={"blue.100"} gap={5} p={5}>
+                <Flex direction={"column"} bg={useColorModeValue("blue.100","blue.500")} gap={5} p={5}>
                   <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
                     GRADING REPORT
                   </Text>
@@ -119,7 +120,7 @@ export default function ValuationResultModal({
                     {selectedValuationResult?.clarity}
                   </Text>
                 </Flex>
-                <Flex direction={"column"} gap={5} bg={"blue.100"} p={5}>
+                <Flex direction={"column"} gap={5} bg={useColorModeValue("blue.100","blue.500")} p={5}>
                   <Text fontWeight={"bold"} bg={"blue.400"} p={2}>
                     ADDITIONAL GRADING INFORMATION
                   </Text>

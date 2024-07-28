@@ -14,7 +14,7 @@ import ScrollToTop from "react-scroll-to-top";
 
 export default function Prices() {
   const bgColor1 = useColorModeValue("blue.400", "#DBA843");
-  const bgColor = useColorModeValue("#fff", "#000");
+  const bgColor = useColorModeValue("white", "gray.800");
   return (
     <Box bg={bgColor}>
       <ScrollToTop smooth style={{display:"flex" ,alignItems:"center", justifyContent:"center", padding:"4px"}}/>

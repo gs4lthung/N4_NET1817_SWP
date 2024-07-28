@@ -37,7 +37,7 @@ import EducationProTip from "../../components/education/EducationProTip";
 import ScrollToTop from "react-scroll-to-top";
 export default function EducationColor() {
   const [sliderValue, setSliderValue] = useState(6);
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
     <>

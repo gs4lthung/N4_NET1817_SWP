@@ -35,7 +35,7 @@ export default function GridValue({
     lg: row,
   });
   
-  const bgColor = useColorModeValue("blue.400", "#DBA843");
+  const bgColor = useColorModeValue("blue.400", "yellow.400");
   return (
     <FormControl isRequired isInvalid={isError}>
       <FormLabel color={"gray"} m={"20px 0 0 0"}>
@@ -52,7 +52,7 @@ export default function GridValue({
                 boxShadow: `0px 0px 2px 0px gray`,
                 backdropFilter: "blur(10px)",
               }}
-              _hover={{ bg: bgColor }}
+              _hover={{ bg: bgColor, transform: "scale(1.1)" }}
               backgroundColor={
                 activeButtonIndex === index ? bgColor : "initial"
               }

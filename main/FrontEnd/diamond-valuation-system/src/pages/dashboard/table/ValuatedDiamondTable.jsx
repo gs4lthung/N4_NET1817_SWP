@@ -17,6 +17,7 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
@@ -72,6 +73,7 @@ export default function ValuatedDiamondTable() {
               borderColor={"gray.100"}
               boxShadow="sm"
               borderRadius="24px"
+              bg={useColorModeValue("white", "gray.800")}
               maxW="100%"
               minW="100%"
             >
@@ -92,7 +94,10 @@ export default function ValuatedDiamondTable() {
                 </Thead>
                 <Tbody>
                   {valuationResults.map((valuationResult, index) => (
-                    <Tr key={index} _hover={{ bg: "gray.100" }}>
+                    <Tr
+                      key={index}
+                      _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
+                    >
                       <Td>{index + 1}</Td>
                       <Td>
                         <Link
@@ -105,7 +110,7 @@ export default function ValuatedDiamondTable() {
                               align={"center"}
                               justify={"space-between"}
                               borderRadius={"20px"}
-                              _hover={{ bg: "blue.100" }}
+                              _hover={{ bg: useColorModeValue("blue.100","blue.400") }}
                             >
                               {valuationResult.id || "N/A"}
                               <FaExternalLinkAlt />
@@ -124,7 +129,7 @@ export default function ValuatedDiamondTable() {
                         <IconButton
                           icon={<PiFileTextBold />}
                           bg={"transparent"}
-                          color={"black"}
+                          color={useColorModeValue("gray.800", "gray.200")}
                           onClick={() => {
                             setSelectedValuationResult(valuationResult);
                             viewValuationResult.onOpen();

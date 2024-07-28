@@ -27,6 +27,7 @@ import {
   Tooltip,
   Tr,
   UnorderedList,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
@@ -92,6 +93,7 @@ export default function SealingLetterTable() {
               borderColor={"gray.100"}
               boxShadow="sm"
               borderRadius="24px"
+              bg={useColorModeValue("white", "gray.800")}
               maxW="100%"
               minW="100%"
             >
@@ -99,9 +101,9 @@ export default function SealingLetterTable() {
                 <Thead>
                   <Tr>
                     <Th>ID</Th>
-                    <Th>Created Date</Th>
                     <Th>Request ID</Th>
                     <Th>Customer Name</Th>
+                    <Th w={"150px"}>Created Date</Th>
                     <Th w={"150px"}>Receive Date</Th>
                     <Th w={"150px"}>Finish Date</Th>
                     <Th w={"150px"}>Sealing Date</Th>
@@ -115,17 +117,10 @@ export default function SealingLetterTable() {
                       as={motion.tr}
                       whileHover={{ scale: 1.02 }}
                       transition="0.1s linear"
-                      _hover={{ bg: "gray.100" }}
+                      _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
                     >
                       <Td>{item?.id}</Td>
-                      <Td>
-                        {item?.createdDate
-                          ? format(
-                              parseISO(item?.createdDate),
-                              "dd/MM/yyyy - HH:mm:ss"
-                            )
-                          : "N/A"}
-                      </Td>
+
                       <Td>
                         <Link
                           to={routes.processRequest}
@@ -140,7 +135,9 @@ export default function SealingLetterTable() {
                               align={"center"}
                               justify={"space-around"}
                               borderRadius={"20px"}
-                              _hover={{ bg: "blue.100" }}
+                              _hover={{
+                                bg: useColorModeValue("blue.100", "blue.400"),
+                              }}
                             >
                               {item?.processRequestId || "N/A"}
                               <FaExternalLinkAlt />
@@ -149,6 +146,14 @@ export default function SealingLetterTable() {
                         </Link>
                       </Td>
                       <Td>{item?.customerName || "N/A"}</Td>
+                      <Td>
+                        {item?.createdDate
+                          ? format(
+                              parseISO(item?.createdDate),
+                              "dd/MM/yyyy - HH:mm:ss"
+                            )
+                          : "N/A"}
+                      </Td>
                       <Td>
                         {item?.receivedDate
                           ? format(
@@ -177,7 +182,7 @@ export default function SealingLetterTable() {
                         <IconButton
                           icon={<PiFileTextBold />}
                           bg={"transparent"}
-                          color="black"
+                          color={useColorModeValue("gray.800", "gray.200")}
                           onClick={() => {
                             setSelectedSealingLetter(item);
                             viewSealingLetter.onOpen();

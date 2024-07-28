@@ -31,7 +31,7 @@ import {
 import EducationBottomLineRec from "../../components/education/EducationBottomLineRec";
 import ScrollToTop from "react-scroll-to-top";
 export default function EducationCut() {
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
     <>

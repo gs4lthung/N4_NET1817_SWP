@@ -84,12 +84,11 @@ public class ProcessRequestImpl implements ProcessRequestService {
             processRequestRepository.save(processRequest);
             responsePojo.setId(processRequest.getId());
             responsePojo.setMessage("Successfully created process request");
-            return responsePojo;
         } else {
             responsePojo.setId(0);
             responsePojo.setMessage("Have already received !");
-            return responsePojo;
         }
+        return responsePojo;
     }
 
     @Override

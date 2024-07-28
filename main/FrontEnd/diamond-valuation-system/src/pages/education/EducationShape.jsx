@@ -25,9 +25,10 @@ import {
 import ScrollToTop from "react-scroll-to-top";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import EducationProTip from "../../components/education/EducationProTip";
 export default function EducationShape() {
   AOS.init();
-  const bgColor = useColorModeValue("white", "black");
+  const bgColor = useColorModeValue("white", "gray.800");
   const normalText = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   return (
     <Box bg={bgColor}>
@@ -95,28 +96,13 @@ export default function EducationShape() {
               and disadvantages, from its appearance and brilliance to the
               diamond price per carat.
             </Text>
-            <Box
-              borderLeft={"2px solid"}
-              borderColor={"blue.300"}
-              bg={"blue.100"}
-              padding={2}
-            >
-              <Text fontSize={normalText}>
-                “Fancy Shaped or Fancy Cut diamonds (as they are also known) are
+            <EducationProTip
+              content="Fancy Shaped or Fancy Cut diamonds (as they are also known) are
                 beautiful and sometimes even more affordable than the
                 traditional round brilliant. These geometric works of art are
                 created by diamond cutters who are master craftsmen with a
-                cutting wheel.”{" "}
-                <LinkCharkaUI
-                  color={"blue.400"}
-                  href="https://www.americangemsociety.org/fancy-these-four-fancy-shape-diamonds/"
-                  isExternal
-                >
-                  {" "}
-                  American Gem Society
-                </LinkCharkaUI>
-              </Text>
-            </Box>
+                cutting wheel."
+            />
             <LazyLoadImage
               src="https://www.diamonds.pro/wp-content/uploads/2022/04/6A7A7777-Edited-2-1024x683.jpg"
               effect="blur"

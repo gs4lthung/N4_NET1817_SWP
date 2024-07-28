@@ -1,6 +1,7 @@
 package com.diamond_shop.diamond_shop.service;
 
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -13,6 +14,7 @@ import com.diamond_shop.diamond_shop.entity.AccountEntity;
 import lombok.Getter;
 @Getter
 public class UserDetailsImpl implements UserDetails {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private int id;

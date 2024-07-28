@@ -44,6 +44,7 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import { TfiReceipt } from "react-icons/tfi";
 import { TbDiamond } from "react-icons/tb";
 import { GoBlocked } from "react-icons/go";
+import DarkModeButton from "../../components/DarkModeButton";
 const SideBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const auth = useContext(UserContext);
@@ -275,7 +276,7 @@ const SideBar = () => {
         </>
       ) : (
         <Box
-          bg={bg}
+          bg={useColorModeValue("gray.300", "gray.800")}
           color={color}
           minH="100vh"
           w="250px"

@@ -6,7 +6,6 @@ import {
   FormControl,
   FormLabel,
   IconButton,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -35,7 +34,6 @@ import {
   useToast,
   Tooltip,
   Box,
-  TableCaption,
   Checkbox,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -49,10 +47,11 @@ import { AdvancedImage } from "@cloudinary/react";
 import { lazyload, placeholder } from "@cloudinary/react";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { sha1 } from "js-sha1";
-import PageIndicator from "../../../components/PageIndicator";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { motion } from "framer-motion";
 import PopoverInfo from "../../../components/PopoverInfo";
+import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
+import PageIndicator from "../../../components/PageIndicator";
 export default function ValuationStaffDashboard() {
   const navigate = useNavigate();
   const toast = useToast();
@@ -539,6 +538,7 @@ export default function ValuationStaffDashboard() {
             borderColor={"gray.100"}
             boxShadow="sm"
             borderRadius="24px"
+            bg={useColorModeValue("white", "gray.800")}
             maxW="100%"
             minW="100%"
           >
@@ -562,7 +562,7 @@ export default function ValuationStaffDashboard() {
                     as={motion.tr}
                     whileHover={{ scale: 1.02 }}
                     transition="0.1s linear"
-                    _hover={{ bg: "gray.100" }}
+                    _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
                   >
                     <Td isNumeric>{index + 1}</Td>
                     <Td isNumeric>{item?.valuationResultId}</Td>
@@ -613,7 +613,7 @@ export default function ValuationStaffDashboard() {
                       <IconButton
                         icon={<ViewIcon />}
                         bgColor={"transparent"}
-                        color="black"
+                        color={useColorModeValue("gray.800", "gray.200")}
                         onClick={() => {
                           setSelectedProcessResult(item);
                           fetchValuatedDiamondImages(item?.valuationResultId);
@@ -1615,8 +1615,9 @@ export default function ValuationStaffDashboard() {
                           <Box
                             transition={"transform 0.2s"}
                             _hover={{
-                              transform: "scale(1.5)",
+                              transform: "scale(1.2)",
                               boxShadow: "0 0 2px 1px rgba(0, 140, 186, 0.5)",
+                              cursor: "pointer",
                             }}
                             onClick={() => {
                               window.open(cld.image(image).toURL(), "_blank");
