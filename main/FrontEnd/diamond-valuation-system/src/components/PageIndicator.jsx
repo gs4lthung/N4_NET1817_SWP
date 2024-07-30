@@ -19,7 +19,11 @@ export default function PageIndicator({
           colorScheme="blue"
           variant={"outline"}
           border={"none"}
-          bg={currentPage === i ? useColorModeValue("blue.100", "blue.700") : "transparent"}
+          bg={
+            currentPage === i
+              ? useColorModeValue("blue.100", "blue.700")
+              : "transparent"
+          }
           onClick={() => {
             setCurrentPage(i);
           }}

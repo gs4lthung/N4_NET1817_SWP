@@ -44,7 +44,7 @@ import { deleteCloudinaryImage } from "../../../service/CloudinaryService";
 import { format, parseISO } from "date-fns";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import ZaloChat from "../../../components/zalo/ZaloChat";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../../../config/Config";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import { motion } from "framer-motion";
@@ -135,7 +135,9 @@ export default function PendingRequestTable() {
                     <Th textAlign={"center"}>Customer</Th>
                     <Th textAlign={"center"}>Email</Th>
                     <Th textAlign={"center"}>Phone</Th>
-                    <Th textAlign={"center"} w={"150px"}>Created Date</Th>
+                    <Th textAlign={"center"} w={"150px"}>
+                      Created Date
+                    </Th>
                     <Th textAlign={"center"}>Description</Th>
                     <Th textAlign={"center"}>Certificate</Th>
                     <Th textAlign={"center"}>View</Th>
@@ -222,21 +224,21 @@ export default function PendingRequestTable() {
                 fontWeight="bold"
               >
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Customer:</Text>
+                  <Text color={"gray.400"}>Customer:</Text>
                   <Text textTransform="uppercase">
                     {selectedPendingRequest?.customerName || "N/A"}
                   </Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Phone:</Text>
+                  <Text color={"gray.400"}>Phone:</Text>
                   <Text>{selectedPendingRequest?.customerPhone || "N/A"}</Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Email:</Text>
+                  <Text color={"gray.400"}>Email:</Text>
                   <Text>{selectedPendingRequest?.customerEmail || "N/A"}</Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Created Date:</Text>
+                  <Text color={"gray.400"}>Created Date:</Text>
                   <Text>
                     {selectedPendingRequest?.createdDate
                       ? format(
@@ -247,12 +249,18 @@ export default function PendingRequestTable() {
                   </Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Description:</Text>
+                  <Text color={"gray.400"}>Description:</Text>
                   <Text>{selectedPendingRequest?.description || "N/A"}</Text>
                 </Box>
                 <Box display="grid" gridTemplateColumns="150px 1fr" gap={3}>
-                  <Text color={"gray.600"}>Certificate:</Text>
-                  <Text>{selectedPendingRequest?.hasCertificate}</Text>
+                  <Text color={"gray.400"}>Certificate:</Text>
+                  <Text>
+                    {selectedPendingRequest?.hasCertificate ? (
+                      <CheckIcon color={"green"} />
+                    ) : (
+                      <CloseIcon color={"red"} />
+                    )}
+                  </Text>
                 </Box>
               </Flex>
             </Skeleton>

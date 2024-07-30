@@ -75,6 +75,16 @@ export default function MainLayout({ children }) {
           <FaPlus style={{ marginRight: "10px" }} /> Create Request
         </Button>
       </Tooltip>
+      <Tooltip label="Sap co" hasArrow>
+        <Button
+          position={"fixed"}
+          right={"20px"}
+          bottom={"60px"}
+          colorScheme="teal"
+        >
+          Chat with AI
+        </Button>
+      </Tooltip>
       <Footer />
     </>
   );

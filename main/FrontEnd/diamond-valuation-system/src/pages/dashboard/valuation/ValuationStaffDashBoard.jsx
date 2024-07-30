@@ -50,7 +50,6 @@ import { sha1 } from "js-sha1";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import PopoverInfo from "../../../components/PopoverInfo";
-import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
 import PageIndicator from "../../../components/PageIndicator";
 export default function ValuationStaffDashboard() {
   const navigate = useNavigate();
@@ -579,9 +578,9 @@ export default function ValuationStaffDashboard() {
                     <Td>
                       <Box
                         bg={
-                          (item?.serviceName === "Normal" && "blue.200") ||
-                          (item?.serviceName === "Pro" && "red.200") ||
-                          (item?.serviceName === "Premium" && "yellow.200")
+                          (item?.serviceName === "Normal" && "blue.300") ||
+                          (item?.serviceName === "Pro" && "red.300") ||
+                          (item?.serviceName === "Premium" && "yellow.400")
                         }
                         p={3}
                         borderRadius={"20px"}
@@ -592,7 +591,7 @@ export default function ValuationStaffDashboard() {
                     <Td>
                       <Box
                         bg={
-                          (item?.status === "Valuated" && "#68D391") ||
+                          (item?.status === "Valuated" && "green.500") ||
                           (item?.status === "Not resolved yet" &&
                             "RGBA(0, 0, 0, 0.24)")
                         }
